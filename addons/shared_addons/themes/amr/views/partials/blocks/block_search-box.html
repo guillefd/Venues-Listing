@@ -1,0 +1,35 @@
+<!-- FILTER FORM -->
+<div class="search-area-fixed">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-lg-9">
+				<h1>Encuentra una <strong>sala para alquilar</strong></h1>			
+				<?php echo form_open('', array('id'=>'searchform', 'name'=>"search" )) ?>
+					<?php echo form_hidden('category-slug','alquiler-de-salas') ?>
+					<div class="row row-search-box">
+						<div class="col-lg-5">
+							<?php echo form_dropdown('city-slug', array('buenos-aires'=>'Buenos Aires'), '', 'class="form-control input-lg"') ?>
+						</div>
+						<div class="col-lg-5">
+							<?php 
+								$capacity_array = array(
+														''=>'Capacidad', 
+														'1-5'=>'1 - 5',
+														'5-10'=>'5 - 10',
+														'10-20'=>'10 a 20',
+														'20-30'=>'20 a 30',
+														'30-50'=>'30 a 50',
+														'50plus'=>'50 ó más'
+														);
+								echo form_dropdown('capacity-range', $capacity_array, '', 'class="form-control input-lg"'); 
+							?>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-lg-2">
+							<?php echo form_button(array('id'=>'searchformbtn', 'type'=>'submit', 'class'=>'btn br-blue btn-power pull-left btn-lg', 'content'=>'Buscar')) ?>
+						</div>
+					</div>
+				<?php echo form_close() ?>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,347 @@
+/* 
+    Document   : location
+    Created on : 08/08/2012, 09:08:56
+    Author     : EYT
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+select
+{
+    min-width: 50px;
+}
+
+select.small
+{
+    width: 150px;
+}
+
+
+select.med{
+    width: 20em;
+}
+
+.input input.tiny{
+    min-width: 10px!important;
+    width: 40px;
+}
+
+.input input.small{
+    min-width: 10px!important;
+    width: 80px;
+}
+
+input.med{
+    width: 20em;
+}
+
+input.large{
+    width: 50em;
+}
+
+input.double{
+    width: 442px;
+}
+
+textarea.med{
+    width: 40em;
+    height: 40px;
+}
+
+textarea.tiny{
+    min-height: 20px;    
+    width: 24em;
+    height: 30px;
+}
+
+/** SOCIAL DIV**/
+
+.itemBox{
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #D9D9D9;
+    width: 250px;
+}
+
+.itemBlock
+{
+    background: #F1F1F1;
+    padding: 5px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    width: 240px;
+    margin:5px 0 5px 0;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;    
+}
+
+.f_itemBox{
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #D9D9D9;
+}
+
+.f_itemBlock
+{
+    /*background: #F1F1F1; */
+    padding: 0;
+    /*border: 1px solid #D9D9D9;*/
+    border-radius: 5px;
+    margin: 0;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;    
+}
+
+.f_delTag {
+bottom: 0;
+right: 0;
+background: url(../img/glyphicons/glyphicons-halflings.png) -305px 1px no-repeat;
+width: 20px;
+height: 20px;
+text-indent: -9999px;
+margin-top: 15px;
+}
+
+textarea.f_tiny{
+    min-height: 20px;    
+    width: 25em;
+    height: 30px;
+}
+
+input.f_name{
+    background: #FCFCC6;
+    width: 18em;
+}
+
+.input input.f_small{
+    min-width: 10px!important;
+    width: 91px;
+}
+
+table.f_table {
+border-collapse: inherit;
+}
+
+table.f_table th, table.f_table td{
+    padding: 0;
+}
+
+
+.tableBox{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #D9D9D9;
+    width: 250px;
+}
+
+.tableBox.max{
+    width: 100%;
+}
+
+.tableBox.max.alertbox th, .tableBox.max.alertbox td {
+    background-color: #ffe5e5;
+    color: #ff6060;
+}
+
+.trBlock
+{
+    background: #F1F1F1;
+    padding: 2px;
+    border: 1px solid #D9D9D9;
+    width: 240px;
+    margin:4px 0 4px 0;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;    
+}
+
+.trBlock td {
+padding: 5px 10px 5px;
+text-align: left;
+vertical-align: middle;
+}
+
+
+.htmltag {
+/*border: 1px solid #AAA;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;*/
+display: block;
+float: right;
+/*padding: 5px;*/
+text-decoration: none;
+/*background: #EEE;*/
+color: gray;
+/*margin-right: 5px;
+margin-bottom: 5px;*/
+font-family: helvetica;
+font-size: 13px;
+font-weight: bold;
+}
+
+.delTag {
+bottom: 0;
+right: 0;
+background: url(../img/glyphicons/glyphicons-halflings.png) -305px 1px no-repeat;
+width: 20px;
+height: 20px;
+text-indent: -9999px;
+}
+
+div.btn_right{
+    float: right;
+}
+
+
+
+table tr.deleted{
+    background-color: #fdf1f2;
+    color: #e23545;
+} 
+
+
+
+
+/* HACK for ADMIN MENU ITEMS BAR*/
+/*.sections_bar ul li.current a, .sections_bar ul li a:hover {
+    color: #151f3c;
+    text-shadow: 0 0 0.2em #fff, 0 0 0.2em #fff;  
+}*/
+
+
+/* DROPDOWNS position fixes */
+
+#ws_address_chzn{
+    top: 13px;
+}
+
+#dd_social_chzn{
+    top: 9px;
+}
+
+#denomination_id_chzn, #dd_layouts_chzn{
+    top: 9px;
+}
+
+#f_cat_product_id_chzn{
+    top:9px;
+}
+
+#f_cat_feature_id_chzn{
+    top:9px;
+}
+
+#f_product_type_chzn{
+    top:9px;
+}
+
+#btnCancel{
+    margin-top: -3px;
+}
+
+#btn_add{
+    margin-top: -3px;
+}
+
+#f_add{
+    margin-top: -3px;
+}
+
+#f_category_id_chzn{
+    top: 9px;    
+}
+
+#f_status_chzn{
+    top: 9px;    
+}
+
+#dd_features_chzn{
+    top: 9px;    
+}
+
+#dd_isOptional_chzn{
+    top: 9px;
+}
+
+/* text color*/
+.green_font{
+    color: green;
+}
+.red_font{
+    color: red;
+}
+.yellow_font{
+    color: #F89C19;
+}
+
+
+/* DROPZONE */
+.dropzone {
+  min-height: 150px !important;
+  margin-bottom: 10px;
+}
+
+/* view draft */
+
+.imgviewdraft-container{
+    overflow: hidden;
+}
+
+.imgviewdraft-thumb{
+    border: 1px solid #ccc;
+    float: left;
+    padding: 4px 2px 4px 4px;
+    margin: 5px;
+}
+
+.imgviewdraft-thumb p{
+    padding: 5px;
+    font-size: 10px;
+}
+
+.imgviewdraft-thumb:hover{
+    border: 1px solid #333;
+}
+
+
+/* golive view */
+
+#cloudimagesProgressbar .ui-progressbar-value, 
+#cloudimagesProgressbar2 .ui-progressbar-value, 
+#productProgressbar .ui-progressbar-value {
+    background-color: #ccc;
+  }
+
+.ui-progressbar {
+    position: relative;
+}
+
+.cloudimages-progress-label, 
+.cloudimages-progress-label2, 
+.product-progress-label {
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    text-align: center;       
+    top: 7px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+    font-size: 12px;
+}  
+
+#txtcompleted{
+    text-align: center;
+    display: block;
+    font-size: 14px;
+    margin: 20px;
+    font-weight: bold;
+}
+
+#txtcompleted.blue{
+    color:#0054CC;
+}
+
+#loader{
+    float: center;
+}
+ 

@@ -1,0 +1,6 @@
+<?php
+
+/**
+ * FUNCIONES PARA GENERAR DROPDOWN LIST
+ */
+

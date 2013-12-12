@@ -1,0 +1,67 @@
+/* buttons */
+
+.btn-power{
+	font-size: 14px;
+	border-radius: 3px;
+	color: #fff;
+}
+
+.br-sorange{
+	background: #f43419;
+}
+
+.btn-primary{
+	background-color: #25A7F5;
+}
+
+.btn-primary:hover{
+	background-color: #4ab6f6;
+}
+
+
+
+/* top header */
+.top-header{
+	margin-top: 10px;
+}
+
+
+/* HEAD Menu btn */
+
+.menu-btn{
+	right: 5%;
+}
+.menu-btn a{
+	background: #53B6E6;	
+}
+
+.head{
+	border-top: 3px solid #53B6E6;
+}
+
+/* TO TOP - btn*/
+
+.totop {
+	background: #53B6E6;
+}
+
+
+/* LOGO --------------------------------- */
+
+header .logo {
+	margin: 2px 0 0 0;
+	float: left;
+}
+
+.row.top-header{
+	margin-bottom: 0px;
+} 
+
+header{
+	border-bottom: 1px solid #eeeeee;
+}
+
+
+
+
+

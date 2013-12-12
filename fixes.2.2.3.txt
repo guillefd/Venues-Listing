@@ -1,0 +1,98 @@
+
+
+http://docs.pyrocms.com/2.2/manual/reference/upgrade-guides/upgrade-2-1-to-2-2-0
+
+
+## Controller - $this->data
+WHERE
+		$this->data->varname
+CHANGE
+		$varname = " "
+		->set('varname', $varname)
+
+--------------------------------------------------------
+
+## pagination
+//params (URL -for links-, Total records, records per page, segment number )
+WHERE
+        $results = $this->geo_cities_m
+							        ->limit($pagination['limit'])
+							        ->search('results',$post_data);
+CHANGE
+        $results = $this->geo_cities_m
+							        ->limit($pagination['limit'], $pagination['offset'])
+							        ->search('results',$post_data);  
+
+--------------------------------------------------------
+
+## View - Index
+WHERE
+			<section class="title">
+				----------
+			</section>
+			<section class="item">
+				----------
+			</section>
+CHANGE
+		<div class="one_full">
+			<section class="title">
+				----------
+			</section>
+			<section class="item">
+				<div class="content">
+					-------------
+				</div>
+			</section>
+		</div>
+
+--------------------------------------------------------
+
+## View - Form
+WHERE
+			<section class="title">
+			</section>
+			<section class="item">
+			</section>
+CHANGE
+			<section class="title">
+			</section>
+			<section class="item">
+				<div class="content">
+				</div>
+			</section>
+
+
+--------------------------------------------------------
+
+WHERE
+		foreach ($this->validation_rules AS $rule)
+		{
+			$this->data->{$rule['field']} = $this->input->post($rule['field']);
+		}
+
+
+CHANGE
+		// Loop through each rule
+		foreach ($this->validation_rules as $rule)
+		{
+			if ($this->input->post($rule['field']) !== null)
+			{
+				$XXXX->{$rule['field']} = $this->input->post($rule['field']);
+			}
+		}	
+
+--------------------------------------------------------
+
+// Old
+$this->input->post('something') !== false
+
+// New
+$this->input->post('something') !== null
+
+--------------------------------------------------------
+
+script.js
+system/cms/themes/pyrocms/js/
+added line 314
+
+--------------------------------------------------------
