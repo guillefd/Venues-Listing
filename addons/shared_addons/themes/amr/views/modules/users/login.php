@@ -1,9 +1,27 @@
+<script>
+	function checkCookie(){
+	    var cookieEnabled=(navigator.cookieEnabled)? true : false   
+	    if (typeof navigator.cookieEnabled=="undefined" && !cookieEnabled){ 
+	        document.cookie="testcookie";
+	        cookieEnabled=(document.cookie.indexOf("testcookie")!=-1)? true : false;
+	    }
+	    return (cookieEnabled) ? true : showCookieFail();
+	}
+	function showCookieFail(){
+	  alert('Cookies deshabilitadas!. Debe habilitar las cookies para poder loguearse');
+	}
+	checkCookie();
+</script>
 <div class="inner-page sign">
 	<div class="container">
 		<h2><i class="fa fa-sign-in blue"></i><strong>Login</strong> Ingresar a America Meeting Rooms</h2>
 		<div class="sign-content">
 			<div class="row">
 				<div class="col-md-4 col-sm-4">
+					<noscript>
+						<div class="alert alert-danger">Javascript esta deshabilitado, debe habilitarlo para una mejor experiencia del usuario.</div>
+					</noscript>	
+
 					<!-- Sign In Area -->
 					<div class="sign-in">
 						<h3><i class="fa fa-user blue"></i> &nbsp;Login</h3>

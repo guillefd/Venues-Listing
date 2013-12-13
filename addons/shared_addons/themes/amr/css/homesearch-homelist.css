@@ -469,9 +469,6 @@ button.btn.btn-link.plus-options{
 }
 
 
-.carousel.crsl-homelist{
-}
-
 .carousel.crsl-homelist > .carousel-indicators {
 	bottom: 5px;
 }
@@ -491,14 +488,14 @@ button.btn.btn-link.plus-options{
 	right: 2px;
 	left: 2px;
 }
-.carousel-inner > .item > img, .carousel-inner >.item > a > img{
+.carousel.crsl-homelist > .carousel-inner > .item > img, .carousel-inner >.item > a > img{
 	border: 2px solid #efefef;	
 	-moz-border-radius: 3px 0px 0px 3px;
 	-webkit-border-radius: 3px 0px 0px 3px;
 	border-radius: 3px 0px 0px 3px;
 }
 
-.carousel-inner >.item > a:hover > img{
+.carousel.crsl-homelist > .carousel-inner >.item > a:hover > img{
 	border: 2px solid #F9009D;
 }
 

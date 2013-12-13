@@ -96,3 +96,8 @@ system/cms/themes/pyrocms/js/
 added line 314
 
 --------------------------------------------------------
+
+//dashboard	
+bye bye RSS
+system/cms/themes/pyrocms/views/admin/dashboard.php
+line 170

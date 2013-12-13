@@ -32,7 +32,7 @@ class Googleapiclient
 		//params
 		$client_id = "205701658724.apps.googleusercontent.com";
 		$service_account_name = "205701658724-thms3ed2df8c2e80vvakr19i82cotfu8@developer.gserviceaccount.com";
-		$key_file_location = $this->googleapiclientpath."Google/key/efa19ee39242680d8a6c5a56933e11f6a16cbc70-privatekey.p12";	
+		$key_file_location = $this->googleapiclientpath."Google/key/feb6feee0aaf35b83106db300db1b91cd1245b93-privatekey.p12";	
 		$apiKey = "AIzaSyAWtSh9QrdOQR27NGczP96x7UnyOsWnfDQ"; //serverKey
 		/* Constants for request parameters */
 		define('API_VERSION', 'v1beta2');
@@ -99,8 +99,9 @@ class Googleapiclient
 							'name' => $_name
 							);
 			$gso = new Google_Service_Storage_StorageObject();
+
 			if($_bytes != null)	$gso->setSize($_bytes);
-			if($_name != null)	$gso->setName($_name);					
+			if($_name != null)	$gso->setName($_name);	
 			//execute
 			try {
 				set_time_limit(300); 				
@@ -262,7 +263,7 @@ class Googleapiclient
 	public function setClient($clientid, $service_account_name, $key_file_location, $apiKey)
 	{
 		$this->client = new Google_Client();
-		$this->client->setApplicationName("AMR storage");
+		$this->client->setApplicationName("AMR_storage");
 
 		// Set your cached access token.
 		if ($jsontkn = $this->get_db_token()) 
@@ -275,10 +276,14 @@ class Googleapiclient
 				array('https://www.googleapis.com/auth/devstorage.full_control'), 
 				$key);
 		$this->client->setAssertionCredentials($cred);
+		if($this->client->getAuth()->isAccessTokenExpired()) 
+		{
+			$this->client->getAuth()->refreshTokenWithAssertion($cred);
+		}		
 		$this->client->setClientId($clientid);
   		$this->client->setDeveloperKey($apiKey);		
 		//update token
-		$this->save_token();	
+		$this->save_token();
 	}
 
 	public function getClient()

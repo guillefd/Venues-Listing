@@ -363,7 +363,7 @@ class Admin_Front extends Admin_Controller
 			}
 			else
 				{
-					if(isset($obj['id']))
+					if(is_object($obj) && isset($obj->id))
 					{	
 						// add reg to array
 						$queue['gcsName'] = $obj['name'];
@@ -381,9 +381,9 @@ class Admin_Front extends Admin_Controller
 							}
 					}
 					else
-						{
+						{				
 							$result->done = false;
-							$result->status = 'error.no-obj';						
+							$result->status = isset($obj->code) ? 'error.no-obj('.$obj->code.')' : 'error.no-obj(nocode)';						
 						}				
 				}
 		}
@@ -393,7 +393,7 @@ class Admin_Front extends Admin_Controller
 				$result->status = 'error.empty.queues';
 				$result->data = 'session array empty OR wrong index';				
 				log_message('error','$cloud_array empty');
-			}
+			}		
 		return $result;	
 	}
 

@@ -42,8 +42,8 @@ $config['front_layouts_images'] = array(
 $config['front_cat_total_uri_segments'] = array(
 												/* alquiler-de-salas */
 												100 => 4,
+												101 => 0,
 												102 => 0,
-												103 => 0,
 												);
 
 /* FRONT URL SEGMENTS ARRAY PER CATEGORY */
@@ -57,7 +57,7 @@ $config['front_segments_db_values_array'] = array(
 														4 => array('space_slug', 'front_version'),
 														),
 											101 => array(),
-											102 => array(),
+											101 => array(),
 											);
 
 /* VIEWS --------------------------------------------------------------*/
@@ -97,8 +97,8 @@ $config['front_cat_views_index'] = array(
 																	'urifields' => array(),
 																	),												
 														),
+											101 => array(),
 											102 => array(),
-											103 => array(),
 											);
 
 /* URI FILTERS --------------------------------------------------------------*/
@@ -115,8 +115,8 @@ $config['front_cat_filters_index'] = array(
 														'features',
 														'page'	
 														),
+											101 => array(),
 											102 => array(),
-											103 => array(),
 											);
 
 /* GOOGLE MAPS API -------------------------------------------------------------------- */
@@ -155,14 +155,14 @@ $config['front_gmap_result_items_fields'] = array(
 /* buckets ID/name by product product_category_id */
 $config['gcs_buckets_list'] = array(
 									100 =>'test.spaces-images.americameetingrooms.com',
-									102 =>'test.services-images.americameetingrooms.com',
-									103 =>''
+									101 =>'test.services-images.americameetingrooms.com',
+									102 =>''
 									);
 /* CDN URLs by product product product_category_id */
 $config['gcs_cdn_url_list'] = array(
 									100 =>'http://test.spaces-images.americameetingrooms.com/',
-									102 =>'http://test.services-images.americameetingrooms.com/',
-									103 =>''
+									101 =>'http://test.services-images.americameetingrooms.com/',
+									102 =>''
 									);
 
 /* images size to be stored in GCS */

@@ -169,50 +169,50 @@
 	<!-- End Analytics -->
 
 	<!-- Begin RSS Feed -->
-	<?php if ( isset($rss_items) AND $theme_options->pyrocms_news_feed == 'yes') : ?>
+<!-- 	<?php //if ( isset($rss_items) AND $theme_options->pyrocms_news_feed == 'yes') : ?>
 	<div id="feed" class="one_full">
 		
 		<section class="draggable title">
-			<h4><?php echo lang('cp:news_feed_title') ?></h4>
+			<h4><?php //echo lang('cp:news_feed_title') ?></h4>
 			<a class="tooltip-s toggle" title="Toggle this element"></a>
 		</section>
 		
 		<section class="item">
 			<div class="content">
 				<ul>
-					<?php foreach($rss_items as $rss_item): ?>
+					<?php //foreach($rss_items as $rss_item): ?>
 					<li>
 							
 						<?php
-							$item_date	= strtotime($rss_item->get_date());
-							$item_month = date('M', $item_date);
-							$item_day	= date('j', $item_date);
+							// $item_date	= strtotime($rss_item->get_date());
+							// $item_month = date('M', $item_date);
+							// $item_day	= date('j', $item_date);
 						?>
 							
 						<div class="date">
 							<div class="time">
 								<span class="month">
-									<?php echo $item_month ?>
+									<?php //echo $item_month ?>
 								</span>
 								<span class="day">
-									<?php echo $item_day ?>
+									<?php //echo $item_day ?>
 								</span>
 							</div>
 						</div>
 						<div class="post">
-							<h4><?php echo anchor($rss_item->get_permalink(), $rss_item->get_title(), 'target="_blank"') ?></h4>
+							<h4><?php //echo anchor($rss_item->get_permalink(), $rss_item->get_title(), 'target="_blank"') ?></h4>
 													
-							<p class='item_body'><?php echo $rss_item->get_description() ?></p>
+							<p class='item_body'><?php //echo $rss_item->get_description() ?></p>
 						</div>
 					</li>
-					<?php endforeach ?>
+					<?php //endforeach ?>
 				</ul>
 			</div>
 		</section>
 
 	</div>		
-	<?php endif ?>
-	<!-- End RSS Feed -->
+	<?php //endif ?>
+ -->	<!-- End RSS Feed -->
 	<script type="text/javascript">
 		(function ($) {
 
