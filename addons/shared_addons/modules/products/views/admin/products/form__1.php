@@ -72,18 +72,18 @@
 							<?php echo form_dropdown('space_id', array(), '','class="med" data-placeholder="'.lang('products_no_spaces_select_label').'"') ?>					                
 		                </div>				                                
 					</li>
+					<li class="even">
+						<label for="category_id"><?php echo lang('products_category_createform_label'); ?> <span> *</span></label>
+						<div class="input">
+		                 <?php echo form_dropdown('category_id', array(''=>'') + $dd_categories, $product->category_id,' data-placeholder="'.lang('products_no_category_select_label').'" id="category_id" ') ?>					
+						</div>
+					</li>		
 					<li class="even">                 
 						<label for="space_usetype_id"><?php echo lang('products_space_usetype_label'); ?> <span> *</span></label>                                                   	                
 		                <div class="input">                                    
 							<?php echo form_dropdown('space_usetype_id', array(), '','class="med" data-placeholder="'.lang('products_no_space_selected_label').'"') ?>					                
 		                </div>				                                
-					</li>
-					<li class="even">
-						<label for="category_id"><?php echo lang('products_category_label'); ?> <span> *</span></label>
-						<div class="input">
-		                 <?php echo form_dropdown('category_id', array(''=>'') + $dd_categories, $product->category_id,' data-placeholder="'.lang('products_no_category_select_label').'" id="category_id" ') ?>					
-						</div>
-					</li>										                    			                     
+					</li>													                    			                     
 				</ul>		
 				</fieldset>		
 			</div>

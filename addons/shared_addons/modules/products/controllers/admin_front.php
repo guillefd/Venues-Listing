@@ -152,8 +152,10 @@ class Admin_Front extends Admin_Controller
 	 */
 	public function golive($draft_id = 0)
 	{
-		$typeid = $this->input->post('type_id');
-		$draftpostid = $this->input->post('draft_id');
+	
+		$draft_id = intval($draft_id);
+		$typeid = intval($this->input->post('type_id'));
+		$draftpostid = intval($this->input->post('draft_id'));
 		if($draft_id == 0 || $typeid == null || $draft_id != $draftpostid) 
 		{
 			$this->session->set_flashdata(array('error' => sprintf(lang('front:golive_post_error'), $draft_id)));			
@@ -162,14 +164,14 @@ class Admin_Front extends Admin_Controller
 		$this->form_validation->set_rules( golive_validation_rules($typeid) );
 		if( !$this->form_validation->run() )
 		{
-			$this->viewdraft($this->input->post('prod_cat_id'), $this->input->post('draft_id'));			
+			$this->viewdraft($this->input->post('prod_cat_id'), $draft_id);			
 		}
 		else
 			{
 				/* Get draft */
-				$draft = $this->products_front_m->get_front_draft($this->input->post('draft_id'), $this->input->post('type_id'));				
+				$draft = $this->products_front_m->get_front_draft($draft_id, $this->input->post('type_id'));				
 				/* cloud files */
-				$cloudimgs = gen_cloud_images_queue($draft, $typeid, $this->GCS);
+				$cloudimgs = gen_cloud_images_queue($draft, $typeid, $this->GCS);			
 				if($cloudimgs['processed'] == false)
 				{
 					$this->session->set_flashdata(array('error' => sprintf(lang('front:'.$cloudimgs['error']), $cloudimgs['code'])));
@@ -197,7 +199,7 @@ class Admin_Front extends Admin_Controller
 					{
 						/* insert front */
 						$processMode = 'processcreate';	
-						//$this->insert_front($this->input->post('draft_id'), $this->input->post('type_id'), $this->input->post('prod_cat_id'));
+						//$this->insert_front($draft_id, $this->input->post('type_id'), $this->input->post('prod_cat_id'));
 					}				
 				$this->template
 					 ->title($this->module_details['name'])
@@ -574,7 +576,7 @@ class Admin_Front extends Admin_Controller
 	 * [set_buckets_public_access description]
 	 * This does need to be execetud only one, when public bucket is created.
 	 */
-	public function set_buckets_public_access()
+	public function _set_buckets_public_access()
 	{
 		$result = array();
 		//load Google API library

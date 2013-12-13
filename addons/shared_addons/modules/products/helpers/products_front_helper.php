@@ -43,7 +43,7 @@ function get_GCS_config()
 {
 	ci()->load->library('session');
 	$gcs = new stdClass();
-	ci()->load->config('product_settings');
+	ci()->load->config('product_'.ENVIRONMENT);
 	$gcs->baseThumbImgUri = BASE_URL.'files/thumb/';
 	$gcs->imgSizes = ci()->config->item('gcs_images_size');
 	$gcs->buckets = ci()->config->item('gcs_buckets_list');
@@ -216,7 +216,7 @@ function gen_cloud_images_queue($draft, $typeid, $GCS_config)
 	} 
 	//load Google API library
 	ci()->load->library('googleapiclient');
-	$bucketName = $GCS_config->buckets[$typeid];
+	$bucketName = $GCS_config->buckets[$draft->prod_cat_id];
 	$GCSbucket = ci()->googleapiclient->get_bucket($bucketName);
 	if($GCSbucket == false || $GCSbucket == null || isset($GCSbucket->error))
 	{

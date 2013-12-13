@@ -5,6 +5,9 @@ $lang['products_posted_label']					= 'Escrito';
 $lang['products_keywords_label']				= 'Palabras claves'; #translate
 $lang['products_tagged_label']					= 'Tagged'; #translate
 $lang['products_category_label'] 				= 'Categoría';
+$lang['products_category_createform_label'] 	= 'Categoría de Publicación';
+$lang['products_space_usetype_label']           = 'Categoría del Espacio';
+$lang['products_category_createform_sublabel'] 	= 'SubTipo';
 $lang['products_category_sh_label'] 			= 'Categoría';
 $lang['products_account_label'] 				= 'Cuenta';
 $lang['products_account_autoload_label'] 		= '(Proveedor | Autobúsqueda)';
@@ -73,7 +76,6 @@ $lang['product_view_title']                		= 'Publicación: ';
 $lang['product_detail_label']                	= 'Detalle de la publicación';
 $lang['products_f_description']                 = 'Descripción adicional';
 $lang['products_if_applies_label']              = '(Seleccione si aplica a la publicación)';
-$lang['products_space_usetype_label']           = 'Servicio o "Tipo de uso" a publicar';
 
 // new
 $lang['products_info_label'] 				= 'Información';

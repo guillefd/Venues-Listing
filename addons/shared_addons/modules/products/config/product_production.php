@@ -17,13 +17,13 @@ $config['front_wildcard_all'] = 'all';
 
 //empty result message
 $config['front_print_messages'] = array(
-										1 => array(
+										100 => array(
 													'result' => '<p>No hemos encontrado ningun resultado que coincida con tu criterio, pero ajustando tu búsqueda puede ayudar.'
 															   .'<ul><li>Intenta eliminar algunos filtros.</li><li>Intenta buscar en otros areas o ciudades.</li></ul></p>',
 													'spacenotfound' => '<strong>No se ha encontrado el espacio</strong>, es posible que ya no este disponible.',
 													),
-										2 => array(),
-										3 => array(),									
+										102 => array(),
+										103 => array(),									
 										);
 
 $config['front_layouts_images'] = array(
@@ -41,23 +41,23 @@ $config['front_layouts_images'] = array(
 //uri segments for product category
 $config['front_cat_total_uri_segments'] = array(
 												/* alquiler-de-salas */
-												1 => 4,
-												2 => 0,
-												3 => 0,
+												100 => 4,
+												102 => 0,
+												103 => 0,
 												);
 
 /* FRONT URL SEGMENTS ARRAY PER CATEGORY */
 $config['front_segments_db_values_array'] = array(
 											/* product category ID */
-											1 => array(
+											100 => array(
 														/* segment number -> values */
 														1 => array('prod_cat_slug', 'space_usetype_slug'),
 														2 => array('loc_city_slug', 'loc_area_slug', 'loc_type'),
 														3 => array('loc_slug'),
 														4 => array('space_slug', 'front_version'),
 														),
-											2 => array(),
-											3 => array(),
+											102 => array(),
+											103 => array(),
 											);
 
 /* VIEWS --------------------------------------------------------------*/
@@ -65,7 +65,7 @@ $config['front_segments_db_values_array'] = array(
 /* FRONT VIEWS AVAILABLES PER CATEGORYID */
 $config['front_cat_views_index'] = array(
 											/* alquiler-de-salas */	
-											1 => array(
+											100 => array(
 														0 => array(
 																	'id'=>100,
 																	'name'=>'homelist_space', 
@@ -97,8 +97,8 @@ $config['front_cat_views_index'] = array(
 																	'urifields' => array(),
 																	),												
 														),
-											2 => array(),
-											3 => array(),
+											102 => array(),
+											103 => array(),
 											);
 
 /* URI FILTERS --------------------------------------------------------------*/
@@ -106,7 +106,7 @@ $config['front_cat_views_index'] = array(
 //front uri filters allowed per category
 $config['front_cat_filters_index'] = array(
 											/* alquiler-de-salas */	
-											1 => array(
+											100 => array(
 														'capacity',
 														'layouts', 
 														'usetypes',
@@ -115,8 +115,8 @@ $config['front_cat_filters_index'] = array(
 														'features',
 														'page'	
 														),
-											2 => array(),
-											3 => array(),
+											102 => array(),
+											103 => array(),
 											);
 
 /* GOOGLE MAPS API -------------------------------------------------------------------- */
@@ -154,15 +154,15 @@ $config['front_gmap_result_items_fields'] = array(
 
 /* buckets ID/name by product product_category_id */
 $config['gcs_buckets_list'] = array(
-									1 =>'cdn.spaces.americameetingrooms.com',
-									2 =>'cdn.services.americameetingrooms.com',
-									3 =>''
+									100 =>'cdn.spaces.americameetingrooms.com',
+									102 =>'cdn.services.americameetingrooms.com',
+									103 =>''
 									);
 /* CDN URLs by product product product_category_id */
 $config['gcs_cdn_url_list'] = array(
-									1 =>'http://cdn.spaces.americameetingrooms.com/',
-									2 =>'http://cdn.services.americameetingrooms.com/',
-									3 =>''
+									100 =>'http://cdn.spaces.americameetingrooms.com/',
+									102 =>'http://cdn.services.americameetingrooms.com/',
+									103 =>''
 									);
 
 /* images size to be stored in GCS */
