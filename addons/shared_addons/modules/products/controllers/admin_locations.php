@@ -121,9 +121,7 @@ class Admin_Locations extends Admin_Controller {
         foreach (validation_rules() as $rule)
         {
             $location->{$rule['field']} = set_value($rule['field']);                  
-        }
-
-        if ($location->type == '') $location->type = 'wysiwyg-simple';               
+        }           
         $this->template
                 ->title($this->module_details['name'], lang('cat_create_title'))
                 ->append_metadata($this->load->view('fragments/wysiwyg', '', TRUE)) 
