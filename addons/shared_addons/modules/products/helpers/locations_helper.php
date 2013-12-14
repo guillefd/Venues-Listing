@@ -37,7 +37,7 @@ function validation_rules()
 				array(
 					'field' => 'intro',
 					'label' => 'lang:location:intro_label',
-					'rules' => 'trim'
+					'rules' => 'trim|required'
 				),            
 				array(
 					'field' => 'description',
@@ -128,11 +128,7 @@ function validation_rules()
 					'field' => 'chatSocial_accounts',
 					'label' => 'lang:location:chatSocial_label',
 					'rules' => 'trim'
-				),                  
-				array(
-					'field' => 'type',
-					'rules' => 'trim|required'
-				),            
+				),                         
 			);
 }
 

@@ -100,7 +100,6 @@ class Admin_Locations extends Admin_Controller {
                           'mobile' => $this->input->post('mobile'),                     
                           'email' => $this->input->post('email'),                    
                           'chatSocial_accounts'=>$this->_cleanString_socialAccounts($this->input->post('chatSocial_accounts')),  
-                          'type' => $this->input->post('type'),
                           'author_id' => $this->current_user->id,
                           'created_on' => now(), 
                           'updated_on' => now() 
@@ -192,7 +191,6 @@ class Admin_Locations extends Admin_Controller {
                               'mobile' => $this->input->post('mobile'),                     
                               'email' => $this->input->post('email'),                    
                               'chatSocial_accounts'=>$this->_cleanString_socialAccounts($this->input->post('chatSocial_accounts')), 
-                              'type' => $this->input->post('type'),
                               //'author_id' => $this->current_user->id,
                               'updated_on' => now() 
                               );                    
