@@ -124,10 +124,10 @@ class Products extends Public_Controller
 		{
 			/* BUILD VIEW -------------------- */
 			case 100:
-			case 200:
-						$this->front->load_listMap();						
+			case 200:						
 						$this->front->load_media_resources();											
 						$this->front->format_and_populate_result_for_view();
+						$this->front->load_listMap();					
 						$this->front->load_listview_messages();												
 						$this->front->set_htmlfilterdata();					
 						$filtervalues = $this->front->populate_filter_values();										
@@ -149,7 +149,7 @@ class Products extends Public_Controller
 
 			default: redirect('/');							
 		}
-	//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 									
+		//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 										
 		switch($this->front->page->view['id'])
 		{
 			/* LOAD VIEW -------------------- */			

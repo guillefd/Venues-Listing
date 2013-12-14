@@ -376,6 +376,52 @@ class Front
 		return $view;
 	}
 
+	function frontlink_generator($item = array())
+	{
+		switch($this->page->catid)
+		{
+			case ALQUILERDESALAS_CATID:
+							return $this->cat1_frontlink_generator($item); 	
+							break;
+			default:
+							return null;												  	
+		}	
+	}
+
+
+	function cat1_frontlink_generator($item = array())
+	{	
+		switch($this->page->view['id'])
+		{
+			//space list
+			case 100: 
+							return base_url().$item->prod_cat_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug;	
+							break;
+			//product list						
+			case 200:
+							return base_url().$item->prod_cat_slug.'+'.$item->space_usetype_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug.'+'.$item->front_version;	
+							break;
+			//space
+			case 300:
+							return '';
+							break;
+
+			//product
+			case 400:
+							return '';
+							break;		
+			
+			//location
+			case 500:
+
+			default:			
+							return null;
+		}
+	}
+
+
+
+
 
 	//////////////////////////////////////////////
 	// SEARCH ------------------------------ // //
@@ -470,7 +516,7 @@ class Front
 		$result = $this->page->get_result();	
 		foreach($result->list->items as $item)
 		{
-			array_push($mapresult, $this->_get_map_item($item, $dbfields, $imgfield));
+			array_push($mapresult, $this->_get_map_item($item, $dbfields));
 		}
 		$this->page->set_map_data(array('result'=> $mapresult));
 	}
@@ -481,22 +527,22 @@ class Front
 		$dbfields = $this->CFG->map->itemdbfields;
 		$imgfield = $this->CFG->get_cloudstorage_img_field('th');
 		$item = $this->page->get_item_result();	
-		array_push($mapresult, $this->_get_map_item($item, $dbfields, $imgfield));
+		array_push($mapresult, $this->_get_map_item($item, $dbfields));
 		$this->page->set_map_data(array('result'=> $mapresult));
 	}		
 
 
-	function _get_map_item($item, $dbfields, $imgfield)
-	{
+	function _get_map_item($item, $dbfields)
+	{	
 		$newitem = new stdClass();
 		foreach($dbfields as $field)
 		{
-			$newitem->{$field} = $item->{$field};
+			$newitem->{$field} = isset($item->{$field}) ? $item->{$field} : '';
 		}
-		$newitem->{$imgfield} = $this->gen_imageIDs_array($item->{$imgfield});
-		$newitem->itemUri = '';
 		return $newitem;
-	}		
+	}	
+
+
 
 	function _prepend_google_map_js_api()
 	{
@@ -531,7 +577,10 @@ class Front
 		{
 			foreach ($result->list->items as $item) 
 			{	
-				$formatedResult[] = $this->gen_image_array_per_item_result($item, $imgSizes);
+				$item = $this->gen_image_array_per_item_result($item, $imgSizes);	
+				$item->itemUri = $this->frontlink_generator($item);
+				$formatedResult[] = $item;
+
 			}
 			$result->list->items = $formatedResult;
 			$this->page->set_result($result->list);
@@ -548,8 +597,8 @@ class Front
 	function gen_image_array_per_item_result($item, $imgSizes)
 	{			
 		foreach ($imgSizes as $size=>$data) 
-		{				
-			$imgdbfield = $data[4];
+		{					
+			$imgdbfield = $data[4];		
 			$item->{$imgdbfield} = $this->gen_imageIDs_array($item->{$imgdbfield});
 		}
 		return $item;		
@@ -733,7 +782,7 @@ class Front
 	 * @param  [string] $field [input]
 	 * @return [array]        [array with id values]
 	 */
-	function gen_imageIDs_array($field)
+	function gen_imageIDs_array($field = '')
 	{
 		if($field)
 		{

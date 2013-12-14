@@ -146,7 +146,9 @@ $config['front_gmap_result_items_fields'] = array(
 												'loc_geo_street_name',
 												'loc_geo_street_number',
 												'loc_lat',
-												'loc_lng'
+												'loc_lng',
+												'itemUri',
+												'cloud_th_images',				
 												);
 
 

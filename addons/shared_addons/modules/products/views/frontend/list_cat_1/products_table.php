@@ -1,6 +1,5 @@
 <?php $i = 0; ?>	
 <?php foreach($result->list->items as $item): ?>
-<?php $itemUri = base_url().$item->prod_cat_slug.'+'.$item->space_usetype_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug.'+'.$item->front_version; ?>	
 <div class="table-responsive">
 	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
@@ -9,7 +8,7 @@
 				<div class="carousel-inner">
 					<?php foreach($item->cloud_sm_images as $index=>$img): ?>
 						<div class="item <?php if($index==0) echo 'active'; ?>">
-							<a href="<?php echo $itemUri; ?>">
+							<a href="<?php echo $item->itemUri; ?>">
 								<img src="<?php echo $media->cdnUri.$img; ?>" alt="<?php echo $item->space_denomination.' '.$item->space_name ?>" />
 								<div class="carousel-caption">
 									<p><?php echo $item->space_denomination.' '.$item->space_name ?></p>
@@ -29,7 +28,7 @@
 			<td colspan="2" class="theader">
 				<h4>				
 					<span class="label-usetype"><?php echo $item->space_usetype_slug ?> <span class="glyphicon glyphicon-ok-sign"></span></span> 						
-					<a href="<?php echo $itemUri; ?>">
+					<a href="<?php echo $item->itemUri; ?>">
 						<span class="glyphicon glyphicon-tag"></span> 
 						<?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?>
 					</a>
@@ -94,7 +93,7 @@
 			<td class="content last">
 				<ul class="list-group">
 					<li class="list-group-item">
-						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $itemUri; ?>">Ver mas</a>					
+						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>">Ver mas</a>					
 						<span class="badge badge-inv"></span>
 					</li>				
 				</ul>

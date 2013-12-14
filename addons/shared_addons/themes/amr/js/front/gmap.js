@@ -49,7 +49,7 @@ $(document).ready(function(){
         var posChecked = check_position(item);
         var cloudimgUri = gmapData.cloudimgUrl;        
         //infowindow        
-        var contentString = '<a href="">'+
+        var contentString = '<a href="' + item.itemUri + '">'+
         '<div id="bodyContent">' +
             '<img src="'+ cloudimgUri + item.cloud_th_images[0] + '" class="img-responsive">' +        
             '<div class="footerContent"><h4 id="firstHeading" class="firstHeading">' + 
