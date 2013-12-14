@@ -203,10 +203,9 @@ table tr.deleted{
 
 
 /* HACK for ADMIN MENU ITEMS BAR*/
-/*.sections_bar ul li.current a, .sections_bar ul li a:hover {
-    color: #151f3c;
-    text-shadow: 0 0 0.2em #fff, 0 0 0.2em #fff;  
-}*/
+.sections_bar ul li.current a{
+    font-weight: bold;
+}
 
 
 /* DROPDOWNS position fixes */
