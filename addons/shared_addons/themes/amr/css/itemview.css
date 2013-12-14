@@ -73,6 +73,7 @@ ul.list-group.details{
 
 .itempanel.productdetails{
 	min-height: 195px;
+	border: 3px solid #4ab6f6;
 }
 
 .itempanel.productdetails > .inner-tab >.tab-content > .tab-pane > p{

@@ -300,11 +300,32 @@ div#bodyContent > .footerContent{
 	border-radius: 2px 2px 2px 2px;
 }
 
-.btn-group.color > .btn.unique.active {
+.btn-group.color > .btn.unique.category-filter.active {
 	border-color: #25A7F5;
 	color: #0c0c0d;
 	-webkit-box-shadow: 0 0 9px #83a3e6;
 	box-shadow: 0 0 9px #83a3e6;
+}
+
+.btn-group.color > .btn.all.unique.category-filter.active {
+	border-color: #999;
+	color: #0c0c0d;
+	-webkit-box-shadow: 0 0 9px #999;
+	box-shadow: 0 0 9px #999;
+}
+
+/*.btn-group.color > .btn.unique.active {
+	border-color: #25A7F5;
+	color: #0c0c0d;
+	-webkit-box-shadow: 0 0 9px #83a3e6;
+	box-shadow: 0 0 9px #83a3e6;
+}*/
+
+.btn-group.color > .btn.unique.active {
+	border-color: #999;
+	color: #0c0c0d;
+	-webkit-box-shadow: 0 0 9px #999;
+	box-shadow: 0 0 9px #999;
 }
 
 .btn-group.color label.btn.all,
@@ -562,7 +583,7 @@ button.btn.btn-link.plus-options{
 	white-space: nowrap;
 	vertical-align: baseline;
 	border-radius: .25em;	
-	background-color: #25A7F5;
+	background-color: #4ab6f6;
 }
 
 .table-homelist > tbody > tr > td.theader p{

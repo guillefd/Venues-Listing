@@ -26,7 +26,7 @@
 				</div>
 			</td>
 			<td colspan="2" class="theader">
-				<a href="<?php echo $item->itemUri; ?>"><h4><span class="glyphicon glyphicon-tag"></span> <?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?></a>
+				<a href="<?php echo $item->itemUri; ?>"><h4><span class="glyphicon glyphicon-chevron-right"></span> <?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?></a>
 				<span class="pull-right">
 					<span class="glyphicon glyphicon-map-marker"></span> <?php echo $item->loc_area ?>
 				</span>

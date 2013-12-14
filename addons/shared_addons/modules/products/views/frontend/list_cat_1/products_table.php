@@ -27,9 +27,9 @@
 			</td>
 			<td colspan="2" class="theader">
 				<h4>				
-					<span class="label-usetype"><?php echo $item->space_usetype_slug ?> <span class="glyphicon glyphicon-ok-sign"></span></span> 						
+					<span class="label-usetype"><?php echo $item->space_usetype_slug ?> <span class="glyphicon glyphicon-ok"></span></span> 						
 					<a href="<?php echo $item->itemUri; ?>">
-						<span class="glyphicon glyphicon-tag"></span> 
+						<span class="glyphicon glyphicon-chevron-right"></span> 
 						<?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?>
 					</a>
 					<span class="pull-right">
