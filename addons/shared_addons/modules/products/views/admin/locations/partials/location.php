@@ -42,7 +42,13 @@
             </tr>
             <tr>
                 <td colspan="3"><?php echo $location->intro; ?></td>  
-            </tr>                    
+            </tr>      
+            <tr>
+                <td colspan="3"><strong><?php echo lang('location:description_label')?></strong></td>                                         
+            </tr>                          
+            <tr>
+                <td colspan="3"><?php echo $location->description; ?></td>  
+            </tr>  
             <tr>
                 <td colspan="3"><strong><?php echo lang('location:link_label')?></strong></td>                                                                           
             </tr>    

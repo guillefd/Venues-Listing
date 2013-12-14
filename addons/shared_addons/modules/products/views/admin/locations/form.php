@@ -50,22 +50,14 @@
                         </div>
                     </li>            
                     <li>
-                        <label for="intro"><?php echo lang('location:intro_short_label'); ?> <span></span></label>
+                        <label for="intro"><?php echo lang('location:intro_short_label'); ?> <span> *</span></label>
                         <br style="clear: both;" />
                         <?php echo form_textarea(array('id' => 'intro', 'name' => 'intro', 'value' => $location->intro, 'rows' => 2)); ?>
                     </li>                          
                     <li class="even editor">
-                        <label for="description"><?php echo lang('location:description_long_label'); ?><span> *</span></label>             
-                        <div class="input">
-                                <?php echo form_dropdown('type', array(
-                                        'html' => 'html',
-                                        'markdown' => 'markdown',
-                                        'wysiwyg-simple' => 'wysiwyg-simple',
-                                        'wysiwyg-advanced' => 'wysiwyg-advanced',
-                                ), $location->type); ?>
-                        </div>              
-                        <br style="clear:both"/>                
-                        <?php echo form_textarea(array('id' => 'description', 'name' => 'description', 'value' => $location->description, 'rows' => 30, 'class' => $location->type)); ?>                
+                        <label for="description"><?php echo lang('location:description_long_label'); ?><span> *</span></label>                  
+                        <br style="clear:both"/>  
+                        <?php echo form_textarea(array('id' => 'description', 'name' => 'description', 'value' => $location->description, 'rows' => 5)); ?>                                                  
                     </li>                                                    
                 </ul>
                 </fieldset>
