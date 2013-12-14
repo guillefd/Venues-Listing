@@ -68,6 +68,7 @@ class Products_frontend_1_m extends MY_Model
 		$this->db->order_by('space_max_capacity','ASC');
 		//records
 		$q = $this->db->get();
+		$result = new stdClass();
 		if ($q->num_rows()>0)
 		{
 			$result->numrows = $q->num_rows();
@@ -129,6 +130,7 @@ class Products_frontend_1_m extends MY_Model
 		$this->db->order_by('space_max_capacity','ASC');
 		//records
 		$q = $this->db->get();
+		$result = new stdClass();		
 		if ($q->num_rows()>0)
 		{
 			$result->numrows = $q->num_rows();

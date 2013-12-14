@@ -37,6 +37,9 @@ class Page
 		$this->catid = $id;
 		$this->set_urisegments($segments);
 		$this->init_attributes();
+		// empty object (should be improved)
+		$this->result = new stdClass();
+		$this->map = new stdClass();		
 	}
 
 	private function set_urisegments($segments)
@@ -46,6 +49,7 @@ class Page
 
 	private function init_attributes()
 	{
+		$this->categoryparams = new stdClass();
 		$this->categoryparams->auxiliars = array();		
 		$this->categoryparams->tablerow = array(
 											'id'=> 0,
@@ -54,7 +58,6 @@ class Page
 											'title'=>'',
 											'description'=>'',
 											);
-
 		$this->searchparams = array(
 									'prodcatname'=>'',
 									'cityname'=>'',
@@ -152,7 +155,7 @@ class Page
 	{
 		foreach($arrayvalues as $key=>$value)
 		{
-			$this->map->$key = $value;
+			$this->map->{$key} = $value;
 		}
 	}
 
@@ -264,21 +267,28 @@ class Configdata
 	private function load_settings()
 	{
 		//page
+		$this->page = new stdClass();
 		$this->page->maxrecords = $this->get_value('front_records_per_page');
 		//$this->page->emptyresultmessage = $this->get_value('front_print_messages');
 		$this->page->print_messages = $this->get_array_value('front_print_messages');
 		$this->page->layoutsimages = $this->get_value('front_layouts_images');
 		//urisegments
+		$this->urisegments = new stdClass();
 		$this->urisegments->areawildcard = $this->get_value('front_wildcard_all');
 		$this->urisegments->max = $this->get_array_value('front_cat_total_uri_segments');
 		$this->urisegments->dbfields = $this->get_array_value('front_segments_db_values_array');
 		//views
 		$this->views = $this->get_array_value('front_cat_views_index');
 		//urifilters
+		$this->urifilters = new stdClass();
 		$this->urifilters->valid = $this->get_array_value('front_cat_filters_index');
 		//cloudstorage
+		$this->cloudstorage = new stdClass();
+		$this->cloudstorage->cdn = new stdClass();
+		$this->cloudstorage->images = new stdClass();		
 		$this->cloudstorage->cdn->bucketname = $this->get_array_value('gcs_buckets_list');
 		$this->cloudstorage->cdn->uri = $this->get_array_value('gcs_cdn_url_list');
+		$this->cloudstorage->images = new stdClass();
 		$this->cloudstorage->images->sizes = $this->get_value('gcs_images_size');
 	}
 
@@ -312,6 +322,7 @@ class Configdata
 
 	public function set_map_settings()
 	{
+		$this->map = new stdClass();		
 		$this->map->itemdbfields = $this->get_value('front_gmap_result_items_fields');
 		$this->map->markerimg = $this->get_value('front_gmap_marker_image');
 		$this->map->markerimgHover = $this->get_value('front_gmap_marker_image_hover');

@@ -142,6 +142,7 @@ class Front
 						$segment = $this->explode_and_clean_segment($segments, $i);
 						if( $this->segment_string_valid($segment, 0) ) 
 						{
+							$segments_valid[$i] = new stdClass();
 							$segments_valid[$i]->prod_cat_slug = $segment[0];
 							if( $this->segment_string_valid($segment, 1) )
 							{
@@ -159,6 +160,7 @@ class Front
 						$segment = $this->explode_and_clean_segment($segments, $i);
 						if( $this->segment_string_valid($segment, 0) ) 
 						{
+							$segments_valid[$i] = new stdClass();							
 							$segments_valid[$i]->loc_city_slug = $segment[0];
 							if( $this->segment_string_valid($segment, 1) )
 							{
@@ -180,6 +182,7 @@ class Front
 						$segment = $this->explode_and_clean_segment($segments, $i);
 						if( $this->segment_string_valid($segment, 0) ) 
 						{
+							$segments_valid[$i] = new stdClass();							
 							$segments_valid[$i]->loc_slug = $segment[0];
 						}
 						else
@@ -192,6 +195,7 @@ class Front
 						$segment = $this->explode_and_clean_segment($segments, $i);
 						if( $this->segment_string_valid($segment, 0) ) 
 						{
+							$segments_valid[$i] = new stdClass();							
 							$segments_valid[$i]->space_slug = $segment[0];
 							if( $this->segment_string_valid($segment, 1) )
 							{
