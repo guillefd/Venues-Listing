@@ -220,6 +220,7 @@ class Admin extends Admin_Controller
 		    $product = $this->products_m->get($id);
 		    if($product)
 		    {	    	
+		    	$product->chk_seller_account = $product->outsourced;
 				$product = populate_product_ids($product, $this->dd_array);				
 				$product->features = $this->products_m->get_all_features_by_id($id);	
 				$product->features = populate_features_array($product->features);
@@ -326,7 +327,7 @@ class Admin extends Admin_Controller
 			->set('dd_array', $this->dd_array)
 			->set('dd_categories', $dd_categories);			
        	//load path for Dropzones assets
-	    $this->dropzone->loadAssetPath();						
+	    $this->dropzone->loadAssetPath();		   				
 		$this->template->build('admin/products/form__'.$typeID);				
 	}
 

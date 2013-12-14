@@ -37,7 +37,6 @@
 			</ul>
 
 			<?php echo form_open(uri_string(), 'class="crud" id="dzmainform" '); ?>
-
 			<!-- Info tab -->
 			<div class="form_inputs" id="products-setup-tab">		
 				<fieldset>	
