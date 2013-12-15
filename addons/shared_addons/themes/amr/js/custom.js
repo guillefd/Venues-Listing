@@ -112,7 +112,7 @@ $("#slist a").click(function(e){
 /* Countdown */
 
 $(function(){
- launchTime = new Date("Fri Dec 16 2013 09:00:00 GMT-0300");
+ launchTime = new Date("Wed Dec 18 2013 09:00:00 GMT-0300");
 	$("#countdown").countdown({until: launchTime, format: "dHMS"});
 });
 

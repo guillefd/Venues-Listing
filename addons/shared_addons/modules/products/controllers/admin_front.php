@@ -44,34 +44,63 @@ class Admin_Front extends Admin_Controller
 	}
 
 
+
+///////////////////////////////////////////////
+// INDEX VIEW ----------------------------// //
+///////////////////////////////////////////////
+
 	/**
 	 * [index Front items List]
 	 * @return [type] [description]
 	 */
-	public function index($typeid = 0)
+	public function index($typeid = 0, $stateview = 'requestaction')
 	{	
 		// check product typeid selected
 		// if not, redirect to typeid = 1
 		if($typeid == 0) redirect('admin/products/front/index/1');
 		// load index
  	    $post_data = array();  
+        if($this->input->post('f_keywords'))
+        {    
+            $post_data['keywords'] = $this->input->post('f_keywords');
+        } 
+        $post_data['stateview'] = $stateview;  	    
 	    $post_data['prod_type_id'] = $typeid;    	
 	    // Create pagination links
 	    $total_rows = $this->products_front_m->search_draft('counts', $post_data);
         //params (URL -for links-, Total records, records per page, segment number )
-        $post_data['pagination'] = create_pagination('admin/products/front/index/'.$typeid.'/', $total_rows, 5, 6);             
+        $post_data['pagination'] = create_pagination('admin/products/front/index/'.$typeid.'/'.$stateview.'/', $total_rows, 5, 7);             
         //query with limits
         $items = $this->products_front_m->search_draft('results', $post_data);
         $items = populate_front_items_ids($items, $this->dd_array); 
         $items = front_status_view($items, $typeid);
 		$this->template
 			 ->title($this->module_details['name'])
+			 ->append_js('module::products_front_index.js')
+			 ->set('typeid', $typeid)
+			 ->set('stateview', $stateview)
 			 ->set('items', $items)
 			 ->set('pagination', $post_data['pagination'])			 
-			 ->set('total_rows', $total_rows)
-			 ->build('admin/front/index');
+			 ->set('total_rows', $total_rows);
+        if($this->input->is_ajax_request())
+        {
+        	$this->template
+    			->set_layout(FALSE)
+	            ->build('admin/front/tables/items');
+        }
+        else
+	        {
+	  			$this->template->build('admin/front/index');
+	        }
 	}
 
+
+
+
+
+	////////////////////////////////////////////////////
+	// CHANGE STATE ----------------------------- // //
+	////////////////////////////////////////////////////
 
 	/**
 	 * [viewdraft Preview draft before going live]

@@ -241,7 +241,7 @@ class Products_locations_m extends MY_Model
             }        
                 elseif (isset($data['pagination']['limit']))
                 {    
-                    $query.= ", ".$data['pagination']['limit'];
+                    $query.= " LIMIT ".$data['pagination']['limit'];
                 }      
             //fire query
             $q = $this->db->query($query);         

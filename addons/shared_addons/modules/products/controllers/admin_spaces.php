@@ -286,7 +286,8 @@ public function ajax_filter()
             ->title($this->module_details['name'], lang('location:list_title'))
             ->set('spaces', $spaces)
             ->set('pagination', $pagination)   
-            ->set('dd_array', $this->dd_array)                                 
+            ->set('dd_array', $this->dd_array) 
+            ->set('total_rows', $total_rows)                                               
             ->append_js('module::spaces_index.js')
             ->build('admin/spaces/partials/spaces');
 }

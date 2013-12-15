@@ -462,7 +462,8 @@ public function delete($id = 0)
 		$this->template
 				->title($this->module_details['name'], lang('location:list_title'))
 				->set('locations', $locations)
-				->set('pagination', $pagination)                        
+				->set('pagination', $pagination) 
+                ->set('total_rows', $total_rows)                                        
 	            ->append_js('module::locations_index.js')
 	            ->build('admin/locations/partials/locations');
 	}
