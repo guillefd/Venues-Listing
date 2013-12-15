@@ -20,7 +20,7 @@
             </td>
         </tr>
             <tr>    
-                <td colspan="8"><small class="muted"><?php echo 'Total: '.$total_rows; ?></small></td>
+                <td colspan="9"><small class="muted"><?php echo 'Total: '.$total_rows; ?></small></td>
             </tr>        
     </tfoot>
     <tbody>
