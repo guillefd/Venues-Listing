@@ -12,10 +12,13 @@ $(document).ready(function(){
         $('#btnCancel').attr('class','btn gray');
    
         //input filter action - keypress
-        keyword_filter.keypress(function() {
-            $('#loader').remove();
-            keyword_filter.after(img_loader_2);  
-            doAjaxQuery(keyword_filter, location_filter, target_filter);            
+        keyword_filter.keyup(function() {
+            if(keyword_filter.val().length > 2)
+            {    
+                $('#loader').remove();
+                keyword_filter.after(img_loader_2);  
+                doAjaxQuery(keyword_filter, location_filter, target_filter);            
+            }
         }); 
         
         

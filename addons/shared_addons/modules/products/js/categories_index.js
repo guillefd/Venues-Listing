@@ -11,8 +11,11 @@ $(document).ready(function(){
     $('#btnCancel').attr('class','btn gray');
 
     //input filter action - keypress
-    keyword_filter.keypress(function() {
-        call_ajax();
+    keyword_filter.keyup(function() {
+        if(keyword_filter.val().length > 2)
+        {    
+            call_ajax();
+        }
     });       
 
     //input filter action - keypress

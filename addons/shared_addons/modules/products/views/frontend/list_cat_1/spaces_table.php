@@ -71,7 +71,7 @@
 				<ul class="list-group">
 					<li class="list-group-item">
 						<span class="badge badge-inv"><?php echo $item->loc_type ?></span>
-						<p><i class="fa fa-home"></i> Tipo</p>
+						<p><span class="glyphicon glyphicon-home"></span> Tipo</p>
 					</li>			
 				</ul>				
 			</td>

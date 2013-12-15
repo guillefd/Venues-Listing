@@ -288,7 +288,7 @@ class Products_front_m extends MY_Model
             switch($typeid)
             {
             	case 1: 
-            			$query = $this->query_search_draft($typeid, $data = array());
+            			$query = $this->query_search_draft($typeid, $data);
             			break;
 
             	default:
@@ -319,7 +319,7 @@ class Products_front_m extends MY_Model
 	 * @return [type]          [description]
 	 */
 	function query_search_draft($typeid = 0, $data)
-	{
+	{	
 	    switch($typeid)
 	    {
 	    	case 1: 		
@@ -365,21 +365,21 @@ class Products_front_m extends MY_Model
 				 			$query.= ' GROUP BY pfds.prod_id';
 				            //Ordenar ultimo publicado
 				            $query.= " ORDER BY pfds.id DESC";		                        
-				            // Limit the results based on 1 number or 2 (2nd is offset)
-				            if (isset($data['pagination']['limit']) && is_array($data['pagination']['limit']))
-				            {
-				            	$query.= " LIMIT ".$data['pagination']['limit'][1].", ".$data['pagination']['limit'][0];
-				            }        
-				            elseif (isset($data['pagination']['limit']))
-				            {    
-				                $query.= " LIMIT ".$data['pagination']['limit'];
-				            }  
+					        // Limit the results based pagination
+					        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
+					        {
+					            $query.= " LIMIT ".$data['pagination']['offset'].", ".$data['pagination']['limit'];;
+					        }        
+					            elseif (isset($data['pagination']['limit']))
+					            {    
+					                $query.= ", ".$data['pagination']['limit'];
+					            } 
 				            break;
 
 			default: 
 					$query = null;	                
-		}	
-		return $query;
+		}				
+		return $query;	
 	}
 
 

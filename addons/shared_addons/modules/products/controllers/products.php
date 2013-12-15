@@ -33,9 +33,9 @@ class Products extends Public_Controller
 									break;
 			default: redirect('/catidUndefined');
 		}
-	$this->front->init_page($prodCatID);
-	$this->front->init_cfg();					
-	//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 	
+		$this->front->init_page($prodCatID);
+		$this->front->init_cfg();					
+		//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 	
 		products::index_router();
 	}
 	

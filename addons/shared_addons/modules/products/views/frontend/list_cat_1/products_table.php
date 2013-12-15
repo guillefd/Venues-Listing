@@ -27,7 +27,7 @@
 			</td>
 			<td colspan="2" class="theader">
 				<h4>				
-					<span class="label-usetype"><?php echo $item->space_usetype_slug ?> <span class="glyphicon glyphicon-ok"></span></span> 						
+					<span class="label-usetype"><span class="glyphicon glyphicon-ok"></span> <?php echo $item->space_usetype_slug ?></span> 						
 					<a href="<?php echo $item->itemUri; ?>">
 						<span class="glyphicon glyphicon-chevron-right"></span> 
 						<?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?>
@@ -76,7 +76,7 @@
 				<ul class="list-group">
 					<li class="list-group-item">
 						<span class="badge badge-inv"><?php echo $item->loc_type ?></span>
-						<p><span class="glyphicon glyphicon-home"></span> Tipo de Locación</p>
+						<p><span class="glyphicon glyphicon-home"></span> Tipo</p>
 					</li>			
 				</ul>				
 			</td>
