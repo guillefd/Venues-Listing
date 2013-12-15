@@ -85,7 +85,7 @@ $(document).ready(function(){
 
         function loadstateview(view)
         {
-            window.location.assign('admin/products/front/index/' + TYPEID + '/' + view + '/');
+            window.location.assign(BASE_URL + 'admin/products/front/index/' + TYPEID + '/' + view + '/');
         }              
 
      

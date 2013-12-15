@@ -11,8 +11,10 @@
 			<?php echo $this->load->view('admin/front/partials/stateview_buttons'); ?>
 			<?php if ($items) : ?>
 				<?php echo $this->load->view('admin/front/partials/filters'); ?>
-				<div id="filter-stage">
-					<?php echo $this->load->view('admin/front/tables/items'); ?>
+				<div class="one_full">
+					<div id="filter-stage">
+						<?php echo $this->load->view('admin/front/tables/items'); ?>
+					</div>
 				</div>
 			<?php else : ?>
 				<div class="one_full">
