@@ -355,12 +355,31 @@ class Products_front_m extends MY_Model
 							 // join table products - only records that match both tables
 				 			 ' LEFT OUTER JOIN default_'.$this->t_prod_front_PREF.$typeid.' as front ON draft_prod_id = front.prod_id  '.
 				 			 // exclude deleted products 
-				 			 ' WHERE pfds.deleted = 0';
+				 			 ' WHERE pfds.deleted = 0';			 			 
 				 			 //' AND MAX(pfds.draft_version)';
 				            if (array_key_exists('prod_cat_id', $data))
 				            {
 				                $query.= ' AND `prod_cat_id` = '.$data['prod_cat_id'];
 				            } 			 
+				            if (array_key_exists('keywords', $data))
+				            {
+				                $query.= " AND (pfds.name LIKE '%".$data['keywords']."%')";
+				            }
+				            //STATEVIEW
+				            if (array_key_exists('stateview', $data))
+				            {
+				                switch($data['stateview'])
+				                {
+				                	case 'offline': $query.= " AND front.id IS NULL";
+				                					break;	
+				                	
+				                	case 'update': $query.= " AND pfds.draft_version <> front.front_version";
+				                					break;	
+
+				                	case 'requestaction': $query.= " AND (front.id IS NULL || pfds.draft_version <> front.front_version)";
+				                					break;	
+				                } 
+				            }				            					            
 				 			 // for COUNT draft versions / get last
 				 			$query.= ' GROUP BY pfds.prod_id';
 				            //Ordenar ultimo publicado
@@ -378,7 +397,7 @@ class Products_front_m extends MY_Model
 
 			default: 
 					$query = null;	                
-		}				
+		}					
 		return $query;	
 	}
 

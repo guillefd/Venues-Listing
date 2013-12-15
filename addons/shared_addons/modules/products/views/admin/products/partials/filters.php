@@ -14,10 +14,7 @@
                 &nbsp;&nbsp;
         		<?php echo lang('products_category_sh_label'); ?> 				
                 <?php echo form_dropdown('f_category_id', array(''=>lang('products_all_label')) + $dd_array->type_with_cat_products_multiarray, '',' id="f_category_id" style="width: 200px;" data-placeholder="'.lang('products_no_category_select_label').'" ') ?>					
-                &nbsp;&nbsp;
-        		<?php echo lang('products_status_sh_label'); ?>       
-				<?php echo form_dropdown('f_status', $dd_array->dd_status, '',' id="f_status" style="width: 110px;" ') ?>					        		
-                &nbsp;&nbsp;  				
+                &nbsp;&nbsp; 				
 				<?php echo anchor(current_url() . '/', lang('buttons:cancel'), 'class="btn gray" id="btnCancel"'); ?>
 			</li>
 		</ul>

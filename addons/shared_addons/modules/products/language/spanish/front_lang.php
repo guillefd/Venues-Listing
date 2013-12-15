@@ -107,7 +107,7 @@ $lang['front:offline_comment'] = "Estas por iniciar el proceso para poner OFFLIN
 
 
 //messages
-$lang['front:currently_no_items'] 	= 'No hay publicaciones aun.';
+$lang['front:currently_no_items'] 	= 'No hay publicaciones para esta vista.';
 $lang['front:error_noexist'] = 'El item [%s] no existe o ya no está disponible.';
 $lang['front:id_error'] = '(Acceso directo inválido) Haga clic en el item que desea publicar.';
 $lang['front:golive_post_error'] = '(Acceso directo inválido) Inicie la publicación desde aquí.';
