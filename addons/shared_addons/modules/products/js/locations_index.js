@@ -13,10 +13,13 @@ $(document).ready(function(){
         $('#btnCancel').attr('class','btn gray');
    
         //input filter action - keypress
-        keyword_filter.keypress(function() {
-            $('#loader').remove();
-            keyword_filter.after(img_loader_2);  
-            doAjaxQuery(keyword_filter, account_filter, city_filter, target_filter);            
+        keyword_filter.keyup(function() {
+            if(keyword_filter.val().length > 2)
+            {    
+	            $('#loader').remove();
+	            keyword_filter.after(img_loader_2);  
+	            doAjaxQuery(keyword_filter, account_filter, city_filter, target_filter);            
+        	}
         }); 
         
         
@@ -24,7 +27,7 @@ $(document).ready(function(){
         $('input[name="f_account"]').autocomplete({
 			source: function( request, response ) {
 				keyword_filter.after(img_loader_2); 
-                                $.ajax({
+                $.ajax({
 					url: SITE_URL + 'admin/accounts/accounts_autocomplete_ajax',
 					dataType: "json",
 					data: {

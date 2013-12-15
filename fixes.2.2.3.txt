@@ -23,6 +23,18 @@ CHANGE
 							        ->limit($pagination['limit'], $pagination['offset'])
 							        ->search('results',$post_data);  
 
+OR SIMPLY:
+        // Limit the results based pagination
+        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
+        {
+            $query.= " LIMIT ".$data['pagination']['offset'].", ".$data['pagination']['limit'];;
+        }        
+            elseif (isset($data['pagination']['limit']))
+            {    
+                $query.= ", ".$data['pagination']['limit'];
+            }      
+
+
 --------------------------------------------------------
 
 ## View - Index

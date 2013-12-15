@@ -49,7 +49,7 @@ public function index()
 {	
     // Create pagination links
     $total_rows = $this->products_spaces_m->search('counts');
-    $pagination = create_pagination('admin/products/spaces/index', $total_rows, 10, 5);
+    $pagination = create_pagination('admin/products/spaces/index', $total_rows, 5, 5);
     $post_data['pagination']  = $pagination;                   			
     // Using this data, get the relevant results
     $spaces = $this->products_spaces_m->search('results',$post_data);   
@@ -61,7 +61,8 @@ public function index()
         ->append_js('module::spaces_index.js')
         ->set('spaces', $spaces)
         ->set('pagination', $pagination)    
-        ->set('dd_array', $this->dd_array)                                                 
+        ->set('dd_array', $this->dd_array)
+        ->set('total_rows', $total_rows)                                                         
         ->build('admin/spaces/index');
 }
 

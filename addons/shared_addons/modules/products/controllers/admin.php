@@ -47,19 +47,19 @@ class Admin extends Admin_Controller
 	public function index()
 	{
 		// Create pagination links
-		$q_result = $this->products_m->join_search($post_data);
-        //params (URL -for links-, Total records, records per page, segmnet number )
-		$pagination = create_pagination('admin/products/index', $q_result->num_rows, 5, 4);	
-        $post_data['pagination'] = $pagination;                
-        //query with limits
-        $products = $q_result->results;
+		$tot_rows = $this->products_m->join_search('counts');
+        //params (URL -for links-, Total records, records per page, segmnet number )	
+        $post_data['pagination'] = create_pagination('admin/products/index', $tot_rows, 5, 4);  
+        //query with limits              
+		$products = $this->products_m->join_search('results', $post_data);               
         $products = populate_product_ids($products, $this->dd_array);
         $products = draft_status_view($products);   
 		$this->template
 			 ->title($this->module_details['name'])
 			 ->append_js('module::products_filter.js')    			 
-			 ->set('pagination', $pagination)
+			 ->set('pagination', $post_data['pagination'])
 			 ->set('products', $products)
+			 ->set('total_rows', $tot_rows)			 
 			 ->set('dd_array', $this->dd_array)
 			 ->build('admin/products/index');
 	}
@@ -572,20 +572,21 @@ class Admin extends Admin_Controller
                 {
                     $post_data['deleted'] = $this->input->post('f_deleted');              
                 }                
-                //pagination
-                $q_result = $this->products_m->join_search($post_data);
-                //params (URL -for links-, Total records, records per page, segmnet number )
-				$pagination = create_pagination('admin/products/index', $q_result->num_rows, 10, 4);
-                $post_data['pagination'] = $pagination;                
-                //query with limits
-                $products = $q_result->results;    
-		        $products = populate_product_ids($products, $this->dd_array);                                                      
+
+				$tot_rows = $this->products_m->join_search('counts', $post_data);
+		        //params (URL -for links-, Total records, records per page, segmnet number )	
+		        $post_data['pagination'] = create_pagination('admin/products/index', $tot_rows, 20, 4);  
+		        //query with limits              
+				$products = $this->products_m->join_search('results', $post_data);               
+		        $products = populate_product_ids($products, $this->dd_array);
+		        $products = draft_status_view($products); 
 				//set the layout to false and load the view
                 $this->input->is_ajax_request() ? $this->template->set_layout(FALSE) : '';                 
 				$this->template
 								->title($this->module_details['name'])
 								->set('products', $products)
-								->set('pagination', $pagination)                        
+								->set('pagination', $post_data['pagination']) 
+							 	->set('total_rows', $tot_rows)	                   
 		                        ->append_js('module::locations_index.js')
 		                        ->append_css('module::jquery/jquery.autocomplete.css')
 		                        ->build('admin/products/tables/products', $this->data);

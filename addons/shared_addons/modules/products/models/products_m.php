@@ -129,15 +129,15 @@ class Products_m extends MY_Model {
             } 
             //Ordenar alfabeticamente
             $query.= " ORDER BY `name` ASC";            
-            // Limit the results based on 1 number or 2 (2nd is offset)
-            if (isset($data['pagination']['limit']) && is_array($data['pagination']['limit']))
-            {
-                    $query.= " LIMIT ".$data['pagination']['limit'][1].", ".$data['pagination']['limit'][0];
-            }        
-            elseif (isset($data['pagination']['limit']))
-            {    
-                    $query.= " LIMIT ".$data['pagination']['limit'];
-            }        
+	        // Limit the results based pagination
+	        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
+	        {
+	            $query.= " LIMIT ".$data['pagination']['offset'].", ".$data['pagination']['limit'];;
+	        }        
+	            elseif (isset($data['pagination']['limit']))
+	            {    
+	                $query.= ", ".$data['pagination']['limit'];
+	            }        
             //fire query
             $q = $this->db->query($query);         
             if($mode =='counts')
@@ -156,7 +156,7 @@ class Products_m extends MY_Model {
 	 * @param $data array
 	 * @return array
 	 */
-	function join_search($data = array(), $mode = '')
+	function join_search($mode = '', $data = array())
 	{
 	    $query = "SELECT ".
 	        "prod.product_id AS product_id,". 
@@ -217,15 +217,15 @@ class Products_m extends MY_Model {
             $query.= " GROUP BY prod.product_id";   
             //Ordenar alfabeticamente
             $query.= " ORDER BY prod.product_id DESC";      
-            // Limit the results based on 1 number or 2 (2nd is offset)
-            if (isset($data['pagination']['limit']))
-            {
-                $query.= " LIMIT ".$data['pagination']['limit'];
-            }
-            if( isset($data['pagination']['offset']) && $data['pagination']['offset'] > 0)
-            {
-            	$query.= ", ".$data['pagination']['offset'];
-            }                                                     
+	        // Limit the results based pagination
+	        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
+	        {
+	            $query.= " LIMIT ".$data['pagination']['offset'].", ".$data['pagination']['limit'];;
+	        }        
+	            elseif (isset($data['pagination']['limit']))
+	            {    
+	                $query.= ", ".$data['pagination']['limit'];
+	            }                                                       
             //fire query
             $q = $this->db->query($query); 
             if($mode =='')

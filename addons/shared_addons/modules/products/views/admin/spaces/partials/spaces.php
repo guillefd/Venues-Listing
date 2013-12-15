@@ -19,6 +19,9 @@
                 <div class="inner"><?php $this->load->view('admin/partials/pagination'); ?></div>
             </td>
         </tr>
+            <tr>    
+                <td colspan="8"><small class="muted"><?php echo 'Total: '.$total_rows; ?></small></td>
+            </tr>        
     </tfoot>
     <tbody>
         <?php foreach ($spaces as $space): ?>

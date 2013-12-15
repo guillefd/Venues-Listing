@@ -48,7 +48,7 @@ class Admin_Locations extends Admin_Controller {
 		
 		// Create pagination links
 		$total_rows = $this->products_locations_m->search('counts');
-		$pagination = create_pagination('admin/products/locations/index', $total_rows, 10, 5);
+		$pagination = create_pagination('admin/products/locations/index', $total_rows, 5, 5);
         $post_data['pagination']  = $pagination;                       			
 		// Using this data, get the relevant results
 		$locations = $this->products_locations_m->search('results',$post_data);
@@ -58,7 +58,8 @@ class Admin_Locations extends Admin_Controller {
 		$this->template
 				->title($this->module_details['name'], lang('location:list_title'))
 				->set('locations', $locations)
-				->set('pagination', $pagination)                        
+				->set('pagination', $pagination)  
+                ->set('total_rows', $total_rows)                                      
 	            ->append_js('module::locations_index.js')
 	            ->append_js('module::model.js')                        
 				->build('admin/locations/index');

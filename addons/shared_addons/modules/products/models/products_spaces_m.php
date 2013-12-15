@@ -73,47 +73,47 @@ class Products_spaces_m extends MY_Model
 	 * @param $data array
 	 * @return array
 	 */
-	function search($mode,$data = array())
-	{
+	function search($mode, $data = array())
+	{          
 	    $query = "SELECT * FROM (`default_".$this->_table."`)";
-            // Solo cuentas activas
-            if (array_key_exists('deleted', $data))
+        // Solo cuentas activas
+        if (array_key_exists('deleted', $data))
+        {
+            $query.= ' WHERE `deleted` = '.$data['deleted'];                
+        }
+        else
             {
-                $query.= ' WHERE `deleted` = '.$data['deleted'];                
+                $query.= ' WHERE `deleted` = 0';                  
             }
-            else
-                {
-                    $query.= ' WHERE `deleted` = 0';                  
-                }
-            if (array_key_exists('location_id', $data) && $data['location_id']!=0)
-            {
-                $query.= ' AND `location_id` = '.$data['location_id'];
-            }
-            if (array_key_exists('CityID', $data) && $data['CityID']!=0)
-            {
-                $query.= ' AND `CityID` = '.$data['CityID'];
-            }            
-            //Ordenar alfabeticamente
-            $query.= " ORDER BY `name` ASC";            
-            // Limit the results based on 1 number or 2 (2nd is offset)
-            if (isset($data['pagination']['limit']) && is_array($data['pagination']['limit']))
-            {
-                    $query.= " LIMIT ".$data['pagination']['limit'][1].", ".$data['pagination']['limit'][0];
-            }        
+        if (array_key_exists('location_id', $data) && $data['location_id']!=0)
+        {
+            $query.= ' AND `location_id` = '.$data['location_id'];
+        }
+        if (array_key_exists('keywords', $data) && is_string($data['keywords']) && strlen($data['keywords'])>2)
+        {
+            $query.= ' AND `name` LIKE "%'.$data['keywords'].'%"';
+        }            
+        //Ordenar alfabeticamente
+        $query.= " ORDER BY `space_id` DESC";            
+        // Limit the results based pagination
+        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
+        {
+            $query.= " LIMIT ".$data['pagination']['offset'].", ".$data['pagination']['limit'];;
+        }        
             elseif (isset($data['pagination']['limit']))
             {    
-                    $query.= " LIMIT ".$data['pagination']['limit'];
-            }        
-            //fire query
-            $q = $this->db->query($query);         
-            if($mode =='counts')
-            {                
-                return $q->num_rows;
+                $query.= ", ".$data['pagination']['limit'];
+            }                              
+        //fire query
+        $q = $this->db->query($query);         
+        if($mode =='counts')
+        {                
+            return $q->num_rows;
+        }
+        else
+            {
+                return $q->result();
             }
-            else
-                {
-                    return $q->result();
-                }
 	}
 
 
