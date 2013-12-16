@@ -427,6 +427,21 @@ class Front
 	// SEARCH ------------------------------ // //
 	//////////////////////////////////////////////
 
+	function create_pagination()
+	{	
+		if( (intval($this->page->get_list_result()->totrows) > 0) )
+		{
+			$maxrecordsshown = intval($this->CFG->page->maxrecords) * $this->page->get_pagination('currentpage');
+			if($maxrecordsshown < $this->page->get_list_result()->totrows)
+			{
+				$page = $this->page->get_pagination('currentpage') + 1;
+				$link = current_url().'/?page='.$page;
+				$this->page->set_pagination('link', $link);
+			}
+		} 
+	}
+
+
 	function cat1_search()
 	{	
 		switch($this->page->view['id'])

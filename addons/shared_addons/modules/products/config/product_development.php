@@ -9,8 +9,9 @@ $config['alq_espacios_typeid'] = 1;
 $config['servicios_typeid'] = 2;
 $config['alq_equipamiento_typeid'] = 3;
 
-/* FRONT RECORDS PER Request */
-$config['front_records_per_page'] = 10;
+/* PAGINATION */
+/* Front record per page Request */
+$config['front_records_per_page'] = 9;
 
 //wildcard for inner segment
 $config['front_wildcard_all'] = 'all';

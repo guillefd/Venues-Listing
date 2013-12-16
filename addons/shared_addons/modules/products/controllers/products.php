@@ -105,7 +105,7 @@ class Products extends Public_Controller
 									log_message('error','search() case not defined');						
 		}
 		//set result in page object
-		$this->front->page->set_result($result);
+		$this->front->page->set_result($result);	
 	}
 
 ///////////////////////////////////////////////////////
@@ -124,7 +124,8 @@ class Products extends Public_Controller
 		{
 			/* BUILD VIEW -------------------- */
 			case 100:
-			case 200:						
+			case 200:			
+						$this->front->create_pagination();	
 						$this->front->load_media_resources();											
 						$this->front->format_and_populate_result_for_view();
 						$this->front->load_listMap();					
@@ -162,8 +163,17 @@ class Products extends Public_Controller
 							->set('filtervalues', $filtervalues)
 							->set('filter', $filter)
 							->set('table', $table)
-							->set('htmlFilterArr', $this->front->page->htmlfilterdata)
-							->build($this->front->page->view['view']);		
+							->set('htmlFilterArr', $this->front->page->htmlfilterdata);
+						if($this->input->is_ajax_request())	
+						{
+				        	$this->template
+				    				->set_layout(FALSE)
+					            	->build($table);
+						}
+						else
+							{
+								$this->template->build($this->front->page->view['view']);		
+							}
 						break;
 	
 			case 200: 			
