@@ -11,7 +11,7 @@ $config['alq_equipamiento_typeid'] = 3;
 
 /* PAGINATION */
 /* Front record per page Request */
-$config['front_records_per_page'] = 9;
+$config['front_records_per_page'] = 4;
 
 //wildcard for inner segment
 $config['front_wildcard_all'] = 'all';

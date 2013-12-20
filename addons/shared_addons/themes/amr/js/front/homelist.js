@@ -131,142 +131,142 @@ $(document).ready(function(){
 				}				
 		}
 
-	function amr_add_element_to_auxurifilter(vec, index, filter, value)
-	{
-		vec[index][filter] = [];
-		vec[index][filter].push(value);
-		vec['count']++;
-		return vec;
-	}
+		function amr_add_element_to_auxurifilter(vec, index, filter, value)
+		{
+			vec[index][filter] = [];
+			vec[index][filter].push(value);
+			vec['count']++;
+			return vec;
+		}
 
-	function amr_generate_uri_search()
-	{
-		/* 
-			URI FORMAT
-			BASE_URL/ CAT_SLUG + category / CITY_SLUG + area + location_type / +filters
-		*/
-	    var LOCTYPE_SLUG_ARRAY = $.parseJSON(LOCTYPE_SLUG_json);
-		var auxUrifilters = [];
-		auxUrifilters['count'] = 0; // counter
-		auxUrifilters['filters'] = [];
-		targetUri = BASE_URL;	
-		/* [segment 1] 'product_category+category/' ------------------------------ */ 
-		/* product_category */			
-		targetUri+= CAT_SLUG;
-		targetUri+= filtersVals['category']!= '' ? '+' + filtersVals['category'] : '' ;
-		targetUri+= '/';
-		/* [segment 2] 'city+area+location_type/' -------------------------------- */ 
-		/* city */
-		targetUri+= CITY_SLUG;
-		/* aux location_type */
-		var locaux = '';		
-		if(filtersVals['loctypes'].length > 0 )
+		function amr_generate_uri_search()
 		{
-			auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'loctypes', filtersVals['loctypes']);	
-			/* si solo 1 tipo seleccionado */
-			if(filtersVals['loctypes'].length == 1)
+			/* 
+				URI FORMAT
+				BASE_URL/ CAT_SLUG + category / CITY_SLUG + area + location_type / +filters
+			*/
+		    var LOCTYPE_SLUG_ARRAY = $.parseJSON(LOCTYPE_SLUG_json);
+			var auxUrifilters = [];
+			auxUrifilters['count'] = 0; // counter
+			auxUrifilters['filters'] = [];
+			targetUri = BASE_URL;	
+			/* [segment 1] 'product_category+category/' ------------------------------ */ 
+			/* product_category */			
+			targetUri+= CAT_SLUG;
+			targetUri+= filtersVals['category']!= '' ? '+' + filtersVals['category'] : '' ;
+			targetUri+= '/';
+			/* [segment 2] 'city+area+location_type/' -------------------------------- */ 
+			/* city */
+			targetUri+= CITY_SLUG;
+			/* aux location_type */
+			var locaux = '';		
+			if(filtersVals['loctypes'].length > 0 )
 			{
-				locaux = LOCTYPE_SLUG_ARRAY[filtersVals['loctypes'][0]];
-			}
-		}
-		/* city-area  */
-		//si city-AREA y LOCTYPE
-		if(filtersVals['city-area'] != '' && locaux!='')
-		{
-			targetUri+= '+' + filtersVals['city-area'] + '+' + locaux;			
-		}
-		/* si solo city-area */
-		else if(filtersVals['city-area'] != '')
-			{
-				targetUri+= '+' + filtersVals['city-area'];
-			}				
-			else
-				/* si solo loctype */				
-				if(locaux!='')
+				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'loctypes', filtersVals['loctypes']);	
+				/* si solo 1 tipo seleccionado */
+				if(filtersVals['loctypes'].length == 1)
 				{
-					targetUri+= '+all+' + locaux;
+					locaux = LOCTYPE_SLUG_ARRAY[filtersVals['loctypes'][0]];
 				}
-		targetUri+= '/';
-		/* [segment FILTER] --------------------------------------------------------------- */
-		//capacity
-		if(filtersVals['capacity'] != '')
-		{
-			auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'capacity', filtersVals['capacity']);			
-		}
-		//layouts
-		if(filtersVals['layouts'].length>0)
-		{
-			auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'layouts', filtersVals['layouts']);					
-		}		
-		//facilities
-		if(filtersVals['facilities'].length>0)
-		{
-			auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'facilities', filtersVals['facilities']);						
-		}		
-		//features
-		if(filtersVals['features'].length>0)
-		{
-			auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'features', filtersVals['features']);			
-		}
-		//page num
-		if(filtersVals['page']!='')
-		{
-			auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'page', filtersVals['page']);						
-		}		
-		/* gen filter URI*/
-		if(auxUrifilters['count']>0)
-		{
-			auxcount = auxUrifilters['count'];
-			targetUri+= '?';			
-			for(filter in auxUrifilters['filters'])
+			}
+			/* city-area  */
+			//si city-AREA y LOCTYPE
+			if(filtersVals['city-area'] != '' && locaux!='')
 			{
-				auxcount = auxcount-1;
-				targetUri+= filter + '=';
-				for(i=0; i<=auxUrifilters['filters'][filter].length-1; i++)
+				targetUri+= '+' + filtersVals['city-area'] + '+' + locaux;			
+			}
+			/* si solo city-area */
+			else if(filtersVals['city-area'] != '')
 				{
-					targetUri+= auxUrifilters['filters'][filter][i];
-					if( i < auxUrifilters['filters'][filter].length-1 )
+					targetUri+= '+' + filtersVals['city-area'];
+				}				
+				else
+					/* si solo loctype */				
+					if(locaux!='')
 					{
-						targetUri+= ','
+						targetUri+= '+all+' + locaux;
+					}
+			targetUri+= '/';
+			/* [segment FILTER] --------------------------------------------------------------- */
+			//capacity
+			if(filtersVals['capacity'] != '')
+			{
+				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'capacity', filtersVals['capacity']);			
+			}
+			//layouts
+			if(filtersVals['layouts'].length>0)
+			{
+				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'layouts', filtersVals['layouts']);					
+			}		
+			//facilities
+			if(filtersVals['facilities'].length>0)
+			{
+				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'facilities', filtersVals['facilities']);						
+			}		
+			//features
+			if(filtersVals['features'].length>0)
+			{
+				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'features', filtersVals['features']);			
+			}
+			//page num
+			if(filtersVals['page']!='')
+			{
+				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'page', filtersVals['page']);						
+			}		
+			/* gen filter URI*/
+			if(auxUrifilters['count']>0)
+			{
+				auxcount = auxUrifilters['count'];
+				targetUri+= '?';			
+				for(filter in auxUrifilters['filters'])
+				{
+					auxcount = auxcount-1;
+					targetUri+= filter + '=';
+					for(i=0; i<=auxUrifilters['filters'][filter].length-1; i++)
+					{
+						targetUri+= auxUrifilters['filters'][filter][i];
+						if( i < auxUrifilters['filters'][filter].length-1 )
+						{
+							targetUri+= ','
+						}
+					}
+					if(auxcount>0)
+					{
+						targetUri+='&';
 					}
 				}
-				if(auxcount>0)
-				{
-					targetUri+='&';
-				}
-			}
-		}	
-	}
-
-	function amr_loadsearch()
-	{
-		amr_generate_uri_search();
-		window.location.assign(targetUri);
-	}	
-
-	/* unifica valores de btn y select */
-	function unify_category_value(origin)
-	{
-		switch(origin)
-		{
-			case 'category':		/* queda valor BTN, always */
-									 $("#select_category").select2("val", "");
-									 filtersVals['category_select'] = [];
-									break;
-
-			case 'category_select':	/* queda valor select, IF action == choice */
-									if(filtersVals['category_select'].length>0)
-									{
-										$(".category-filter").removeClass('active');
-										filtersVals['category'] = filtersVals['category_select'][0];
-									}
-									else 
-										{
-											filtersVals['category'] = '';	
-										}
-									break;
+			}	
 		}
-	}			
+
+		function amr_loadsearch()
+		{
+			amr_generate_uri_search();
+			window.location.assign(targetUri);
+		}	
+
+		/* unifica valores de btn y select */
+		function unify_category_value(origin)
+		{
+			switch(origin)
+			{
+				case 'category':		/* queda valor BTN, always */
+										 $("#select_category").select2("val", "");
+										 filtersVals['category_select'] = [];
+										break;
+
+				case 'category_select':	/* queda valor select, IF action == choice */
+										if(filtersVals['category_select'].length>0)
+										{
+											$(".category-filter").removeClass('active');
+											filtersVals['category'] = filtersVals['category_select'][0];
+										}
+										else 
+											{
+												filtersVals['category'] = '';	
+											}
+										break;
+			}
+		}			
 
 /* BTN CATEGORY (usetypes) */
 
@@ -374,8 +374,65 @@ $(document).ready(function(){
 			//select facilities
 			filtersVals['facilities'] = FILTER_VALUES['facilities'];
 			$("#select_facilities").select2("val", FILTER_VALUES['facilities']);
+
+			//currentpage
+			filtersVals['page'] = FILTER_VALUES['page'];
 		}
 
 
+	/* MORE RESULTS --------------------------------------- */	
+
+		$("#btnmoreresults").on("click", function(e) { 
+			var uri = get_nextpage_uri();
+			doAjaxQuery(uri);
+		});
+
+		function doAjaxQuery(uri)
+		{
+		    $.ajax({
+		        type: "POST",
+		        url: uri,
+		        dataType: 'html',
+		        success: function(result)
+		        {
+		        	var yes;
+
+		        },
+		        error: function()
+		        {
+
+		        }
+		    });         
+		}		
+
+		function get_nextpage_uri()
+		{
+			var currenturi = get_current_uri();
+			var currentpagetxt = 'page=' + filtersVals['page'];
+			var nextpage = filtersVals['page'] + 1;			
+			var nextpagetxt = 'page=' + nextpage;
+			if(currenturi.indexOf('/?') == -1)
+			{
+				currenturi+= '/?';
+			}
+			if(currenturi.indexOf('page=') > -1)
+			{
+				currenturi = currenturi.replace(currentpagetxt, nextpagetxt);
+			}	
+			else
+				{
+					currenturi+= nextpagetxt;
+				}
+			return currenturi;
+		}
+
+
+	/* HISTORY API ---------------------------------------- */	
+
+	function get_current_uri()
+	{
+		var state = History.getState();
+		return state.url;
+	}
 
 });

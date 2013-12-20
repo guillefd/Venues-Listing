@@ -155,24 +155,33 @@ class Products extends Public_Controller
 		{
 			/* LOAD VIEW -------------------- */			
 			case 100: 								
-						$table = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);
-						$this->template
-							->title($this->module_details['name'])
-							->set_layout('L_list_cat_1')
-							->set('data', $this->front->page)
-							->set('filtervalues', $filtervalues)
-							->set('filter', $filter)
-							->set('table', $table)
-							->set('htmlFilterArr', $this->front->page->htmlfilterdata);
 						if($this->input->is_ajax_request())	
 						{
-				        	$this->template
-				    				->set_layout(FALSE)
-					            	->build($table);
+							$result = new stdClass();
+					        if($this->front->page->result->list->numrows>0)
+					        {
+					        	$result->result = true;
+								$result->html = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);						
+								$result->map = $this->front->page->map;
+							}	
+							else
+								{
+									$result->result = false;
+								}	
+							echo json_encode($result);
 						}
 						else
 							{
-								$this->template->build($this->front->page->view['view']);		
+							$table = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);
+							$this->template
+								->title($this->module_details['name'])
+								->set_layout('L_list_cat_1')
+								->set('data', $this->front->page)
+								->set('filtervalues', $filtervalues)
+								->set('filter', $filter)
+								->set('table', $table)
+								->set('htmlFilterArr', $this->front->page->htmlfilterdata)							
+								->build($this->front->page->view['view']);		
 							}
 						break;
 	

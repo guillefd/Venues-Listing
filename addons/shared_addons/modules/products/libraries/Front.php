@@ -658,6 +658,7 @@ class Front
 		$values['layouts'] = isset($this->page->validurifilters['layouts']) && $this->page->validurifilters['layouts']!='' ? $this->page->validurifilters['layouts'] : '';
 		$values['facilities'] = isset($this->page->validurifilters['facilities']) && $this->page->validurifilters['facilities']!='' ? $this->page->validurifilters['facilities'] : '';
 		$values['features'] = isset($this->page->validurifilters['features']) && $this->page->validurifilters['features']!='' ? $this->page->validurifilters['features'] : '';
+		$values['page'] = $this->page->pagination->currentpage;
 		return $values;
 	}
 

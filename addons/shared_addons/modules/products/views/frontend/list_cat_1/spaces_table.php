@@ -1,6 +1,7 @@
-<?php $i = 0; ?>	
+<?php $i = 0; ?>
+	
 <?php foreach($result->list->items as $item): ?>
-<div class="table-responsive">
+<div id="amrresulttable" class="table-responsive">
 	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
 			<td rowspan="4" width="300px">

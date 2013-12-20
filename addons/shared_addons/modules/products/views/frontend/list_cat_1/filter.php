@@ -17,7 +17,7 @@
 							<?php echo form_dropdown('select_category', $usetypes_select, '', ' id="select_category" multiple style="width:130px;" ') ?>														
 						</label>
 						<label id="category-filter-7" class="btn all btn-sm unique category-filter">
-							<input type="radio" value="">todas
+							<input type="radio" value=""><span class="glyphicon glyphicon-remove"></span>
 						</label>										
 					</div>																		
 				</div>		
@@ -47,7 +47,7 @@
 							<input type="radio" value="50plus"> 50 ó mas
 						</label>
 						<label id="cap-filter-6" class="btn all btn-sm unique cap-filter">
-							<input type="radio" value=""> todas
+							<input type="radio" value=""><span class="glyphicon glyphicon-remove"></span>
 						</label>							
 					</div>																		
 				</div>		
