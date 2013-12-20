@@ -422,18 +422,29 @@ $(document).ready(function(){
 			var currentpagetxt = 'page=' + filtersVals['page'];
 			var nextpage = filtersVals['page'] + 1;			
 			var nextpagetxt = 'page=' + nextpage;
-			if(currenturi.indexOf('/?') == -1)
+			if(currenturi.indexOf('?') == -1)
 			{
-				currenturi+= '/?';
+				currenturi+= '?' + nextpagetxt;
 			}
-			if(currenturi.indexOf('page=') > -1)
-			{
-				currenturi = currenturi.replace(currentpagetxt, nextpagetxt);
-			}	
 			else
+			{						
+				if(currenturi.indexOf('?page=') > -1)
 				{
-					currenturi+= '&' + nextpagetxt;
+					currenturi = currenturi.replace(currentpagetxt, nextpagetxt);
 				}
+				else if(currenturi.indexOf('&page=') > -1)
+					{
+						currenturi = currenturi.replace(currentpagetxt, nextpagetxt);
+					}	
+					else if(currenturi.indexOf('page=') > -1)
+						{
+							currenturi = currenturi.replace(currentpagetxt, nextpagetxt);
+						}		
+						else
+							{
+								currenturi+= '&' + nextpagetxt;
+							}
+			}	
 			return currenturi;
 		}
 

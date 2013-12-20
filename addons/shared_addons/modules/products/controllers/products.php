@@ -187,16 +187,35 @@ class Products extends Public_Controller
 						break;
 	
 			case 200: 			
-						$table = $this->load->view('frontend/list_cat_1/products_table', $this->front->page, true);
-						$this->template
-							->title($this->module_details['name'])
-							->set_layout('L_list_cat_1')
-							->set('data', $this->front->page)
-							->set('filtervalues', $filtervalues)										
-							->set('filter', $filter)										
-							->set('table', $table)
-							->set('htmlFilterArr', $this->front->page->htmlfilterdata)
-							->build($this->front->page->view['view']);				
+						if($this->input->is_ajax_request())	
+						{
+							$result = new stdClass();
+					        if($this->front->page->result->list->numrows>0)
+					        {
+					        	$result->result = true;
+								$result->html = $this->load->view('frontend/list_cat_1/products_table', $this->front->page, true);						
+								$result->map = $this->front->page->map;
+								$result->pagination = $this->front->page->pagination;
+							}	
+							else
+								{
+									$result->result = false;
+								}	
+							echo json_encode($result);
+						}
+						else
+							{			
+								$table = $this->load->view('frontend/list_cat_1/products_table', $this->front->page, true);
+								$this->template
+									->title($this->module_details['name'])
+									->set_layout('L_list_cat_1')
+									->set('data', $this->front->page)
+									->set('filtervalues', $filtervalues)										
+									->set('filter', $filter)										
+									->set('table', $table)
+									->set('htmlFilterArr', $this->front->page->htmlfilterdata)
+									->build($this->front->page->view['view']);		
+							}		
 						break;
 
 			case 300:			
