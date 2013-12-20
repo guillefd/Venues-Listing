@@ -1,6 +1,5 @@
 
 
-
 $(document).ready(function(){ 
 
 	//galeries
@@ -13,5 +12,7 @@ $(document).ready(function(){
 
 	//tooltip
 	$('span.label.label-primary.usetype').tooltip()
+
+
 
 });			

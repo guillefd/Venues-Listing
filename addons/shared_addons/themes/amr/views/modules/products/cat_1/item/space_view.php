@@ -234,7 +234,7 @@
 								<i class="fa fa-home"></i> <?php echo $item->loc_type ?><br>
 								<i class="fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' '.round_number($item->loc_geo_street_number).', '.$item->loc_city; ?>
 							</p>							
-							<button class="btn large amrblue btn-block">Contactanos</button>
+							<button class="btn large amrblue btn-block" data-toggle="modal" data-target="#amrformmessage">Envianos una consulta</button>
 						</div>
 					</div>
 				</div>
@@ -243,3 +243,22 @@
 		</div>	
 	</div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="amrformmessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Enviar una consulta a <?php echo $item->loc_name; ?></h4>
+      </div>
+      <div class="modal-body">
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-gray" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Enviar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
