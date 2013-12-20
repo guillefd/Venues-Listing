@@ -44,7 +44,7 @@
 <!-- pagemessage -->
 			<?php echo $data->get_message('result'); ?>
 <!-- end pagemessage -->
-<!-- list -->				
+<!-- list -->			
 			<?php echo $table;	?>
 <!-- end list -->
 <!-- more results button -->

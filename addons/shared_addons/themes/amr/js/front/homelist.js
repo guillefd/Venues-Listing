@@ -209,10 +209,10 @@ $(document).ready(function(){
 				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'features', filtersVals['features']);			
 			}
 			//page num
-			if(filtersVals['page']!='')
-			{
-				auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'page', filtersVals['page']);						
-			}		
+			// if(filtersVals['page']!='')
+			// {
+			// 	auxUrifilters = amr_add_element_to_auxurifilter(auxUrifilters, 'filters', 'page', filtersVals['page']);						
+			// }		
 			/* gen filter URI*/
 			if(auxUrifilters['count']>0)
 			{
@@ -389,18 +389,29 @@ $(document).ready(function(){
 
 		function doAjaxQuery(uri)
 		{
+			//disable boton
+			$('#btnmoreresults').attr('disabled','disabled');
 		    $.ajax({
 		        type: "POST",
 		        url: uri,
-		        dataType: 'html',
-		        success: function(result)
+		        dataType: 'json',
+		        success: function(data)
 		        {
-		        	var yes;
-
+		        	if(data.result == true)
+		        	{
+		        		process_btn_state(data.pagination);
+		        		$('div#amrresulttable:last').after(data.html);
+		        		replace_uri_state(uri);
+		        		filtersVals['page'] = data.pagination.currentpage;
+		           	}
+		        	else
+			        	{
+			        		process_btn_state(false);
+			        	}
 		        },
 		        error: function()
 		        {
-
+			        process_btn_state(false);
 		        }
 		    });         
 		}		
@@ -421,9 +432,18 @@ $(document).ready(function(){
 			}	
 			else
 				{
-					currenturi+= nextpagetxt;
+					currenturi+= '&' + nextpagetxt;
 				}
 			return currenturi;
+		}
+
+		function process_btn_state(pagination)
+		{
+    		$('#btnmoreresults').removeAttr('disabled');
+    		if(pagination.link === '')
+    		{
+    			$('#btnmoreresults').hide();			
+			}
 		}
 
 
@@ -433,6 +453,24 @@ $(document).ready(function(){
 	{
 		var state = History.getState();
 		return state.url;
+	}
+
+	function get_current_state()
+	{
+		return History.getState(); 
+	}
+
+	function get_page_title()
+	{
+		return $(document).find("title").text();
+	}
+
+	function replace_uri_state(uri)
+	{
+		var title = get_page_title();
+		var index = History.getCurrentIndex();
+		nextIndex = index + 1;
+		History.replaceState({state:nextIndex}, title, uri);
 	}
 
 });

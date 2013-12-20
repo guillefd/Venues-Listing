@@ -163,6 +163,7 @@ class Products extends Public_Controller
 					        	$result->result = true;
 								$result->html = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);						
 								$result->map = $this->front->page->map;
+								$result->pagination = $this->front->page->pagination;
 							}	
 							else
 								{

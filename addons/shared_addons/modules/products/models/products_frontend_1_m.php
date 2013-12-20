@@ -62,7 +62,7 @@ class Products_frontend_1_m extends MY_Model
         $this->db->select($fields, FALSE);
 		$this->db->from($this->t_front);
 		//limit	
-		$offset = ($limit * $page->validurifilters['page']) - $limit;		
+		$offset = ($limit * $page->validurifilters['page']) - $limit;	
 		$this->db->group_by('space_id');
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('space_max_capacity','ASC');

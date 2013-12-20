@@ -28,6 +28,7 @@ class Page
 	public $htmlfilterdata;
 	public $htmlfilter;
 	public $pagination;
+	public $isajaxrequest;
 	// vars to be unsetted after use
 	public $urisegments;
 	public $urifilters;
@@ -71,6 +72,7 @@ class Page
 		$this->pagination = new stdClass();	
 		$this->pagination->currentpage = '';
 		$this->pagination->link = '';									
+		$this->pagination->filtersuri = '';
 	}
 
 	/////////////////////////////////////////////

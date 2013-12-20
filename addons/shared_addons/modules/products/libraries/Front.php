@@ -31,6 +31,7 @@ class Front
 		$this->page = new page(intval($catid), ci()->uri->segment_array());
 		$this->_load_category_params();
 		$this->_load_category_aux_params(); 
+		$this->_set_request_type();
     }
 
     function init_cfg()
@@ -67,6 +68,11 @@ class Front
 		}			
 		//set to page
 		$this->page->set_categoryauxiliars($params);
+    }
+
+    function _set_request_type()
+    {
+    	$this->page->isajaxrequest = ci()->input->is_ajax_request();
     }
 
 
@@ -424,7 +430,7 @@ class Front
 
 
 	//////////////////////////////////////////////
-	// SEARCH ------------------------------ // //
+	// SEARCH / PAGINATION   --------------- // //
 	//////////////////////////////////////////////
 
 	function create_pagination()
@@ -434,11 +440,30 @@ class Front
 			$maxrecordsshown = intval($this->CFG->page->maxrecords) * $this->page->get_pagination('currentpage');
 			if($maxrecordsshown < $this->page->get_list_result()->totrows)
 			{
-				$page = $this->page->get_pagination('currentpage') + 1;
-				$link = current_url().'/?page='.$page;
+				$pagenum = $this->page->get_pagination('currentpage') + 1;
+				$filtersURI = $this->_gen_pagination_urifilters($pagenum);
+				$link = current_url().$filtersURI;
 				$this->page->set_pagination('link', $link);
+				$this->page->set_pagination('filtersuri', $filtersURI);
 			}
 		} 
+	}
+
+	function _gen_pagination_urifilters($pagenum)
+	{
+		$uri = '/?';
+		$validurifiltersArr = $this->page->validurifilters;
+		unset($validurifiltersArr['page']); 	
+		if(count($validurifiltersArr)>0)
+		{
+			foreach ($validurifiltersArr as $key => $value) 
+			{
+				$uri.= $key.'='.$value;
+			}
+			$uri.= '&';			
+		}
+		$uri.= 'page='.$pagenum;		
+		return $uri;
 	}
 
 
