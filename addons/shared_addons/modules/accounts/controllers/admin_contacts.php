@@ -139,7 +139,7 @@ class Admin_contacts extends Admin_Controller
 	{
 		// Create pagination links
 		$total_rows = $this->contacts_m->search('counts');
-        $pagination = create_pagination('admin/accounts/contacts/index', $total_rows, 10, 5);
+        $pagination = create_pagination('admin/accounts/contacts/index', $total_rows, 20, 5);
         $post_data['pagination'] = $pagination;
         $post_data['active'] = 1; //only active accounts           
 		// Using this data, get the relevant results
