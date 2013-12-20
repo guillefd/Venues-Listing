@@ -105,7 +105,7 @@ class Products extends Public_Controller
 									log_message('error','search() case not defined');						
 		}
 		//set result in page object
-		$this->front->page->set_result($result);
+		$this->front->page->set_result($result);	
 	}
 
 ///////////////////////////////////////////////////////
@@ -124,7 +124,8 @@ class Products extends Public_Controller
 		{
 			/* BUILD VIEW -------------------- */
 			case 100:
-			case 200:						
+			case 200:			
+						$this->front->create_pagination();	
 						$this->front->load_media_resources();											
 						$this->front->format_and_populate_result_for_view();
 						$this->front->load_listMap();					
@@ -154,29 +155,67 @@ class Products extends Public_Controller
 		{
 			/* LOAD VIEW -------------------- */			
 			case 100: 								
-						$table = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);
-						$this->template
-							->title($this->module_details['name'])
-							->set_layout('L_list_cat_1')
-							->set('data', $this->front->page)
-							->set('filtervalues', $filtervalues)
-							->set('filter', $filter)
-							->set('table', $table)
-							->set('htmlFilterArr', $this->front->page->htmlfilterdata)
-							->build($this->front->page->view['view']);		
+						if($this->input->is_ajax_request())	
+						{
+							$result = new stdClass();
+					        if($this->front->page->result->list->numrows>0)
+					        {
+					        	$result->result = true;
+								$result->html = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);						
+								$result->map = $this->front->page->map;
+								$result->pagination = $this->front->page->pagination;
+							}	
+							else
+								{
+									$result->result = false;
+								}	
+							echo json_encode($result);
+						}
+						else
+							{
+							$table = $this->load->view('frontend/list_cat_1/spaces_table', $this->front->page, true);
+							$this->template
+								->title($this->module_details['name'])
+								->set_layout('L_list_cat_1')
+								->set('data', $this->front->page)
+								->set('filtervalues', $filtervalues)
+								->set('filter', $filter)
+								->set('table', $table)
+								->set('htmlFilterArr', $this->front->page->htmlfilterdata)							
+								->build($this->front->page->view['view']);		
+							}
 						break;
 	
 			case 200: 			
-						$table = $this->load->view('frontend/list_cat_1/products_table', $this->front->page, true);
-						$this->template
-							->title($this->module_details['name'])
-							->set_layout('L_list_cat_1')
-							->set('data', $this->front->page)
-							->set('filtervalues', $filtervalues)										
-							->set('filter', $filter)										
-							->set('table', $table)
-							->set('htmlFilterArr', $this->front->page->htmlfilterdata)
-							->build($this->front->page->view['view']);				
+						if($this->input->is_ajax_request())	
+						{
+							$result = new stdClass();
+					        if($this->front->page->result->list->numrows>0)
+					        {
+					        	$result->result = true;
+								$result->html = $this->load->view('frontend/list_cat_1/products_table', $this->front->page, true);						
+								$result->map = $this->front->page->map;
+								$result->pagination = $this->front->page->pagination;
+							}	
+							else
+								{
+									$result->result = false;
+								}	
+							echo json_encode($result);
+						}
+						else
+							{			
+								$table = $this->load->view('frontend/list_cat_1/products_table', $this->front->page, true);
+								$this->template
+									->title($this->module_details['name'])
+									->set_layout('L_list_cat_1')
+									->set('data', $this->front->page)
+									->set('filtervalues', $filtervalues)										
+									->set('filter', $filter)										
+									->set('table', $table)
+									->set('htmlFilterArr', $this->front->page->htmlfilterdata)
+									->build($this->front->page->view['view']);		
+							}		
 						break;
 
 			case 300:			

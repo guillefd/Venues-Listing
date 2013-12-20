@@ -27,6 +27,8 @@ class Page
 	public $message;
 	public $htmlfilterdata;
 	public $htmlfilter;
+	public $pagination;
+	public $isajaxrequest;
 	// vars to be unsetted after use
 	public $urisegments;
 	public $urifilters;
@@ -66,7 +68,11 @@ class Page
 
 		$this->message = array(
 								'result'=>'',
-								);		
+								);	
+		$this->pagination = new stdClass();	
+		$this->pagination->currentpage = '';
+		$this->pagination->link = '';									
+		$this->pagination->filtersuri = '';
 	}
 
 	/////////////////////////////////////////////
@@ -137,6 +143,7 @@ class Page
 			{
 				$this->validurifilters['page'] = $page;
 			}	
+		$this->set_pagination('currentpage', $this->validurifilters['page']);	
 	}
 
 	public function set_result($result)
@@ -172,6 +179,18 @@ class Page
 	public function set_message($index, $message)
 	{
 		$this->message[$index] = $message;
+	}
+
+	public function set_pagination($field = '', $value = '')
+	{
+		if( isset($this->pagination->{$field}) )
+		{
+			$this->pagination->{$field} = $value;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	//////////////////////////////////////////////////////
@@ -237,6 +256,11 @@ class Page
 	public function get_message($index)
 	{
 		return array_key_exists($index, $this->message) ? $this->message[$index] : '';
+	}
+
+	public function get_pagination($field)
+	{
+		return isset($this->pagination->{$field}) ? $this->pagination->{$field} : ''; 
 	}	
 
 }

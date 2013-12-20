@@ -29,7 +29,6 @@ class Products_frontend_1_m extends MY_Model
 	function get_list_spaces($page, $CFG)
 	{		
 		/* aux */
-		$limit = $CFG->page->maxrecords;
 		$all_wildcard = $CFG->urisegments->areawildcard;
 		// for homelist_view	
 		/* SEGMENTS --------------------------------------------------------------------*/	
@@ -61,8 +60,17 @@ class Products_frontend_1_m extends MY_Model
 		array_unshift($fields, 'SQL_CALC_FOUND_ROWS null as rows, count(space_id) as space_versions');
         $this->db->select($fields, FALSE);
 		$this->db->from($this->t_front);
-		//limit	
-		$offset = ($limit * $page->validurifilters['page']) - $limit;		
+		//limit
+		if($page->isajaxrequest)
+		{
+			$limit = $CFG->page->maxrecords;			
+			$offset = ($limit * $page->validurifilters['page']) - $limit;
+		}	
+		else
+			{
+				$limit = $CFG->page->maxrecords * $page->validurifilters['page'];				
+				$offset = 0;	
+			}
 		$this->db->group_by('space_id');
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('space_max_capacity','ASC');
@@ -71,12 +79,14 @@ class Products_frontend_1_m extends MY_Model
 		$result = new stdClass();
 		if ($q->num_rows()>0)
 		{
+			$result->offset = $offset;					
 			$result->numrows = $q->num_rows();
 			$result->items = $q->result();
 			$result->totrows = $this->db->query('SELECT FOUND_ROWS() count;')->row()->count;		
 		}
 		else
 			{
+				$result->offset = 0;						
 				$result->numrows = 0;
 				$result->items = array();
 				$result->totrows = 0;			
@@ -89,7 +99,6 @@ class Products_frontend_1_m extends MY_Model
 	function get_list_products($page, $CFG)
 	{
 		/* aux */
-		$limit = $CFG->page->maxrecords;
 		$all_wildcard = $CFG->urisegments->areawildcard;
 		// for homelist_view	
 		/* SEGMENTS --------------------------------------------------------------------*/	
@@ -124,8 +133,17 @@ class Products_frontend_1_m extends MY_Model
 		array_unshift($fields, 'SQL_CALC_FOUND_ROWS null as rows');
         $this->db->select($fields, FALSE);
 		$this->db->from($this->t_front);
-		//limit	
-		$offset = ($limit * $page->validurifilters['page']) - $limit;		
+		//limit
+		if($page->isajaxrequest)
+		{
+			$limit = $CFG->page->maxrecords;			
+			$offset = ($limit * $page->validurifilters['page']) - $limit;
+		}	
+		else
+			{
+				$limit = $CFG->page->maxrecords * $page->validurifilters['page'];				
+				$offset = 0;	
+			}	
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('space_max_capacity','ASC');
 		//records
@@ -133,6 +151,7 @@ class Products_frontend_1_m extends MY_Model
 		$result = new stdClass();		
 		if ($q->num_rows()>0)
 		{
+			$result->offset = $offset;			
 			$result->numrows = $q->num_rows();
 			$result->items = $q->result();
 			$result->totrows = $this->db->query('SELECT FOUND_ROWS() count;')->row()->count;
@@ -140,6 +159,7 @@ class Products_frontend_1_m extends MY_Model
 		}
 		else
 			{
+				$result->offset = 0;
 				$result->numrows = 0;
 				$result->items = array();
 				$result->totrows = 0;			

@@ -44,9 +44,14 @@
 <!-- pagemessage -->
 			<?php echo $data->get_message('result'); ?>
 <!-- end pagemessage -->
-<!-- list -->				
+<!-- list -->			
 			<?php echo $table;	?>
-<!-- end list -->		
+<!-- end list -->
+<!-- more results button -->
+			<?php if($this->front->page->pagination->link): ?>
+				<button class="btn btn-primary btn-block btn-lg" id="btnmoreresults"><strong>Mas resultados</strong></button>
+			<?php endif; ?>
+<!-- end button -->		
 	</div>
 </div>				
 
