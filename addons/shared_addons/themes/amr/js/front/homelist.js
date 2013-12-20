@@ -401,6 +401,7 @@ $(document).ready(function(){
 		        	{
 		        		process_btn_state(data.pagination);
 		        		$('div#amrresulttable:last').after(data.html);
+		        		gmap_add_newpage_markers(data.map);
 		        		replace_uri_state(uri);
 		        		filtersVals['page'] = data.pagination.currentpage;
 		           	}

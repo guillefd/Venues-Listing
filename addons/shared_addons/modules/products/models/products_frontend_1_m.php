@@ -79,12 +79,14 @@ class Products_frontend_1_m extends MY_Model
 		$result = new stdClass();
 		if ($q->num_rows()>0)
 		{
+			$result->offset = $offset;					
 			$result->numrows = $q->num_rows();
 			$result->items = $q->result();
 			$result->totrows = $this->db->query('SELECT FOUND_ROWS() count;')->row()->count;		
 		}
 		else
 			{
+				$result->offset = 0;						
 				$result->numrows = 0;
 				$result->items = array();
 				$result->totrows = 0;			
@@ -149,6 +151,7 @@ class Products_frontend_1_m extends MY_Model
 		$result = new stdClass();		
 		if ($q->num_rows()>0)
 		{
+			$result->offset = $offset;			
 			$result->numrows = $q->num_rows();
 			$result->items = $q->result();
 			$result->totrows = $this->db->query('SELECT FOUND_ROWS() count;')->row()->count;
@@ -156,6 +159,7 @@ class Products_frontend_1_m extends MY_Model
 		}
 		else
 			{
+				$result->offset = 0;
 				$result->numrows = 0;
 				$result->items = array();
 				$result->totrows = 0;			

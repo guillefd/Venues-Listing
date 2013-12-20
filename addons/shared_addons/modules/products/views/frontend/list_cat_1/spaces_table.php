@@ -1,4 +1,4 @@
-<?php $i = 0; ?>
+<?php $i = $result->list->offset; ?>
 <?php foreach($result->list->items as $item): ?>
 <div id="amrresulttable" class="table-responsive">
 	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
