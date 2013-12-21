@@ -357,7 +357,6 @@ class Products extends Public_Controller
 						'subject'=>'Nueva consulta para '.$item->space_denomination.'-'.$item->space_name.'@'.$item->loc_slug.' de #'.$this->input->post('name'),
 					);
 		$this->products_frontend_1_m->save_message_data($db_data);
-return true;
 		return ( $this->send_email($db_data, $item, 'location') && $this->send_email($db_data, $item, 'sender') ) ;
 	}
 
