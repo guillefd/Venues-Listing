@@ -219,6 +219,7 @@ class Products extends Public_Controller
 						break;
 
 			case 300:			
+						$modalform = $this->load->view('frontend/modals/spacemodalform', $this->front->page, true);
 						$this->template
 							->title($this->module_details['name'])
 							->set_layout('L_item_cat_1')
@@ -226,6 +227,7 @@ class Products extends Public_Controller
 							->set('item', $this->front->page->result->item)
 							->set('facilitiesArr', $this->front->page->get_categoryauxiliars('facilities'))
 							->set('layoutsArr', $this->front->page->get_categoryauxiliars('layouts'))
+							->set('modalform', $modalform)
 							->build($this->front->page->view['view']);
 						break;
 
@@ -246,6 +248,95 @@ class Products extends Public_Controller
 
 
 
+	///////////////////////////////////////////////////
+	// SNED MESSAGE (TO BE IMPROVED) ------------// //
+	///////////////////////////////////////////////////
+
+	public function send_message_ajax()
+	{
+		$validation_rules = array(
+	                                array(
+	                                    'field' => 'name',
+	                                    'label' => 'lang:front:form-name',
+	                                    'rules' => 'trim|required'
+	                                ), 
+	                                array(
+	                                    'field' => 'email',
+	                                    'label' => 'lang:front:form-email',
+	                                    'rules' => 'trim|valid_email|required'
+	                                ), 
+	                                array(
+	                                    'field' => 'message',
+	                                    'label' => 'lang:front:form-message',
+	                                    'rules' => 'trim|required'
+	                                ),                                                                 
+                            	);	
+        //json response
+        $data->response = null;
+        $this->form_validation->set_rules($validation_rules);           
+        // Validate the data
+        if($this->form_validation->run())
+        {
+        	$item = $this->get_frontitem();
+        	if($item)
+        	{
+        		$message = $this->process_message($item);
+	            $sent = $this->send_message($message);
+	            $data->response = true;
+	            $data->Error = false;
+	            $data->message = 'Mensaje enviado.';            
+        	}
+        	else
+	        	{
+		            $data->response = true;
+		            $data->Error = true;
+		            $data->message = 'Error (codigo:itemNotFound)';
+	        	}      	
+		}
+		else
+			{
+	            $data->response = true;
+	            $data->Error = true;
+	            $data->message = validation_errors(); 
+			} 		
+        echo json_encode($data);		
+	}
+
+
+	private function get_frontitem()
+	{
+		$this->load->model('products_frontend_1_m');		
+		switch($this->input->post('dataFviewid'))
+		{
+			case '300':		
+						$data = array(
+										'prod_cat_slug'=>$this->input->post('dataFprod_cat_slug'),
+										'loc_city_slug'=>$this->input->post('dataFloc_city_slug'),
+										'loc_slug'=>$this->input->post('dataFloc_slug'),
+										'space_slug'=>$this->input->post('dataFspace_slug'),																																	
+										);
+						return $this->products_frontend_1_m->get_item_space_MSG($data);
+						break;
+			default: 
+						return false;				
+		}
+	}
+
+
+	private function process_message($item)
+	{
+
+	}
+
+
+	private function send_message($message)
+	{
+
+	}
+
+
+
+
 	//////////////////////////////
 	// AUX -----------------// //
 	//////////////////////////////
@@ -259,6 +350,9 @@ class Products extends Public_Controller
 		var_dump($this->front->page->get_result());
 		die;	
 	}
+
+
+
 
 
 }

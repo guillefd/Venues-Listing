@@ -435,4 +435,34 @@ class Products_frontend_1_m extends MY_Model
 				return null;
 			}
 	}
-}	
+
+
+
+//////////////////////////////////////////
+// MESSAGE QUERYS ------------------/// //
+//////////////////////////////////////////
+
+	function get_item_space_MSG($data = array())
+	{
+		if(empty($data))
+		{
+			return false;
+		}
+		$data = array(
+						'prod_cat_slug' => $data['prod_cat_slug'],
+						'loc_city_slug' => $data['loc_city_slug'],
+						'loc_slug' => $data['loc_slug'],
+						'space_slug' => $data['space_slug'],	
+					 );
+		$q = $this->db->get_where($this->t_front, $data);
+		if($q->num_rows() > 0)
+		{			
+			return $q->row();
+		}
+		else
+			{
+				return false;
+			}
+	}
+
+}
