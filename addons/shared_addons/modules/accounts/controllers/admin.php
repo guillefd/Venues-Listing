@@ -205,7 +205,7 @@ class Admin extends Admin_Controller
         $this->_gen_dropdown_list();
 		// Create pagination links
 		$total_rows = $this->accounts_m->search('counts');                
-        $pagination = create_pagination('admin/accounts/index', $total_rows, 10);
+        $pagination = create_pagination('admin/accounts/index', $total_rows, 20);
         $post_data['pagination'] = $pagination;
         $post_data['active'] = 1; //only active accounts           
 		// Using this data, get the relevant results

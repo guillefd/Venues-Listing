@@ -49,7 +49,7 @@ public function index()
 {	
     // Create pagination links
     $total_rows = $this->products_spaces_m->search('counts');
-    $pagination = create_pagination('admin/products/spaces/index', $total_rows, 5, 5);
+    $pagination = create_pagination('admin/products/spaces/index', $total_rows, 20, 5);
     $post_data['pagination']  = $pagination;                   			
     // Using this data, get the relevant results
     $spaces = $this->products_spaces_m->search('results',$post_data);   

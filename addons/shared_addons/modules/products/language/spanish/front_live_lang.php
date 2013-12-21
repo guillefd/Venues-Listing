@@ -31,6 +31,8 @@ $lang['front:contact']				= 'Contacto';
 $lang['front:phone']				= 'Telefono';
 $lang['front:mobile']				= 'Movil';
 $lang['front:email']				= 'Email';
+$lang['front:message']				= 'Consulta';
+$lang['front:name']					= 'Nombre';
 
 $lang['front:location']				= 'Locación';
 $lang['front:loc_type']				= 'Tipo de locación';
@@ -75,7 +77,10 @@ $lang['front:authorize_long']		= 'Datos validados, autorizar publicación';
 
 //buttons
 
-
+//FORM
+$lang['front:form-email']			= 'Email';
+$lang['front:form-message']			= 'Consulta';
+$lang['front:form-name']			= 'Nombre';
 
 //messages
 $lang['front:currently_no_items'] 	= 'No hay publicaciones aun.';

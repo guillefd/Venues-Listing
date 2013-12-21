@@ -234,7 +234,7 @@
 								<i class="fa fa-home"></i> <?php echo $item->loc_type ?><br>
 								<i class="fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' '.round_number($item->loc_geo_street_number).', '.$item->loc_city; ?>
 							</p>							
-							<button class="btn large amrblue btn-block">Contactanos</button>
+							<button class="btn large amrblue btn-block" data-toggle="modal" data-target="#amrformmessage">Envianos una consulta</button>
 						</div>
 					</div>
 				</div>
@@ -243,3 +243,6 @@
 		</div>	
 	</div>
 </div>
+
+<!-- Modal -->
+<?php echo $modalform; ?>

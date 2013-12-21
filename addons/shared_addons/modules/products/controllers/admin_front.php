@@ -69,7 +69,7 @@ class Admin_Front extends Admin_Controller
 	    // Create pagination links
 	    $total_rows = $this->products_front_m->search_draft('counts', $post_data);
         //params (URL -for links-, Total records, records per page, segment number )
-        $post_data['pagination'] = create_pagination('admin/products/front/index/'.$typeid.'/'.$stateview.'/', $total_rows, 5, 7);             
+        $post_data['pagination'] = create_pagination('admin/products/front/index/'.$typeid.'/'.$stateview.'/', $total_rows, 20, 7);             
         //query with limits
         $items = $this->products_front_m->search_draft('results', $post_data);
         $items = populate_front_items_ids($items, $this->dd_array); 

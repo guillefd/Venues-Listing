@@ -49,7 +49,7 @@ class Admin extends Admin_Controller
 		// Create pagination links
 		$tot_rows = $this->products_m->join_search('counts');
         //params (URL -for links-, Total records, records per page, segmnet number )	
-        $post_data['pagination'] = create_pagination('admin/products/index', $tot_rows, 5, 4);  
+        $post_data['pagination'] = create_pagination('admin/products/index', $tot_rows, 20, 4);  
         //query with limits              
 		$products = $this->products_m->join_search('results', $post_data);               
         $products = populate_product_ids($products, $this->dd_array);

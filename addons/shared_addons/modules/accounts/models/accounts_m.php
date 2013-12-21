@@ -70,15 +70,15 @@ class Accounts_m extends MY_Model {
             }
             //Ordenar alfabeticamente
             $query.= " ORDER BY `name` ASC";            
-            // Limit the results based on 1 number or 2 (2nd is offset)
-            if (isset($data['pagination']['limit']) && is_array($data['pagination']['limit']))
+            // Limit the results based pagination
+            if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
             {
-                    $query.= " LIMIT ".$data['pagination']['limit'][1].", ".$data['pagination']['limit'][0];
+                $query.= " LIMIT ".$data['pagination']['offset'].", ".$data['pagination']['limit'];;
             }        
-            elseif (isset($data['pagination']['limit']))
-            {    
-                    $query.= " LIMIT ".$data['pagination']['limit'];
-            }        
+                elseif (isset($data['pagination']['limit']))
+                {    
+                    $query.= ", ".$data['pagination']['limit'];
+                }             
             //fire query
             $q = $this->db->query($query);         
             if($mode =='counts')
