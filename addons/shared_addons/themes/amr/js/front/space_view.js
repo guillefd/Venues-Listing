@@ -46,7 +46,9 @@ $(document).ready(function(){
 	        		if(result.Error === false)
 	        		{       			
 	        			$('#msgbox').addClass('alert alert-success');	        	        
-	        			$('#msgbox').html(result.message);			
+	        			$('#msgbox').html(result.message);
+	        			$('textarea[name="message"]').val('');
+
 	        		}
 	        	}
 	        	else

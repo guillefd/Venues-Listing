@@ -285,7 +285,7 @@ class Products extends Public_Controller
         		{
 		            $data->response = true;
 		            $data->Error = false;
-		            $data->message = 'Mensaje enviado.';         			
+		            $data->message = '¡Mensaje enviado!';         			
         		}
         		else
 	        		{
@@ -357,7 +357,8 @@ class Products extends Public_Controller
 						'subject'=>'Nueva consulta para '.$item->space_denomination.'-'.$item->space_name.'@'.$item->loc_slug.' de #'.$this->input->post('name'),
 					);
 		$this->products_frontend_1_m->save_message_data($db_data);
-		return $this->send_email($db_data, $item, 'location');
+return true;
+		return ( $this->send_email($db_data, $item, 'location') && $this->send_email($db_data, $item, 'sender') ) ;
 	}
 
 
@@ -366,7 +367,7 @@ class Products extends Public_Controller
 		if($item->seller_account_id > 0)
 		{
 			$this->load->library('accounts');	
-			$account = get_account($item->seller_account_id);	
+			$account = $this->accounts->get_account($item->seller_account_id);	
 			return $account->email;				
 		}
 		else
@@ -405,8 +406,6 @@ class Products extends Public_Controller
                         $body      = $this->gen_email_message($data, $target, $item); 
                         break;                        
         }        
-//print_r($body);
-//die;
         //send
         $this->email->from($from, $from_name);
         $this->email->reply_to($reply_to);
@@ -515,8 +514,93 @@ class Products extends Public_Controller
 									</div>';
                             break;
             case 'sender':    
-                            $html = '';
-                                    break;
+                            $html = '<div style="padding:0">
+										<span style="color:#fff;font-size:1px;display:none!important">Tu consulta fue enviada y te responderan en breve.</span>  
+										<table width="100%" cellspacing="0" cellpadding="0" border="0"> 
+											<tbody>
+												<tr> 
+													<td align="left" style="padding:10px 20px 15px 0"> 
+														<a href="http://www.americameetingrooms.com" target="_blank">
+															<img alt="MercadoLibre" border="0" width="250" height="73" src="http://cdn.spaces.americameetingrooms.com/logos/AMR-sm-short.png"></a> 
+													</td> 
+												</tr> 
+												<tr> 
+													<td width="100%" height="1" style="border-top:solid 1px #e8e8e8;display:block;font-size:1px">&nbsp;
+													</td> 
+												</tr> 
+												<tr>
+													<td height="30" style="font-size:1px">&nbsp;</td>
+												</tr> 
+											</tbody>
+										</table>  
+										<table width="100%" cellspacing="0" cellpadding="0" border="0" style="padding-right:20px"> 
+											<tbody>
+												<tr> 
+													<td> 
+														<span style="color:#333333;font-size:14px;font-family:Arial">Hola "'.$data['sender_name'].'",</span> 
+													</td> 
+												</tr> 
+												<tr>
+													<td height="10" style="font-size:1px">&nbsp;</td>
+												</tr> 
+												<tr> 
+													<td> 
+														<span style="margin:0;display:block;color:#333333;padding:0 0 5px 0;color:#333333;font-family:Arial;font-size:14px">
+														Enviaste una consulta para <strong>'.$item->space_denomination.' '.$item->space_name.'</strong>, en '.$item->loc_name.':
+														</span>
+													</td>
+													<td> 
+													</td>
+												</tr> 
+												<tr> 
+													<td colspan="2">
+														<div style="border: 1px solid #ededed;margin:10px;padding:10px;"> 
+															<span style="margin:0;display:block;color:#333333;padding:0 0 5px 0;color:#333333;font-family:Arial;font-size:14px">
+															<p><strong>Tu consulta:</strong></p> '.$data['message'].'
+															</span>
+														</div>
+													</td>
+												</tr>												
+												<tr> 
+													<td height="10" style="font-size:1px">&nbsp;</td> 
+												</tr> 
+											</tbody>
+										</table> 
+										<table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:40px;"> 
+											<tbody>
+												<tr>
+													<td> 
+														<div style="color:#333333;font-family:Arial;font-size:12px;margin-bottom:25px;">'.$item->loc_name.' ya recibió tu consulta y en breve te estará respondiendo.</div>
+													</td>
+												</tr>
+												<tr> 
+													<td> 
+														<span style="color:#333333;font-family:Arial;font-size:14px">Saludos,</span><br> 
+														<span style="color:#333333;font-family:Arial;font-size:14px"><a href="http://www.americameetingrooms.com">America Meeting Rooms</a></span> 
+													</td> 
+												</tr> 
+												<tr>
+													<td height="15" style="font-size:1px">&nbsp;</td>
+												</tr> 
+											</tbody>
+										</table>   
+										<table width="100%" cellspacing="0" cellpadding="0" border="0"> 
+											<tbody>
+												<tr> 
+													<td width="100%" style="border-bottom:solid 1px #e8e8e8;display:block;padding-top:5px"></td> 
+												</tr> 
+												<tr> 
+													<td style="padding:10px 0 0 0">
+														<span style="color:#999999;font-size:11px;font-family:Arial">Gracias por visitarnos en <a href="http://www.americameetingrooms.com" target="_blank">America Meeting Rooms</a>.</span>
+													</td> 
+												</tr> 
+												<tr>
+													<td height="30" style="font-size:1px">&nbsp;</td>
+												</tr> 
+											</tbody>
+										</table> 
+									</div>';
+                            break;
         }
         return $html;        
     }
