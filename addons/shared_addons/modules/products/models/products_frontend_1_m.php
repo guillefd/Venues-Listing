@@ -465,4 +465,13 @@ class Products_frontend_1_m extends MY_Model
 			}
 	}
 
+	function save_message_data($data = array())
+	{
+		if(empty($data))
+		{
+			return false;
+		}
+		$this->db->insert('products_messages', $data);
+	}
+
 }

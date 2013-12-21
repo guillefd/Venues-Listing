@@ -254,6 +254,7 @@ class Products extends Public_Controller
 
 	public function send_message_ajax()
 	{
+		$this->load->model('products_frontend_1_m');		
 		$validation_rules = array(
 	                                array(
 	                                    'field' => 'name',
@@ -280,11 +281,18 @@ class Products extends Public_Controller
         	$item = $this->get_frontitem();
         	if($item)
         	{
-        		$message = $this->process_message($item);
-	            $sent = $this->send_message($message);
-	            $data->response = true;
-	            $data->Error = false;
-	            $data->message = 'Mensaje enviado.';            
+        		if($this->process_message($item)=== true)
+        		{
+		            $data->response = true;
+		            $data->Error = false;
+		            $data->message = 'Mensaje enviado.';         			
+        		}
+        		else
+	        		{
+			            $data->response = true;
+			            $data->Error = true;
+			            $data->message = 'Error al enviar el mensaje, vuelve a intentarlo.';   
+	        		}
         	}
         	else
 	        	{
@@ -304,8 +312,7 @@ class Products extends Public_Controller
 
 
 	private function get_frontitem()
-	{
-		$this->load->model('products_frontend_1_m');		
+	{		
 		switch($this->input->post('dataFviewid'))
 		{
 			case '300':		
@@ -325,15 +332,194 @@ class Products extends Public_Controller
 
 	private function process_message($item)
 	{
-
+		$data = array(
+						'prod_cat_slug'=>$item->prod_cat_slug,
+						'loc_city_slug'=>$item->loc_city_slug,
+						'loc_slug'=>$item->loc_slug,
+						'space_slug'=>$item->space_slug,
+						'loc_name'=>$item->loc_name,
+						'loc_id'=>$item->loc_id,
+						'space_id'=>$item->space_id,
+						'space_name'=>$item->space_name,	
+						'reference'=>$this->input->post('dataFreference'),						
+					);
+		$db_data = array(
+						'prod_cat_id'=>$item->prod_cat_id,
+						'prod_account_id'=>$item->account_id,
+						'prod_id'=>$item->prod_id,
+						'front_version'=>$item->front_version,
+						'view_id'=>$this->input->post('dataFviewid'),
+						'data'=>serialize($data),
+						'message'=>$this->input->post('message'),
+						'account_agent_email'=>$this->get_product_agent_email($item),
+						'sender_email'=>$this->input->post('email'),
+						'sender_name'=>$this->input->post('name'),
+						'subject'=>'Nueva consulta para '.$item->space_denomination.'-'.$item->space_name.'@'.$item->loc_slug.' de #'.$this->input->post('name'),
+					);
+		$this->products_frontend_1_m->save_message_data($db_data);
+		return $this->send_email($db_data, $item, 'location');
 	}
 
 
-	private function send_message($message)
+	private function get_product_agent_email($item)
 	{
-
+		if($item->seller_account_id > 0)
+		{
+			$this->load->library('accounts');	
+			$account = get_account($item->seller_account_id);	
+			return $account->email;				
+		}
+		else
+			{
+				return $item->loc_email;
+			}
 	}
 
+
+    public function send_email($data, $item, $target)
+    { 
+        //config
+        $config['protocol'] = 'sendmail';
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'utf-8';
+        $this->email->initialize($config);        
+
+        switch($target)
+        {
+            case 'location':
+                        //message
+                        $from      = $data['sender_email'];
+                        $from_name = $data['sender_name'];
+                        $reply_to  = $data['sender_email'];
+                        $to        = $data['account_agent_email'];
+                        $subject   = $data['subject'];
+                        $body      = $this->gen_email_message($data, $target, $item); 
+                        break;
+            case 'sender':
+                        //message
+                        $from      = 'info@amrooms.com';
+                        $from_name = 'America Meeting Rooms';
+                        $reply_to  = 'info@amrooms.com';
+                        $to        = $data['sender_email'];
+                        $subject   = $data['subject'];
+                        $body      = $this->gen_email_message($data, $target, $item); 
+                        break;                        
+        }        
+//print_r($body);
+//die;
+        //send
+        $this->email->from($from, $from_name);
+        $this->email->reply_to($reply_to);
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($body);        
+        return $this->email->send();        
+    } 
+
+    public function gen_email_message($data, $target, $item)
+    {
+        date_default_timezone_set('America/Buenos_Aires');
+        $now = time();
+        switch($target)
+        {
+            case 'location':
+                            $html = '<div style="padding:0">
+										<span style="color:#fff;font-size:1px;display:none!important">Respóndele rápido para aumentar tus ventas.</span>  
+										<table width="100%" cellspacing="0" cellpadding="0" border="0"> 
+											<tbody>
+												<tr> 
+													<td align="left" style="padding:10px 20px 15px 0"> 
+														<a href="http://www.americameetingrooms.com" target="_blank">
+															<img alt="MercadoLibre" border="0" width="250" height="73" src="http://cdn.spaces.americameetingrooms.com/logos/AMR-sm-short.png"></a> 
+													</td> 
+												</tr> 
+												<tr> 
+													<td width="100%" height="1" style="border-top:solid 1px #e8e8e8;display:block;font-size:1px">&nbsp;
+													</td> 
+												</tr> 
+												<tr>
+													<td height="30" style="font-size:1px">&nbsp;</td>
+												</tr> 
+											</tbody>
+										</table>  
+										<table width="100%" cellspacing="0" cellpadding="0" border="0" style="padding-right:20px"> 
+											<tbody>
+												<tr> 
+													<td> 
+														<span style="color:#333333;font-size:14px;font-family:Arial">Hola "'.$item->loc_name.'",</span> 
+													</td> 
+												</tr> 
+												<tr>
+													<td height="10" style="font-size:1px">&nbsp;</td>
+												</tr> 
+												<tr> 
+													<td> 
+														<span style="margin:0;display:block;color:#333333;padding:0 0 5px 0;color:#333333;font-family:Arial;font-size:14px">
+														Tienes una nueva consulta para <strong>'.$item->space_denomination.' '.$item->space_name.'</strong>:
+														</span>
+													</td>
+													<td> 
+													</td>
+												</tr> 
+												<tr> 
+													<td colspan="2">
+														<div style="border: 1px solid #ededed;margin:10px;padding:10px;"> 
+															<span style="margin:0;display:block;color:#333333;padding:0 0 5px 0;color:#333333;font-family:Arial;font-size:14px">
+															<p><strong>Consulta:</strong></p> '.$data['message'].'
+															</span>
+															<span style="margin:0;display:block;color:#333333;padding:0 0 5px 0;color:#333333;font-family:Arial;font-size:14px">
+															<p><strong>Nombre:</strong></p> '.$data['sender_name'].'
+															</span>
+															<span style="margin:0;display:block;color:#333333;padding:0 0 5px 0;color:#333333;font-family:Arial;font-size:14px">
+															<p><strong>Email:</strong></p> '.$data['sender_email'].'
+															</span>
+														</div>
+													</td>
+												</tr>												
+												<tr> 
+													<td height="10" style="font-size:1px">&nbsp;</td> 
+												</tr> 
+											</tbody>
+										</table> 
+										<table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:40px;"> 
+											<tbody>
+												<tr>
+													<td> 
+														<div style="color:#333333;font-family:Arial;font-size:12px;margin-bottom:25px;">Respóndele rápido para aumentar tus ventas.</div>
+													</td>
+												</tr>
+												<tr> 
+													<td> 
+														<span style="color:#333333;font-family:Arial;font-size:14px">Saludos,</span><br> 
+														<span style="color:#333333;font-family:Arial;font-size:14px"><a href="http://www.americameetingrooms.com">America Meeting Rooms</a></span> 
+													</td> 
+												</tr> 
+												<tr>
+													<td height="15" style="font-size:1px">&nbsp;</td>
+												</tr> 
+											</tbody>
+										</table>   
+										<table width="100%" cellspacing="0" cellpadding="0" border="0"> 
+											<tbody>
+												<tr> 
+													<td width="100%" style="border-bottom:solid 1px #e8e8e8;display:block;padding-top:5px"></td> 
+												</tr> 
+												<tr> 
+													<td style="padding:10px 0 0 0">
+														<span style="color:#999999;font-size:11px;font-family:Arial">Tenes preguntas? Contactanos a <a href="mailto:info@amrooms.com?Subject=[consulta de locatario]" target="_top">info@amrooms.com</a>.</span></td> </tr> 
+												<tr>
+													<td height="30" style="font-size:1px">&nbsp;</td>
+												</tr> 
+											</tbody>
+										</table> 
+									</div>';
+                            break;
+            case 'sender':    
+                            $html = '';
+                                    break;
+        }
+        return $html;        
+    }
 
 
 
