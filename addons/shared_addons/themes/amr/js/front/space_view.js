@@ -17,7 +17,7 @@ $(document).ready(function(){
 	// MESSAGES
 	/* BTN SEND MESSAGE */
 		$("#amrbtnsendspacemessage").on("click", function(e) { 
-			var link = BASE_URL + 'products/send_message_ajax';
+			var link = BASE_URL + 'alquiler-de-salas/messaging';
 			doAjaxQuery(link);
 		});	
 

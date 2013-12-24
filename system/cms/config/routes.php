@@ -60,8 +60,12 @@ $route['sitemap.xml']                       = 'sitemap/xml';
 
 // PRODUCTS REMAPS ---------------------------
 
+//messages
+$route['alquiler-de-salas/messaging']   	= 'products/process_product_message_ajax_request/100';
+
 //home search box
 $route['alquiler-de-salas']          		= 'pages';
+
 //search
 $route['alquiler-de-salas/(:any)']          = 'products/index/100';
 // $route['alquiler-de-sala/(:any)']           = 'products/index/1';
@@ -72,8 +76,6 @@ $route['alquiler-de-salas+(:any)']     		= 'products/index/100';
 // $route['alquiler-de-sala+(:any)']      		= 'products/index/1';
 // $route['alquiler-de-salon+(:any)']     		= 'products/index/1';
 // $route['alquiler-de-salones+(:any)']   		= 'products/index/1';
-
-
 
 
 /* End of file routes.php */

@@ -17,8 +17,8 @@ class Products_frontend_1_m extends MY_Model
 	protected $t_features = 'products_front__1_features';
 	protected $t_layouts = 'products_front__1_layouts';
 	protected $t_usetypes = 'products_front__1_usetypes';	
-
-
+	//messages table
+	protected $t_messages = 'products_messages__100';	
 
 
 //////////////////////////////////////////////////////////////////////
@@ -442,7 +442,7 @@ class Products_frontend_1_m extends MY_Model
 // MESSAGE QUERYS ------------------/// //
 //////////////////////////////////////////
 
-	function get_item_space_MSG($data = array())
+	function MSG_get_item_space($data = array())
 	{
 		if(empty($data))
 		{
@@ -471,7 +471,7 @@ class Products_frontend_1_m extends MY_Model
 		{
 			return false;
 		}
-		$this->db->insert('products_messages', $data);
+		$this->db->insert($this->t_messages, $data);
 	}
 
 }
