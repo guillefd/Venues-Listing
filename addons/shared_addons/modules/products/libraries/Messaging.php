@@ -3,7 +3,7 @@
 /**
  * Message Class
  *
- * Messages process
+ * Manage process and queue sending for each message
  *
  * @package			CodeIgniter
  * @subpackage      Libraries
@@ -15,8 +15,6 @@
 
 class Messaging
 {
-	public $msgcatlib;
-	public $dbcatmodel;
 	public $msg;
 	public $result;
 
@@ -26,15 +24,13 @@ class Messaging
 		switch($params['prodcatid'])
 		{
 			case ALQUILERDESALAS_CATID: 
-
-										$this->dbcatmodel = ci()->load->model('products_frontend_1_m');	
 										require_once 'messaging/prodcatid100/Msg_class.php';					    				
 									    break;
 
 			default:					return $this->result;						    
 		}				
-		ci()->config->load('product_'.ENVIRONMENT, TRUE);		
-		$params['cfgsettings'] = ci()->config->item('product_'.ENVIRONMENT);
+		ci()->config->load('messaging_'.ENVIRONMENT, TRUE);		
+		$params['cfgsettings'] = ci()->config->item('messaging_'.ENVIRONMENT);
 		$params['viewid'] = ci()->input->post('dataFviewid');
 		//new msg object
 		$this->msg = new msg($params);		
@@ -58,57 +54,50 @@ class Messaging
         // Validate the data
         if(ci()->form_validation->run())
         {
-        	$this->set_frontitem();
+        	$this->msg->set_frontitem();
         	if($this->msg->frontitem)
         	{
-        		if($this->process_message()=== true)
-        		{
-		            $data->response = true;
-		            $data->Error = false;
-		            $data->message = '¡Mensaje enviado!';         			
-        		}
-        		else
-	        		{
-			            $data->response = true;
-			            $data->Error = true;
-			            $data->message = 'Error al enviar el mensaje, vuelve a intentarlo.';   
-	        		}
+        		$this->process_message();
         	}
         	else
 	        	{
-		            $data->response = true;
-		            $data->Error = true;
-		            $data->message = 'Error (codigo:itemNotFound)';
+		            $this->result->response = true;
+		            $this->result->Error = true;
+		            $this->result->message = 'Error (codigo:itemNotFound)';
 	        	}      	
 		}
 		else
 			{
-	            $data->response = true;
-	            $data->Error = true;
-	            $data->message = validation_errors(); 
-			}
-		return $data;	 			
-	}
-
-
-	private function set_frontitem()
-	{		
-		$this->msg->set_frontitem_params(ci()->input->post());
-		$item = $this->dbcatmodel->MSG_get_item_space($this->msg->frontitemparams);
-		$this->msg->set_frontitem($item);
+	            $this->result->response = true;
+	            $this->result->Error = true;
+	            $this->result->message = validation_errors(); 
+			}		
 	}
 
 
 	private function process_message()
 	{
-		$this->msg->process_message();
-		$this->msg->set_dbdata();		
-		$this->dbcatmodel->save_message_data($this->msg->dbdata);
-		return ( $this->send_email('location') && $this->send_email('sender') ) ;
+		$this->msg->process_message();		
+		$this->msg->set_message_queuelist();
+		$this->msg->save_message_to_db();				
+$this->__dump();		
+		if( $this->msg->queuelist )
+		{
+            $this->result->response = true;
+            $this->result->Error = false;
+            $this->result->message = '¡Mensaje enviado!';         			
+		}
+		else
+    		{
+	            $this->result->response = true;
+	            $this->result->Error = true;
+	            $this->result->message = 'Error al enviar el mensaje, vuelve a intentarlo.';
+	            //set SENDATTEMPT to false in database row   
+    		}		
 	}
 
 
-    public function send_email($target)
+    public function run_queues()
     { 
         //config
         $config['protocol'] = 'sendmail';
@@ -116,9 +105,6 @@ class Messaging
         $config['charset'] = 'utf-8';
         ci()->email->initialize($config);   
 
-        $this->msg->set_msg_body($target); 
-$this->__dump();
-   
         switch($target)
         {       	
             case 'location':

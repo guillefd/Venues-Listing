@@ -2,6 +2,8 @@
 
 /**
  * Email templates Class
+ *
+ * Defines email template: design and parameters
  * 
  *
  * @package			CodeIgniter

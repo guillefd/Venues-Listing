@@ -3,7 +3,7 @@
 /**
  * Message Class for product category ID 100
  *
- * Messages process
+ * Defines message parameters and content
  *
  * @package			CodeIgniter
  * @subpackage      Libraries
@@ -24,49 +24,66 @@ class Msg
 	public $data;
 	public $dbdata;
 	public $template;
-	public $body;
+	public $queuelist;
+	private $dbcatmodel;
 
 	function __construct($params)
 	{
 		$this->prodcatid = $params['prodcatid'];
-		$this->set_config_settings($params['cfgsettings']);
 		$this->viewid = $params['viewid'];
-		$this->validationrules = $this->set_validation_rules();
-		$this->data = array();
-		$this->dbdata = array();	
-		$this->body = '';	
+		$this->set_config_settings($params['cfgsettings']);		
+		$this->init();
+		$this->dbcatmodel = ci()->load->model('products_frontend_1_m');	
+	   	$this->load_emailtemplate();	
 	}
 
-
-    function set_config_settings($settings)
-    {
+    private function set_config_settings($settings)
+    {  	
 		$this->cfg = array();
+		$this->cfg['msgdbtable'] = $settings['msg_db_table_name'][$this->prodcatid];
 		$this->cfg['dbfields'] = $settings['msg_db_fields'][$this->prodcatid];  
-		$this->cfg['emailparams'] = $settings['msg_email_params'];
-		$this->cfg['emailtemplate'] = $settings['msg_template_name'][$this->prodcatid]; 
+		$this->cfg['template'] = $settings['msg_template'][$this->prodcatid][$this->viewid];
+		$this->cfg['systemparams'] = $settings['msg_system_params']; 
     }
+
+	private function init()
+	{
+		$this->validationrules = $this->set_validation_rules();
+		$this->data = array();
+		$this->dbdata = array();
+		$this->queuelist = array();	
+	}
+
+	private function load_emailtemplate()
+	{
+    	$params = array('templatename'=>$this->cfg['template']['templatename']);
+    	ci()->load->library('emailtemplates', $params);   	
+    	$this->template = ci()->emailtemplates->tpl;		
+	}
+
 
 	private function set_validation_rules()
 	{
 		switch ($this->viewid)
 		{
-			case '300': 	return array(
-				                            array(
-				                                'field' => 'name',
-				                                'label' => 'lang:front:form-name',
-				                                'rules' => 'trim|required'
-				                            ), 
-				                            array(
-				                                'field' => 'email',
-				                                'label' => 'lang:front:form-email',
-				                                'rules' => 'trim|valid_email|required'
-				                            ), 
-				                            array(
-				                                'field' => 'message',
-				                                'label' => 'lang:front:form-message',
-				                                'rules' => 'trim|required'
-				                            ),                                                                 
-				                    	);	
+			case '300query': 	
+							return array(
+			                            array(
+			                                'field' => 'name',
+			                                'label' => 'lang:front:form-name',
+			                                'rules' => 'trim|required'
+			                            ), 
+			                            array(
+			                                'field' => 'email',
+			                                'label' => 'lang:front:form-email',
+			                                'rules' => 'trim|valid_email|required'
+			                            ), 
+			                            array(
+			                                'field' => 'message',
+			                                'label' => 'lang:front:form-message',
+			                                'rules' => 'trim|required'
+			                            ),                                                                 
+			                    	);	
 							break;
 
 			default: 
@@ -74,33 +91,31 @@ class Msg
 		}	
 	}
 
+	public function set_frontitem()
+	{		
+		$this->set_frontitem_params(ci()->input->post());
+		$this->frontitem = $this->dbcatmodel->MSG_get_item_space($this->frontitemparams);
+	}
+
 	public function set_frontitem_params($post)
 	{			
 		$this->frontitemparams = array();	
 		switch($this->viewid)
 		{
-			case '300':		
-						$this->frontitemparams = array(
-														'prod_cat_slug'=>$post['dataFprod_cat_slug'],
-														'loc_city_slug'=>$post['dataFloc_city_slug'],
-														'loc_slug'=>$post['dataFloc_slug'],
-														'space_slug'=>$post['dataFspace_slug'],
-														'reference'=>$post['reference'],
-														'message'=>$post['message'],
-														'email'=>$post['email'],
-														'name'=>$post['name'],																																	
-														);
-						break;
+			case '300query':		
+							$this->frontitemparams = array(
+															'prod_cat_slug'=>$post['dataFprod_cat_slug'],
+															'loc_city_slug'=>$post['dataFloc_city_slug'],
+															'loc_slug'=>$post['dataFloc_slug'],
+															'space_slug'=>$post['dataFspace_slug'],
+															'reference'=>$post['reference'],
+															'message'=>$post['message'],
+															'email'=>$post['email'],
+															'name'=>$post['name'],																																	
+															);
+							break;
 		}
 	}	
-
-	public function set_frontitem($item)
-	{
-		if($item)
-		{
-			$this->frontitem = $item;
-		}
-	}
 
 
 	public function process_message()
@@ -108,7 +123,7 @@ class Msg
 		switch($this->viewid)
 		{
 			/* consulta en vista espacio */
-			case '300':			
+			case '300query':			
 						$dataTOserialize = array(
 												'prod_cat_slug'=>$this->frontitem->prod_cat_slug,
 												'loc_city_slug'=>$this->frontitem->loc_city_slug,
@@ -125,13 +140,19 @@ class Msg
 										'prod_account_id'=>$this->frontitem->account_id,
 										'prod_id'=>$this->frontitem->prod_id,
 										'front_version'=>$this->frontitem->front_version,
+										'space_slug'=>$this->frontitem->space_slug,
+										'loc_slug'=>$this->frontitem->loc_slug,
 										'view_id'=>$this->viewid,
 										'data'=>serialize($dataTOserialize),
 										'comments'=>$this->frontitemparams['message'],
 										'account_agent_email'=>$this->get_product_agent_email($this->frontitem),
 										'sender_email'=>$this->frontitemparams['email'],
 										'sender_name'=>$this->frontitemparams['name'],
-										'subject'=>'Nueva consulta para '.$this->frontitem->space_denomination.'-'.$this->frontitem->space_name.'@'.$this->frontitem->loc_slug.' de #'.$this->frontitemparams['name'],
+										'sender_name+email'=>$this->frontitemparams['name'].' <'.$this->frontitemparams['email'].'>',
+										'subject'=>$this->cfg['template']['msgreference'].' '.$this->frontitemparams['reference'],
+										'amrfromaddress'=>$this->cfg['systemparams']['amrfromaddress'],
+										'amremail'=>$this->cfg['systemparams']['amremail'],
+										'amrname'=>$this->cfg['systemparams']['amrname'],																				
 									);	
 						break;															
 		}		
@@ -151,7 +172,7 @@ class Msg
 			}
 	}
 
-	public function set_dbdata()
+	private function set_dbdata()
 	{
 		foreach($this->cfg['dbfields'] as $field)
 		{
@@ -160,21 +181,57 @@ class Msg
 	}
 
 
-    public function set_msg_body($target)
-    {
-    	$params = array('templatename'=>$this->cfg['emailtemplate'][$this->viewid]);
-    	ci()->load->library('emailtemplates', $params);   	
-    	$this->template = ci()->emailtemplates->tpl;
-        switch($target)
-        {
-            case 'location':
-                            $html = '';
-                            break;
-            case 'sender':    
-                            $html = '';
-                            break;
-        }      
-    }	
+	public function set_message_queuelist()
+	{
+		foreach($this->cfg['template']['queue'] as $queuedata)
+		{
+			$this->set_queue_data($queuedata);
+		}   		 	
+	}
+
+	private function set_queue_data($queuedata)
+	{
+		$from = $queuedata['from'];
+		$to = $queuedata['to'];
+		$subject = $this->replace_subject_string_data_vars($queuedata['subject']);
+		$html = $queuedata['html'];
+		$queue = array(
+						'name'=>$queuedata['queuename'],
+						'from'=>$this->data[$from],
+						'to'=>$this->data[$to],
+						'subject'=>$subject,
+						'html'=>$html,							
+						);
+		array_push($this->queuelist, $queue);
+	}
+
+
+	public function save_message_to_db()
+	{
+		$this->set_dbdata();		
+		if(!empty($this->dbdata))
+		{
+			ci()->db->insert($this->cfg['msgdbtable'], $this->dbdata);
+		}
+	}
+
+
+	////////////////////////////////////////
+	// AUX ---------------------------// //
+	////////////////////////////////////////
+
+	private function replace_subject_string_data_vars($subjectArr)
+	{
+		foreach($subjectArr['vars'] as $var)
+		{
+			$subjectArr['string'] = str_replace('{'.$var.'}', $this->data[$var], $subjectArr['string']);
+		}
+		return $subjectArr['string'];
+	}
+	
+
+
+
 
 
 

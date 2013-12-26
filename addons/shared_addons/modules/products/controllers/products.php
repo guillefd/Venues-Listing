@@ -219,7 +219,7 @@ class Products extends Public_Controller
 						break;
 
 			case 300:			
-						$modalform = $this->load->view('frontend/modals/spacemodalform', $this->front->page, true);
+						$modalform = $this->load->view('frontend/modals/form300query', $this->front->page, true);
 						$this->template
 							->title($this->module_details['name'])
 							->set_layout('L_item_cat_1')
@@ -259,14 +259,15 @@ class Products extends Public_Controller
 			case ALQUILERDESALAS_CATID: 
 											$params = array('prodcatid'=>$prodCatID);
 						    				$this->load->library('messaging', $params);			
-						    				$data = $this->messaging->process_request();	    									
+						    				$this->messaging->process_request();	    									
 											break;
 			default: 
 								            $data->response = true;
 								            $data->Error = true;
 								            $data->message = 'Error (codigo:catidNotExist)';
+								            return $data;
 		}
-        echo json_encode($data);			
+        echo json_encode($this->messaging->result);			
 	}
 
 

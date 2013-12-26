@@ -16,9 +16,7 @@ class Products_frontend_1_m extends MY_Model
 	protected $t_facilities = 'products_front__1_facilities';
 	protected $t_features = 'products_front__1_features';
 	protected $t_layouts = 'products_front__1_layouts';
-	protected $t_usetypes = 'products_front__1_usetypes';	
-	//messages table
-	protected $t_messages = 'products_messages__100';	
+	protected $t_usetypes = 'products_front__1_usetypes';		
 
 
 //////////////////////////////////////////////////////////////////////
@@ -463,15 +461,6 @@ class Products_frontend_1_m extends MY_Model
 			{
 				return false;
 			}
-	}
-
-	function save_message_data($data = array())
-	{
-		if(empty($data))
-		{
-			return false;
-		}
-		$this->db->insert($this->t_messages, $data);
 	}
 
 }
