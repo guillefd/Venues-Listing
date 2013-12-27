@@ -142,6 +142,9 @@ class Msg
 										'front_version'=>$this->frontitem->front_version,
 										'space_slug'=>$this->frontitem->space_slug,
 										'loc_slug'=>$this->frontitem->loc_slug,
+										'loc_name'=>$this->frontitem->loc_name,
+										'space_full_name'=>$this->frontitem->space_denomination.' '.$this->frontitem->space_name,
+										'block_bodymsg'=>'form fields info',
 										'view_id'=>$this->viewid,
 										'data'=>serialize($dataTOserialize),
 										'comments'=>$this->frontitemparams['message'],
@@ -193,8 +196,8 @@ class Msg
 	{
 		$from = $queuedata['from'];
 		$to = $queuedata['to'];
-		$subject = $this->replace_subject_string_data_vars($queuedata['subject']);
-		$html = $queuedata['html'];
+		$subject = $this->replace_string_data_vars($queuedata['subject']);
+		$html = $this->set_email_html($queuedata['html']);
 		$queue = array(
 						'name'=>$queuedata['queuename'],
 						'from'=>$this->data[$from],
@@ -216,19 +219,76 @@ class Msg
 	}
 
 
+	private function set_email_html($queuehtmlArr)
+	{
+		$html = '';
+		foreach($queuehtmlArr as $section=>$reg)
+		{
+			$section = $this->template->html[$section];
+			foreach($reg as $htmlvarslug=>$string)
+			{		
+				//replace strings varslug with data values
+				$string = $this->replace_string_data_vars($string);
+				//replace html varslugs with string
+				$section = str_replace('{'.$htmlvarslug.'}', $string, $section);				
+			}			
+			$html.=$section;
+		}	
+		return $html;
+	}
+
+
 	////////////////////////////////////////
 	// AUX ---------------------------// //
 	////////////////////////////////////////
 
-	private function replace_subject_string_data_vars($subjectArr)
+
+	private function replace_string_data_vars($string)
 	{
-		foreach($subjectArr['vars'] as $var)
+		$varsArr = $this->get_varslug_array($string);
+		foreach($varsArr as $var)
 		{
-			$subjectArr['string'] = str_replace('{'.$var.'}', $this->data[$var], $subjectArr['string']);
+			$string = str_replace('{'.$var.'}', $this->data[$var], $string);
 		}
-		return $subjectArr['string'];
+		return $string;
 	}
 	
+	/**
+	 * [get_varslug_array find this format -> {var_slug}]
+	 * @param  string $string [description]
+	 * @return [type]         [description]
+	 */
+	private function get_varslug_array($string = '')
+	{	
+		$strArr = str_split($string);
+		$varsArr = array();
+		$found = false;
+		$varslug = '';
+		for($i=0; $i<count($strArr); $i++)
+		{
+			if(!$found)
+			{
+				if($strArr[$i]=='{')
+				{
+					$found = true;
+				}
+			}
+			else
+				{
+					if($strArr[$i]=='}')
+					{
+						array_push($varsArr, $varslug);
+						$varslug = '';
+						$found = false;
+					}
+					else
+						{
+							$varslug.= $strArr[$i];							
+						}
+				}
+		}
+		return $varsArr;
+	}
 
 
 
