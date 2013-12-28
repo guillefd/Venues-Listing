@@ -1,18 +1,28 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/* API */
+
+$config['msg_db_api_queue']				= 'messaging_email_api_queue';
+$config['msg_db_api_queue_response']	= 'messaging_email_api_queue_response';
+$config['msg_db_api_queue_events']		= 'messaging_email_api_queue_events';
+
+
 /* MESSAGGING --------------------------------------------------------------*/
 
 $config['msg_system_params'] = array(
 									'amrfromaddress'=>'America Meeting Rooms <info@amrooms.com>',
-									'amremail'=>'info@amrooms.com',
+									'amremail'=>'info@amrooms.com',									
+									'amrnoticeaddress'=>'America Meeting Rooms <notifications@amrooms.com>',
+									'amrnoticeemail'=>'notifications@amrooms.com',
 									'amrname'=>'America Meeting Rooms',
 									);
 
-$config['msg_db_table_name'] = array(
-										100 => 'products_messages__100',
-										101 => 'products_messages__101',
-										102 => 'products_messages__102',										
+$config['msg_db_form_messages'] = array(
+										100 => 'products_formmessages__100',
+										101 => 'products_formmessages__101',
+										102 => 'products_formmessages__102',										
 									);
+
 $config['msg_db_fields'] = array(
 									100 =>array(
 												'prod_id',
@@ -44,15 +54,16 @@ $config['msg_db_fields'] = array(
 $config['msg_template'] = array(
 								100 => array( 
 									        /* formname , views/frontend/modals/form{formname} */
-											'300query'=>array(
+											'form300query'=>array(
 														'msgreference'=>'space-new-query',
 														'templatename'=>'amrbasic',
 														'queue'=>array(
 																		array(
+																				'type'=>'conversation',
 																				'queuename'=>'space-new-query_to-location',
 																				/* $this->data array key */
-																				'from'=>'sender_name+email',
-																				'to'=>'account_agent_email',
+																				'from'=>'{sender_name} <{sender_email}>',
+																				'to'=>'{account_agent_email}',
 																				'subject'=>'Nueva consulta para {space_slug}@{loc_slug} de #{sender_name}',
 																				'html'=>array(
 																								'opentag'=>array(),
@@ -82,9 +93,10 @@ $config['msg_template'] = array(
 																								),																			
 																			),
 																		array(
+																				'type'=>'notification',																			
 																				'queuename'=>'space-new-query_copy-to-sender',
-																				'from'=>'amrfromaddress',
-																				'to'=>'sender_email',
+																				'from'=>'{space_full_name} - {loc_name} <{amrnoticeemail}>',
+																				'to'=>'{sender_email}',
 																				'subject'=>'Tu consulta para {space_slug}@{loc_slug} de #{sender_name}',										
 																				'html'=>array(
 																								'opentag'=>array(),
@@ -115,7 +127,7 @@ $config['msg_template'] = array(
 																			),
 																		),
 														),
-											'400query'=>array(
+											'form400query'=>array(
 														'name'=>'amrbasic',
 														'bodyparams'=>array(
 																		''=>'',

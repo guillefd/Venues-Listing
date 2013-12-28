@@ -79,10 +79,10 @@ class Messaging
 	{
 		$this->msg->process_message();		
 		$this->msg->set_message_queuelist();
-		$this->msg->save_message_to_db();				
-$this->__dump();		
-		if( $this->msg->queuelist )
+		$this->msg->save_message_to_db();							
+		if( $this->msg->queuelist>0 )
 		{
+			$this->run_queues();
             $this->result->response = true;
             $this->result->Error = false;
             $this->result->message = '¡Mensaje enviado!';         			
@@ -91,49 +91,20 @@ $this->__dump();
     		{
 	            $this->result->response = true;
 	            $this->result->Error = true;
-	            $this->result->message = 'Error al enviar el mensaje, vuelve a intentarlo.';
-	            //set SENDATTEMPT to false in database row   
+	            $this->result->message = 'Error al enviar el mensaje, vuelve a intentarlo.'; 
     		}		
 	}
 
 
     public function run_queues()
     { 
-        //config
-        $config['protocol'] = 'sendmail';
-        $config['mailpath'] = '/usr/sbin/sendmail';
-        $config['charset'] = 'utf-8';
-        ci()->email->initialize($config);   
-
-        switch($target)
-        {       	
-            case 'location':
-                        //message
-                        $from      = $this->msg->data['sender_email'];
-                        $from_name = $this->msg->data['sender_name'];
-                        $reply_to  = $this->msg->data['sender_email'];
-                        $to        = $this->msg->data['account_agent_email'];
-                        $subject   = $this->msg->data['subject'];
-                        $body      = $this->msg->data['body']; 
-                        break;
-
-            case 'sender':
-                        //message
-                        $from      = $this->msg->cfg['emailparams']['amrfromaddress'];
-                        $from_name = $this->msg->cfg['emailparams']['amrfromname'];
-                        $reply_to  = $this->msg->cfg['emailparams']['amrreplyto'];
-                        $to        = $this->msg->data['sender_email'];
-                        $subject   = $this->msg->data['subject'];
-                        $body      = $this->msg->data['body'];  
-                        break;                        
-        }        
-        //send
-        ci()->email->from($from, $from_name);
-        ci()->email->reply_to($reply_to);
-        ci()->email->to($to);
-        ci()->email->subject($subject);
-        ci()->email->message($body);        
-        return ci()->email->send();        
+$this->__dump();       	
+    	foreach($this->msg->queuelist as $queue)
+    	{ 		
+    		//insert queue to DB
+			//API CALL 
+			//save API result
+    	}     
     } 
 
 

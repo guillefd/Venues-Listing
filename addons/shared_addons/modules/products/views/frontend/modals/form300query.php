@@ -18,7 +18,7 @@
                         <?php foreach($view['urifields'] as $field): ?>
                         <input type="hidden" name="dataF<?php echo $field; ?>" value="<?php echo $result->item->$field; ?>"> 
                         <?php endforeach; ?>
-                        <input type="hidden" name="dataFviewid" value="300query">
+                        <input type="hidden" name="dataFviewid" value="form300query">
                     </div>
                 </div>
                 <div class="form-group">

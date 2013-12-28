@@ -23,6 +23,7 @@ class Msg
 	public $frontitem;
 	public $data;
 	public $dbdata;
+	public $dbinsertedID;
 	public $template;
 	public $queuelist;
 	private $dbcatmodel;
@@ -40,7 +41,7 @@ class Msg
     private function set_config_settings($settings)
     {  	
 		$this->cfg = array();
-		$this->cfg['msgdbtable'] = $settings['msg_db_table_name'][$this->prodcatid];
+		$this->cfg['msgformdb'] = $settings['msg_db_form_messages'][$this->prodcatid];
 		$this->cfg['dbfields'] = $settings['msg_db_fields'][$this->prodcatid];  
 		$this->cfg['template'] = $settings['msg_template'][$this->prodcatid][$this->viewid];
 		$this->cfg['systemparams'] = $settings['msg_system_params']; 
@@ -66,7 +67,7 @@ class Msg
 	{
 		switch ($this->viewid)
 		{
-			case '300query': 	
+			case 'form300query': 	
 							return array(
 			                            array(
 			                                'field' => 'name',
@@ -102,7 +103,7 @@ class Msg
 		$this->frontitemparams = array();	
 		switch($this->viewid)
 		{
-			case '300query':		
+			case 'form300query':		
 							$this->frontitemparams = array(
 															'prod_cat_slug'=>$post['dataFprod_cat_slug'],
 															'loc_city_slug'=>$post['dataFloc_city_slug'],
@@ -123,7 +124,7 @@ class Msg
 		switch($this->viewid)
 		{
 			/* consulta en vista espacio */
-			case '300query':			
+			case 'form300query':			
 						$dataTOserialize = array(
 												'prod_cat_slug'=>$this->frontitem->prod_cat_slug,
 												'loc_city_slug'=>$this->frontitem->loc_city_slug,
@@ -154,7 +155,9 @@ class Msg
 										'sender_name+email'=>$this->frontitemparams['name'].' <'.$this->frontitemparams['email'].'>',
 										'subject'=>$this->cfg['template']['msgreference'].' '.$this->frontitemparams['reference'],
 										'amrfromaddress'=>$this->cfg['systemparams']['amrfromaddress'],
-										'amremail'=>$this->cfg['systemparams']['amremail'],
+										'amremail'=>$this->cfg['systemparams']['amremail'],										
+										'amrnoticeaddress'=>$this->cfg['systemparams']['amrnoticeaddress'],
+										'amrnoticeemail'=>$this->cfg['systemparams']['amrnoticeemail'],
 										'amrname'=>$this->cfg['systemparams']['amrname'],																				
 									);	
 						break;															
@@ -194,14 +197,14 @@ class Msg
 
 	private function set_queue_data($queuedata)
 	{
-		$from = $queuedata['from'];
-		$to = $queuedata['to'];
+		$from = $this->replace_string_data_vars($queuedata['from']);
+		$to = $this->replace_string_data_vars($queuedata['to']);
 		$subject = $this->replace_string_data_vars($queuedata['subject']);
 		$html = $this->set_email_html($queuedata['html']);
 		$queue = array(
 						'name'=>$queuedata['queuename'],
-						'from'=>$this->data[$from],
-						'to'=>$this->data[$to],
+						'from'=>$from,
+						'to'=>$to,
 						'subject'=>$subject,
 						'html'=>$html,							
 						);
@@ -214,7 +217,8 @@ class Msg
 		$this->set_dbdata();		
 		if(!empty($this->dbdata))
 		{
-			ci()->db->insert($this->cfg['msgdbtable'], $this->dbdata);
+			ci()->db->insert($this->cfg['msgformdb'], $this->dbdata);
+			$this->dbinsertedID = ci()->db->insert_id();
 		}
 	}
 
