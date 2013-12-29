@@ -90,33 +90,34 @@ function validation_rules($typeID = 0)
 }
 
 
-function populate_product_ids($products, $dd_array)
-{
-	if(is_array($products))
-	{
-		foreach ($products as $product) 
-		{
-			$result[] = populate_product_ids_iteration($product, $dd_array);
-		}
-	}
-	else
-		{
-			$result = populate_product_ids_iteration($products, $dd_array);		
-		}
-	return $result;
-}
+// function populate_product_ids($products, $dd_array)
+// {
+// 	if(is_array($products))
+// 	{
+// 		foreach ($products as $product) 
+// 		{
+// 			$result[] = populate_product_ids_iteration($product, $dd_array);
+// 		}
+// 	}
+// 	else
+// 		{
+// 			$result = populate_product_ids_iteration($products, $dd_array);		
+// 		}
+// 	return $result;
+// }
 
-function populate_product_ids_iteration($product, $dd_array)
-{
-	$product->category = isset($dd_array->cat_products_array[$product->category_id]) ? $dd_array->cat_products_array[$product->category_id] : '';
-	$product->account = ci()->products->get_account_field_by_id($product->account_id, 'name');
-	$product->seller_account = ($product->outsourced == 1) && (isset($product->seller_account_id)) ? ci()->products->get_account_field_by_id($product->seller_account_id, 'name') : '';
-	$product->outsourced_txt = $dd_array->dd_yes_no[$product->outsourced];
-	$product->location = ci()->products->get_location_field_by_id($product->location_id, 'name');
-	$product->space = ci()->products->get_space_field_by_id($product->space_id, 'name');
-	$product->typeid = get_product_typeid($product->category_id);
-	return $product;
-}
+// function populate_product_ids_iteration($product, $dd_array)
+// {
+// 	$product->category = isset($dd_array->cat_products_array[$product->category_id]) ? $dd_array->cat_products_array[$product->category_id] : '';
+// 	$product->account = ci()->products->get_account_field_by_id($product->account_id, 'name');
+// 	$product->seller_account = ($product->outsourced == 1) && (isset($product->seller_account_id)) ? ci()->products->get_account_field_by_id($product->seller_account_id, 'name') : '';
+// 	$product->outsourced_txt = $dd_array->dd_yes_no[$product->outsourced];
+// 	$product->location = ci()->products->get_location_field_by_id($product->location_id, 'name');
+// 	$product->space = ci()->products->get_space_field_by_id($product->space_id, 'name');
+// 	$product->typeid = get_product_typeid($product->category_id);
+// 	$product->space_usetype = isset($product->space_usetype_id) ? ci()->spaces_usetype->get_field_by_id($product->space_usetype_id, 'name') : '';
+// 	return $product;
+// }
 
 
 function get_locations_and_spaces_updates($products)
@@ -160,45 +161,47 @@ function get_categories_by_typeid($typeid = 0)
 	return ci()->categories->gen_dd_array($typeid);
 }
 
-/**
- * [gen_dropdowns_array 
- * generates products dropdowns]
- * @return [type] [description]
- */
-function gen_dropdowns_array() 
-{
-    $data = new stdClass();
-    $data->type_array = ci()->product_type->gen_dd_array();
-    $data->spaces_usetype_array = ci()->spaces_usetype->gen_dd_array();
-    $data->type_with_cat_products_multiarray = ci()->categories->gen_dd_multiarray();
-    $data->cat_products_array = ci()->categories->gen_dd_array();
-    $data->cat_features_array = ci()->features_categories->gen_dd_array();
-    $data->usageunit_array = ci()->usageunit->gen_dd_array();  
-    $data->dd_yes_no  = gen_dd_yes_no_filter();
-    $data->dd_status = gen_dd_status();     
-	$data->hours = array_combine($hours = range(0, 23), $hours);
-	$data->minutes = array_combine($minutes = range(0, 59), $minutes);    	
-    return $data;
-}
+// /**
+//  * [gen_dropdowns_array 
+//  * generates products dropdowns]
+//  * @return [type] [description]
+//  */
+// function gen_dropdowns_array() 
+// {
+//     $data = new stdClass();
+//     $data->type_array = ci()->product_type->gen_dd_array();
+//     // categoria de espacio a publicar ----------------
+//     $data->spaces_usetype_array = ci()->spaces_usetype->gen_dd_array();  
+//     /* ----------------------------------------------- */
+//     $data->type_with_cat_products_multiarray = ci()->categories->gen_dd_multiarray();
+//     $data->cat_products_array = ci()->categories->gen_dd_array();
+//     $data->cat_features_array = ci()->features_categories->gen_dd_array();
+//     $data->usageunit_array = ci()->usageunit->gen_dd_array();  
+//     $data->dd_yes_no  = gen_dd_yes_no_filter();
+//     $data->dd_status = gen_dd_status();     
+// 	$data->hours = array_combine($hours = range(0, 23), $hours);
+// 	$data->minutes = array_combine($minutes = range(0, 59), $minutes);    	
+//     return $data;
+// }
 
 
 
-function gen_dd_yes_no()
-{
-	return array(''=>'','0'=>lang('products_no_label'),'1'=>lang('products_yes_label'));
-}
+// function gen_dd_yes_no()
+// {
+// 	return array(''=>'','0'=>lang('products_no_label'),'1'=>lang('products_yes_label'));
+// }
 
 
-function gen_dd_yes_no_filter()
-{
-    return array('0'=>lang('products_no_label'),'1'=>lang('products_yes_label'));
-}
+// function gen_dd_yes_no_filter()
+// {
+//     return array('0'=>lang('products_no_label'),'1'=>lang('products_yes_label'));
+// }
 
 
-function gen_dd_status()
-{
-    return array(''=>lang('products_all_label'),'1'=>lang('products_published'),'0'=>lang('products_not_published'));
-}
+// function gen_dd_status()
+// {
+//     return array(''=>lang('products_all_label'),'1'=>lang('products_published'),'0'=>lang('products_not_published'));
+// }
 
 
 function convert_empty_value_to_zero($var)
@@ -560,184 +563,184 @@ function gen_space_slug($denomination = "", $space_name = "")
 ////////////
 
 
-/**
- * [publish_status_view 
- * generates index publication view status]
- * @param  [type] $products [description]
- * @return [type]           [description]
- */
-function draft_status_view($products)
-{
-	foreach($products as $product)
-	{
-		/* get product_type */
-		$prod_typeid = get_product_typeid($product->category_id);
-		switch($prod_typeid)
-		{
-			/* Alquiler de sala */
-			case ALQ_ESPACIOS_TYPEID:			
-					$updated_on = get_locations_and_spaces_updates($products);	
-					$draft_exist = draft_exist($product);
-					$front_exist = front_exist($product);
-					$draft_space_updated = check_space_update_status_vs_draft_data($product, $draft_exist, $updated_on);			
-					$draft_location_updated = check_location_update_status_vs_draft_data($product, $draft_exist, $updated_on);
-					$draft_product_updated = check_prod_update_status_vs_draft_data($product, $draft_exist);
-					$product = update_draft_btn_txt_status($product, $draft_location_updated, $draft_space_updated, $draft_product_updated);
-					$product = publish_draft_btn_txt_status($draft_exist, $front_exist, $product);
-					$product = validation_draft_btn_txt_status($draft_exist, $front_exist, $product);					
-					break;
+// /**
+//  * [publish_status_view 
+//  * generates index publication view status]
+//  * @param  [type] $products [description]
+//  * @return [type]           [description]
+//  */
+// function draft_status_view($products)
+// {
+// 	foreach($products as $product)
+// 	{
+// 		/* get product_type */
+// 		$prod_typeid = get_product_typeid($product->category_id);
+// 		switch($prod_typeid)
+// 		{
+// 			/* Alquiler de sala */
+// 			case ALQ_ESPACIOS_TYPEID:			
+// 					$updated_on = get_locations_and_spaces_updates($products);	
+// 					$draft_exist = draft_exist($product);
+// 					$front_exist = front_exist($product);
+// 					$draft_space_updated = check_space_update_status_vs_draft_data($product, $draft_exist, $updated_on);			
+// 					$draft_location_updated = check_location_update_status_vs_draft_data($product, $draft_exist, $updated_on);
+// 					$draft_product_updated = check_prod_update_status_vs_draft_data($product, $draft_exist);
+// 					$product = update_draft_btn_txt_status($product, $draft_location_updated, $draft_space_updated, $draft_product_updated);
+// 					$product = publish_draft_btn_txt_status($draft_exist, $front_exist, $product);
+// 					$product = validation_draft_btn_txt_status($draft_exist, $front_exist, $product);					
+// 					break;
 
-			default:
-					$product->btn_update_draft = 'class="btn orange small disabled" onclick="return false;"';
-					$product->txt_update_draft = 'muted';
-					$product->icon_update_draft = '<i class="icon-exclamation-sign icon-white"></i>';	
-					$product->btn_publish_draft = 'class="btn blue small disabled" onclick="return false;"';
-					$product->btn_delete_draft =  'class="btn red small disabled" onclick="return false;"';
-					$product->txt_publish_draft = 'muted';
-					$product->icon_publish_draft = '<i class="icon-ok-circle icon-white"></i>';	
-					$product->txt_validation_draft = 'muted';
-					$product->icon_validation_draft = '<i class="icon-time icon-white"></i>';																			
-					break;							
-		}
-	}
-	return $products;
-}
-
-
-////////////////////////////////////////////////////////////
-// ::: DRAFT STATUS - AUX ::::::::::::::::::::::::::::::: //
-////////////////////////////////////////////////////////////
-
-function draft_exist($product)
-{
-	return ( is_null($product->draft_id) ) ? false : true;
-}
-
-function front_exist($product)
-{
-	return is_null($product->front_id) ? false : true;	
-}
+// 			default:
+// 					$product->btn_update_draft = 'class="btn orange small disabled" onclick="return false;"';
+// 					$product->txt_update_draft = 'muted';
+// 					$product->icon_update_draft = '<i class="icon-exclamation-sign icon-white"></i>';	
+// 					$product->btn_publish_draft = 'class="btn blue small disabled" onclick="return false;"';
+// 					$product->btn_delete_draft =  'class="btn red small disabled" onclick="return false;"';
+// 					$product->txt_publish_draft = 'muted';
+// 					$product->icon_publish_draft = '<i class="icon-ok-circle icon-white"></i>';	
+// 					$product->txt_validation_draft = 'muted';
+// 					$product->icon_validation_draft = '<i class="icon-time icon-white"></i>';																			
+// 					break;							
+// 		}
+// 	}
+// 	return $products;
+// }
 
 
-function check_prod_update_status_vs_draft_data($product, $draft_exist)
-{	
-	//if draft no exist, updated true
-	if( $draft_exist == false)
-	{
-		return true;
-	}	
-	if( $product->prod_updated_on == $product->draft_prod_updated_on )
-	{
-		return true;
-	}
-	else
-		{
-			return false;
-		}  
-}
+// ////////////////////////////////////////////////////////////
+// // ::: DRAFT STATUS - AUX ::::::::::::::::::::::::::::::: //
+// ////////////////////////////////////////////////////////////
 
-/**
- * [check_space_update_status_vs_draft_data 
- * check space updated_on value and compare with draft space updated_on value]
- * @return [type] [description]
- */
-function check_space_update_status_vs_draft_data($product, $draft_exist, $updated_on)
-{
-	//if draft no exist, updated true
-	if( $draft_exist == false)
-	{
-		return true;
-	}
-	if( $product->space_id != 0 && (isset($updated_on->spaces[$product->space_id])) )
-	{
-		return $updated_on->spaces[$product->space_id] == $product->draft_space_updated_on ? true : false;
-	}
-	else
-		{
-			return true;	
-		}
-}
+// function draft_exist($product)
+// {
+// 	return ( is_null($product->draft_id) ) ? false : true;
+// }
 
-/**
- * [check_location_update_status_vs_draft_data 
- * check location updated_on value and compare with draft location updated_on value]
- * @return [type] [description]
- */
-function check_location_update_status_vs_draft_data($product, $draft_exist, $updated_on)
-{
-	//check location data updated in draft
-	if( $draft_exist == false )
-	{
-		return true;
-	}
-	if ( $product->location_id != 0 && (isset($updated_on->locations[$product->location_id])) ) 
-	{
-		return $updated_on->locations[$product->location_id] == $product->draft_loc_updated_on ? true : false;
-	}
-	else
-		{
-			return true;	
-		}
-}
-
-/**
- * [update_draft_btn_txt_status
- * assign boton and text values for Draft update status]
- * @param  [type] $product                [description]
- * @param  [type] $draft_location_updated [description]
- * @param  [type] $draft_space_updated    [description]
- * @return [type]                         [description]
- */
-function update_draft_btn_txt_status($product, $draft_location_updated, $draft_space_updated, $draft_product_updated)
-{
-	if( $draft_location_updated && $draft_space_updated && $draft_product_updated )
-	{ 			
-		$product->btn_update_draft = 'class="btn orange small disabled" onclick="return false;"';
-		$product->txt_update_draft = 'muted';
-		$product->icon_update_draft = '<i class="icon-exclamation-sign icon-white"></i>';			
-	}
-	else 
-		{
-			$product->btn_update_draft = 'class="btn orange small"';
-		    $product->txt_update_draft = 'yellow_font';							
-			$product->icon_update_draft = '<i class="icon-exclamation-sign"></i>';
-		}
-	return $product;	
-}
+// function front_exist($product)
+// {
+// 	return is_null($product->front_id) ? false : true;	
+// }
 
 
-function publish_draft_btn_txt_status($draft_exist, $front_exist, $product)
-{
-	$product->btn_publish_draft = $draft_exist ? 'class="btn blue small disabled" onclick="return false;"' : 'class="btn blue small"';
-	$product->btn_delete_draft =  $draft_exist ? 'class="btn red small"' : 'class="btn red small disabled" onclick="return false;"';	
-	// PUBLISH STATE
-	if($draft_exist && $front_exist)
-	{
-		$product->txt_publish_draft = '';
-		$product->icon_publish_draft = '<i class="icon-ok-circle"></i>';		
-	}
-	else
-		{
-			$product->txt_publish_draft = 'muted';
-			$product->icon_publish_draft = '<i class="icon-ok-circle icon-white"></i>';				
-		}
-	return $product;		
-}
+// function check_prod_update_status_vs_draft_data($product, $draft_exist)
+// {	
+// 	//if draft no exist, updated true
+// 	if( $draft_exist == false)
+// 	{
+// 		return true;
+// 	}	
+// 	if( $product->prod_updated_on == $product->draft_prod_updated_on )
+// 	{
+// 		return true;
+// 	}
+// 	else
+// 		{
+// 			return false;
+// 		}  
+// }
+
+// /**
+//  * [check_space_update_status_vs_draft_data 
+//  * check space updated_on value and compare with draft space updated_on value]
+//  * @return [type] [description]
+//  */
+// function check_space_update_status_vs_draft_data($product, $draft_exist, $updated_on)
+// {
+// 	//if draft no exist, updated true
+// 	if( $draft_exist == false)
+// 	{
+// 		return true;
+// 	}
+// 	if( $product->space_id != 0 && (isset($updated_on->spaces[$product->space_id])) )
+// 	{
+// 		return $updated_on->spaces[$product->space_id] == $product->draft_space_updated_on ? true : false;
+// 	}
+// 	else
+// 		{
+// 			return true;	
+// 		}
+// }
+
+// /**
+//  * [check_location_update_status_vs_draft_data 
+//  * check location updated_on value and compare with draft location updated_on value]
+//  * @return [type] [description]
+//  */
+// function check_location_update_status_vs_draft_data($product, $draft_exist, $updated_on)
+// {
+// 	//check location data updated in draft
+// 	if( $draft_exist == false )
+// 	{
+// 		return true;
+// 	}
+// 	if ( $product->location_id != 0 && (isset($updated_on->locations[$product->location_id])) ) 
+// 	{
+// 		return $updated_on->locations[$product->location_id] == $product->draft_loc_updated_on ? true : false;
+// 	}
+// 	else
+// 		{
+// 			return true;	
+// 		}
+// }
+
+// /**
+//  * [update_draft_btn_txt_status
+//  * assign boton and text values for Draft update status]
+//  * @param  [type] $product                [description]
+//  * @param  [type] $draft_location_updated [description]
+//  * @param  [type] $draft_space_updated    [description]
+//  * @return [type]                         [description]
+//  */
+// function update_draft_btn_txt_status($product, $draft_location_updated, $draft_space_updated, $draft_product_updated)
+// {
+// 	if( $draft_location_updated && $draft_space_updated && $draft_product_updated )
+// 	{ 			
+// 		$product->btn_update_draft = 'class="btn orange small disabled" onclick="return false;"';
+// 		$product->txt_update_draft = 'muted';
+// 		$product->icon_update_draft = '<i class="icon-exclamation-sign icon-white"></i>';			
+// 	}
+// 	else 
+// 		{
+// 			$product->btn_update_draft = 'class="btn orange small"';
+// 		    $product->txt_update_draft = 'yellow_font';							
+// 			$product->icon_update_draft = '<i class="icon-exclamation-sign"></i>';
+// 		}
+// 	return $product;	
+// }
 
 
-function validation_draft_btn_txt_status($draft_exist, $front_exist, $product)
-{
-	//VALIDATION
-	if($draft_exist && $front_exist == false 
-		|| $draft_exist && $front_exist && $product->front_version =! $product->draft_version)
-	{
-		$product->txt_validation_draft = 'yellow_font';
-		$product->icon_validation_draft = '<i class="icon-time"></i>';
-	}
-	else
-		{
-			$product->txt_validation_draft = 'muted';
-			$product->icon_validation_draft = '<i class="icon-time icon-white"></i>';				
-		}	
-	return $product;	
-}
+// function publish_draft_btn_txt_status($draft_exist, $front_exist, $product)
+// {
+// 	$product->btn_publish_draft = $draft_exist ? 'class="btn blue small disabled" onclick="return false;"' : 'class="btn blue small"';
+// 	$product->btn_delete_draft =  $draft_exist ? 'class="btn red small"' : 'class="btn red small disabled" onclick="return false;"';	
+// 	// PUBLISH STATE
+// 	if($draft_exist && $front_exist)
+// 	{
+// 		$product->txt_publish_draft = '';
+// 		$product->icon_publish_draft = '<i class="icon-ok-circle"></i>';		
+// 	}
+// 	else
+// 		{
+// 			$product->txt_publish_draft = 'muted';
+// 			$product->icon_publish_draft = '<i class="icon-ok-circle icon-white"></i>';				
+// 		}
+// 	return $product;		
+// }
+
+
+// function validation_draft_btn_txt_status($draft_exist, $front_exist, $product)
+// {
+// 	//VALIDATION
+// 	if($draft_exist && $front_exist == false 
+// 		|| $draft_exist && $front_exist && $product->front_version =! $product->draft_version)
+// 	{
+// 		$product->txt_validation_draft = 'yellow_font';
+// 		$product->icon_validation_draft = '<i class="icon-time"></i>';
+// 	}
+// 	else
+// 		{
+// 			$product->txt_validation_draft = 'muted';
+// 			$product->icon_validation_draft = '<i class="icon-time icon-white"></i>';				
+// 		}	
+// 	return $product;	
+// }

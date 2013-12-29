@@ -166,6 +166,8 @@ class Products_m extends MY_Model {
 	        "prod.outsourced AS outsourced,". 
 	        "prod.location_id AS location_id,". 
 	        "prod.space_id AS space_id,". 
+	        "prod.space_usetype_id AS space_usetype_id,". 	        
+	        "prod.name as name, prod.slug AS slug,". 
 	        "prod.name as name, prod.slug AS slug,". 
 	        "prod.created_on AS prod_created_on,". 
 	        "prod.updated_on AS prod_updated_on,".

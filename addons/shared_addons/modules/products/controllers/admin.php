@@ -13,7 +13,8 @@ class Admin extends Admin_Controller
 	 * @var string
 	 */
 	protected $section = 'products';
-	public $dd_array = array();
+	public $typeid;
+	public $dd_array;
 
 	/**
 	 * The constructor
@@ -24,19 +25,16 @@ class Admin extends Admin_Controller
 	{
 		parent::__construct();
 		$this->config->load('product_'.ENVIRONMENT);
+		$this->load->library('product_type');
+		$this->lang->load(array('products', 'categories', 'locations','features','spaces'));		
 		define('ALQ_ESPACIOS_TYPEID', $this->config->item('alq_espacios_typeid'));
-		define('SERVICIOS_TYPEID', $this->config->item('servicios_typeid'));
-		//
-		$this->load->model(array('products_m'));
-        $this->load->helper(array('date', 'products'));                
-		$this->lang->load(array('products', 'categories', 'locations','features','spaces'));
-		$this->load->library(array('form_validation','features_categories', 'usageunit', 'product_type','categories', 'shapes', 'files/files','dropzone','products','spaces_denominations', 'locations_type', 'spaces_usetype'));            
-        $this->template->append_css('module::products.css')
-                       ->prepend_metadata('<script>var IMG_PATH = "'.BASE_URL.SHARED_ADDONPATH.'modules/'.$this->module.'/img/"; </script>');                                     
-		$this->dd_array = gen_dropdowns_array(); 
-// DEBUG ::::::::::::::::::::::::::::::::::::::::::::::
-        //$this->output->enable_profiler(TRUE);
-// DEBUG ::::::::::::::::::::::::::::::::::::::::::::::        
+		define('SERVICIOS_TYPEID', $this->config->item('servicios_typeid'));                                
+	}
+
+	private function load_publication($typeid, $method)
+	{	
+		$params = array('typeid'=>$typeid, 'method'=>$method);
+		$this->load->library('publication', $params);  
 	}
         
     /**
@@ -44,24 +42,14 @@ class Admin extends Admin_Controller
 	 * @access public
 	 * @return void
 	 */
-	public function index()
+	public function index($typeid = 0)
 	{
-		// Create pagination links
-		$tot_rows = $this->products_m->join_search('counts');
-        //params (URL -for links-, Total records, records per page, segmnet number )	
-        $post_data['pagination'] = create_pagination('admin/products/index', $tot_rows, 20, 4);  
-        //query with limits              
-		$products = $this->products_m->join_search('results', $post_data);               
-        $products = populate_product_ids($products, $this->dd_array);
-        $products = draft_status_view($products);   
-		$this->template
-			 ->title($this->module_details['name'])
-			 ->append_js('module::products_filter.js')    			 
-			 ->set('pagination', $post_data['pagination'])
-			 ->set('products', $products)
-			 ->set('total_rows', $tot_rows)			 
-			 ->set('dd_array', $this->dd_array)
-			 ->build('admin/products/index');
+		if($typeid==0)
+		{
+			redirect('admin/products/index/1');
+		}
+		$this->load_publication($typeid, __METHOD__);
+		$this->publication->set_index();		
 	}
 
 
