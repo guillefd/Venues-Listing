@@ -26,38 +26,39 @@ class Products_frontend_1_m extends MY_Model
 	/* space list by params (unique spaces) */
 	function get_list_spaces($page, $CFG)
 	{		
+		$query = '';
 		/* aux */
 		$all_wildcard = $CFG->urisegments->areawildcard;
-		// for homelist_view	
-		/* SEGMENTS --------------------------------------------------------------------*/	
-		/* cat-slug */
-		$this->db->where('prod_cat_slug', $page->validurisegments[1]->prod_cat_slug);
-		/* city-slug */
-		$this->db->where('loc_city_slug', $page->validurisegments[2]->loc_city_slug );
+		// for homelist_view
+		$query.= 'SELECT SQL_CALC_FOUND_ROWS null as rows, dpf.* '
+				.'FROM `default_'.$this->t_front.'` dpf '
+				.'JOIN 
+				 ( SELECT space_id, MIN(space_usetype_id) minusetypeid
+				   FROM `default_'.$this->t_front.'` 
+				   GROUP BY space_id
+				 ) dpf2
+				 ON dpf.space_id = dpf2.space_id AND dpf.space_usetype_id = dpf2.minusetypeid ';
+		/* SEGMENTS --------------------------------------------------------------------*/					 
+		$query.= 'WHERE `prod_cat_slug` = "'.$page->validurisegments[1]->prod_cat_slug.'" '
+				.'AND `loc_city_slug` = "'.$page->validurisegments[2]->loc_city_slug.'" ';
 		/* area-slug */		
 		if(array_key_exists('loc_area_slug', $page->validurisegments[2]) 
 			&& $page->validurisegments[2]->loc_area_slug != $all_wildcard)
 		{
-			$this->db->where('loc_area_slug', $page->validurisegments[2]->loc_area_slug);			
-		}	
+			$query.='AND `loc_area_slug` = "'.$page->validurisegments[2]->loc_area_slug.'" ';
+		}				
 		/* FILTERS --------------------------------------------------------------------*/
 		/* capacity */
 		if(array_key_exists('capacity', $page->validurifilters))
 		{
-			$this->_aux_get_list_capacity($page->validurifilters['capacity']);			
+			$query.=$this->_aux_get_list_capacity_MANUAL($page->validurifilters['capacity']);				
 		}
 		/* loctypes */
 		if(array_key_exists('loctypes', $page->validurifilters))
 		{
-			$this->_aux_get_loctypes_condition($page->validurifilters['loctypes']);				
+			$query.=$this->_aux_get_loctypes_condition_MANUAL($page->validurifilters['loctypes']);				
 		}
-
-		/* GET ------------------------------------------------------------------------*/		
-		//count rows - total result		
-		$fields = $this->db->list_fields($this->t_front);
-		array_unshift($fields, 'SQL_CALC_FOUND_ROWS null as rows, count(space_id) as space_versions');
-        $this->db->select($fields, FALSE);
-		$this->db->from($this->t_front);
+		$query.=' ORDER BY name ASC';		
 		//limit
 		if($page->isajaxrequest)
 		{
@@ -69,11 +70,9 @@ class Products_frontend_1_m extends MY_Model
 				$limit = $CFG->page->maxrecords * $page->validurifilters['page'];				
 				$offset = 0;	
 			}
-		$this->db->group_by('space_id');
-		$this->db->limit($limit, $offset);
-		$this->db->order_by('space_max_capacity','ASC');
-		//records
-		$q = $this->db->get();
+		$query.=' LIMIT '.$offset.', '.$limit;
+		/* --------- RUN QUERY ----------- */
+ 		$q = $this->db->query($query);		
 		$result = new stdClass();
 		if ($q->num_rows()>0)
 		{
@@ -88,7 +87,7 @@ class Products_frontend_1_m extends MY_Model
 				$result->numrows = 0;
 				$result->items = array();
 				$result->totrows = 0;			
-			}		
+			}					
 		return $result;		
 	}
 
@@ -383,6 +382,38 @@ class Products_frontend_1_m extends MY_Model
 	}
 
 
+	function _aux_get_list_capacity_MANUAL($urifilter_capacity)
+	{
+		$query = '';
+		switch($urifilter_capacity)
+		{
+			case '1-5':
+							$query.='AND space_max_capacity < 16 ';							
+							break;
+			case '5-10':
+							$query.='AND space_max_capacity > 4 ';
+							$query.='AND space_max_capacity < 25 ';														
+							break;				
+			case '10-20':
+							$query.='AND space_max_capacity > 9 ';
+							$query.='AND space_max_capacity < 40 ';	
+							break;
+			case '20-30':
+							$query.='AND space_max_capacity > 19 ';
+							$query.='AND space_max_capacity < 60 ';								
+							break;
+			case '30-50':
+							$query.='AND space_max_capacity > 29 ';
+							$query.='AND space_max_capacity < 90 ';								
+							break;				
+			case '50plus':
+							$query.='AND space_max_capacity > 49 ';
+							break;				
+		}
+		return $query;
+	}	
+
+
 	function _aux_get_loctypes_condition($loctypes)
 	{
 		if(is_array($loctypes))
@@ -405,6 +436,30 @@ class Products_frontend_1_m extends MY_Model
 			}
 	}
 
+
+	function _aux_get_loctypes_condition_MANUAL($loctypes)
+	{
+		$query = '';
+		if(is_array($loctypes))
+		{
+			$string = '';
+			$string.= 'AND (loc_type_id = '.$loctypes[0];		
+			for($i=1; $i<=count($loctypes)-1; $i++)
+			{
+				$string.= ' OR loc_type_id = '.$loctypes[$i];
+			}	
+			$string.= ') ';
+			$query.= $string;
+		}
+		else
+			{
+				if($loctypes!='')
+				{
+					$query.='AND loc_type_id = '.$loctypes;										
+				}
+			}
+		return $query;	
+	}
 
 /////////////////////////////////////////////////////
 // DISTINCT QUERYS ---------------------------- // //

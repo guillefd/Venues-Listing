@@ -125,7 +125,7 @@
 										Zona
 									</li>
 								</ul>
-								<p class="half"><?php echo $item->space_description; ?></p>								
+								<p class="half">Detalles y especificaciones del Espacio.</p>								
 							</div>
 							<div class="tab-pane fade in" id="locationdetail">
 								<ul class="list-group spacedetails pull-right">
@@ -158,7 +158,7 @@
 										Zona
 									</li>
 								</ul>
-								<p class="half"><?php echo $item->loc_description; ?></p>		
+								<p class="half">Detalles y especificaciones de la Locación.</p>		
 							</div>
 							<div class="tab-pane fade in" id="facilitiesdetail">
 								<p>Facilidades disponibles en el espacio, pueden ser opcionales o incluidas en el alquiler.</p>	

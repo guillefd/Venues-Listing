@@ -25,7 +25,7 @@ class Products_m extends MY_Model {
 
 
 	function get_all_features_by_id($product_id)
-	{
+	{	
 		$this->db->select('products_features.*, pfd.name, pfd.usageunit_id, ui.name as usageunit')
 		 		 ->join('products_features_defaults as pfd','products_features.default_feature_id = pfd.id')
 		 		 ->join('products_usageunit as ui','pfd.usageunit_id = ui.id');
@@ -131,7 +131,7 @@ class Products_m extends MY_Model {
                 $query.= ' AND `category_id` = '.$data['category_id'];
             } 
             //Ordenar alfabeticamente
-            $query.= " ORDER BY `name` ASC";            
+            $query.= " ORDER BY `updated_on` ASC";            
 	        // Limit the results based pagination
 	        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
 	        {
@@ -222,7 +222,7 @@ class Products_m extends MY_Model {
             //Ordenar alfabeticamente
             $query.= " GROUP BY prod.product_id";   
             //Ordenar alfabeticamente
-            $query.= " ORDER BY prod.product_id DESC";      
+            $query.= " ORDER BY prod.updated_on DESC";      
 	        // Limit the results based pagination
 	        if (isset($data['pagination']['offset']) && isset($data['pagination']['limit']))
 	        {

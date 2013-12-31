@@ -364,8 +364,7 @@ class Prodset
 
 
     function run_edit_view()
-    {
-// var_dump($this->item); die;    	
+    {   	
 	    foreach ($this->validation_rules as $rule)
 	    {
 	        if (ci()->input->post($rule['field']) !== null)
@@ -462,7 +461,7 @@ class Prodset
 
     function run_save_draft($id)
     {
-		$this->load_front_model();
+		$this->load_front_model();	
 		if(ci()->products_front_m->insert_product_front_draft($this->draft, TYPEID))
 		{
 			ci()->session->set_flashdata(array('success'=>sprintf(lang('products_publish_draft_success'), $id)));
@@ -486,7 +485,7 @@ class Prodset
 	 * @param  [type] $product [description]
 	 * @return [type]          [description]
 	 */
-	function set_draft()
+	function set_draft($id)
 	{
 		//get category detail
 		$this->item->category = ci()->categories->get_by_id($this->item->category_id);
@@ -517,6 +516,7 @@ class Prodset
 			$this->item->body = '';
 			$this->item->space->description = '';			
 			$this->item->space_usetype_slug = '';
+			$this->item->space_usetype_id = 0;
 			$this->item->space_usetype = '';
 			$this->item->location->intro = '';
 			$this->item->location->description = '';
