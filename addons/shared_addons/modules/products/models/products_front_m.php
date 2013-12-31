@@ -350,6 +350,7 @@ class Products_front_m extends MY_Model
 							pfds.loc_id AS draft_loc_id, 
 							pfds.intro AS draft_prod_intro, 
 							pfds.name AS prod_name,
+							pfds.space_usetype_slug AS prod_space_usetype_slug,
 							front.id AS front_id, 
 							front.front_version AS front_version '.							 
 							// from table draft_spaces

@@ -6,7 +6,7 @@
 var vecF = new Object(); //array de features default
 var vecFid; //id del array de features default
 var vec_prodF = new Array(); //array de features seleccionados
-var Nitem = -1; // numero de item
+var Nitem = 0; // numero de item
 
 // FUNCTIONS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -32,24 +32,27 @@ function init_hidden_input()
         {
             request_features();   
             vec_prodF = jQuery.parseJSON(input);
-            for (var i in vec_prodF)
+            if(vec_prodF.length > 0)
             {
-                if(vec_prodF[i]!="") // sin ';' xq es eliminado por split()
+                for (var i in vec_prodF)
                 {
-                    var item = new Fdatos();
-                    item.default_f_id = vec_prodF[i].default_f_id;
-                    item.name = vec_prodF[i].name;
-                    item.description = vec_prodF[i].description;
-                    item.usageunit = vec_prodF[i].usageunit;
-                    item.value = vec_prodF[i].value;
-                    item.isOptional = vec_prodF[i].isOptional;
-                    item.vecFid = vec_prodF[i].vecFid;
-                    item.n = vec_prodF[i].n;
-                    insertBlock(item);
+                    if(vec_prodF[i]!="") // sin ';' xq es eliminado por split()
+                    {
+                        var item = new Fdatos();
+                        item.default_f_id = vec_prodF[i].default_f_id;
+                        item.name = vec_prodF[i].name;
+                        item.description = vec_prodF[i].description;
+                        item.usageunit = vec_prodF[i].usageunit;
+                        item.value = vec_prodF[i].value;
+                        item.isOptional = vec_prodF[i].isOptional;
+                        item.vecFid = vec_prodF[i].vecFid;
+                        item.n = vec_prodF[i].n;
+                        insertBlock(item);
+                    }
                 }
+                Nitem = i;
             }
-            Nitem = i;
-        }        
+        }      
 }
 
 function reset_Fbox_state()

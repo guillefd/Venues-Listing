@@ -45,6 +45,22 @@ class Prodset
 		$this->chk_post_basic_publication();    	
     	$this->set_validation_rules_values();
 		ci()->form_validation->set_rules( $this->validation_rules );    	
+    } 
+
+	/////////////////////////////////////////
+	//PUBLICATION TYPE -----------------/ //
+	/////////////////////////////////////////
+
+    function set_publication_type()
+    {
+		if($this->basicpublication === true)
+		{
+			$this->data_array['publication_type'] = 'basic';
+		}
+		else
+			{
+				$this->data_array['publication_type'] = 'category';			
+			}
     }
 
     function chk_post_basic_publication()
@@ -61,7 +77,7 @@ class Prodset
 
     function chk_item_basic_publication()
     {
-	    if($this->item->space_usetype_id == 0)
+	    if($this->item->publication_type == 'basic')
 	    {
 	    	$this->item->chk_basic_publication = 1;
 	    	$this->basicpublication = true;
@@ -71,7 +87,8 @@ class Prodset
 	    		$this->item->chk_basic_publication = '';
 	    		$this->basicpublication = false;
 	    	}
-    }    
+    }
+
 
     /////////////////////////////////////////
     // INDEX --------------------------- / //
@@ -120,7 +137,7 @@ class Prodset
     }
 
     function set_index_view()
-    {    	     
+    {    	         
         if( ci()->input->is_ajax_request() )	
         {
         	ci()->template->set_layout(FALSE)
@@ -155,7 +172,7 @@ class Prodset
 		$this->data_array = array(
 						'location_id'       => convert_empty_value_to_zero(ci()->input->post('location_id')),
 						'space_id'          => convert_empty_value_to_zero(ci()->input->post('space_id')),
-						'space_usetype_id'  => ci()->input->post('space_usetype_id'),			
+						'space_usetype_id'  => convert_empty_value_to_zero(ci()->input->post('space_usetype_id')),			
 						'category_id'       => ci()->input->post('category_id'),
 						'account_id'        => ci()->input->post('account_id'),
 						'outsourced'        => convert_empty_value_to_zero(ci()->input->post('chk_seller_account')),
@@ -163,18 +180,13 @@ class Prodset
 						'name'				=> ci()->input->post('name'),
 						'slug'				=> slugify_string(ci()->input->post('name')),
 						'images'			=> ci()->input->post('dzfileslistid'),
-						'intro'				=> ci()->input->post('intro'),
-						'body'				=> ci()->input->post('body'),						
+						'intro'				=> convert_empty_value_to_empty(ci()->input->post('intro')),
+						'body'				=> convert_empty_value_to_empty(ci()->input->post('body')),						
 						'created_on'        => now(),								
 						'author_id'			=> ci()->current_user->id,
 						'updated_on'        => now(),								
 					);    
-		if($this->basicpublication === true)
-		{
-			$this->data_array['space_usetype_id'] = 0;
-			$this->data_array['intro'] = '';
-			$this->data_array['body'] = '';
-		}							
+		$this->set_publication_type();							
     }
 
     function run_save()
@@ -189,10 +201,7 @@ class Prodset
 				//imagenes
 				move_tempfiles_to_prod_folder($prod_folder_id, $imgIDs);	
 			}
-			if($this->basicpublication=== false)
-			{
-				$this->save_features();
-			}
+			$this->save_features();
 		}
 		ci()->db->trans_complete();
 		// END TRANSACTION :::::::::::::::::::::::::::::::::::::			
@@ -294,24 +303,19 @@ class Prodset
 		$this->data_array = array(
 								'location_id'       => convert_empty_value_to_zero(ci()->input->post('location_id')),
 								'space_id'          => convert_empty_value_to_zero(ci()->input->post('space_id')),
-								'space_usetype_id'  => ci()->input->post('space_usetype_id'),				
+								'space_usetype_id'  => convert_empty_value_to_zero(ci()->input->post('space_usetype_id')),			
 								'category_id'       => ci()->input->post('category_id'),
 								'account_id'        => ci()->input->post('account_id'),
 								'outsourced'        => convert_empty_value_to_zero(ci()->input->post('chk_seller_account')),
 								'seller_account_id' => convert_empty_value_to_zero(ci()->input->post('seller_account_id')),
 								'name'				=> ci()->input->post('name'),
 								'slug'				=> slugify_string(ci()->input->post('name')),
-								'intro'				=> ci()->input->post('intro'),
-								'body'				=> ci()->input->post('body'),
+								'intro'				=> convert_empty_value_to_empty(ci()->input->post('intro')),
+								'body'				=> convert_empty_value_to_empty(ci()->input->post('body')),	
 								'images'			=> ci()->input->post('dzfileslistid'),
 								'updated_on'        => now(),									
 							);	
-		if($this->basicpublication === true)
-		{
-			$this->data_array['space_usetype_id'] = 0;
-			$this->data_array['intro'] = '';
-			$this->data_array['body'] = '';
-		}							    	
+		$this->set_publication_type();	
     }
 
 
@@ -328,10 +332,7 @@ class Prodset
 				//imagenes
 				move_tempfiles_to_prod_folder($prod_folder_id, $imgIDs);
 			}	
-			if($this->basicpublication=== false)
-			{
-				$this->update_features($id);
-			}					
+			$this->update_features($id);		
 		}			
 		else
 			{
@@ -355,14 +356,16 @@ class Prodset
     function update_features($id)
     {
 		//features
-			$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
-			$features = array();
-			$features = $this->generate_features_array_from_json( $features_field_list, ci()->input->post('features'), $id );    	
+		$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
+		$features = array();
+		$features = $this->generate_features_array_from_json( $features_field_list, ci()->input->post('features'), $id );    	
+    	ci()->products_m->insert_features($features);  
     }
 
 
     function run_edit_view()
     {
+// var_dump($this->item); die;    	
 	    foreach ($this->validation_rules as $rule)
 	    {
 	        if (ci()->input->post($rule['field']) !== null)
@@ -509,19 +512,24 @@ class Prodset
 		$this->item->space->space_slug = $this->gen_space_slug($this->item->space->denomination, $this->item->space->name);
 		//get space usetype
 		if($this->basicpublication)
-		{
+		{			
+			$this->item->intro = '';			
+			$this->item->body = '';
+			$this->item->space->description = '';			
 			$this->item->space_usetype_slug = '';
 			$this->item->space_usetype = '';
+			$this->item->location->intro = '';
+			$this->item->location->description = '';
 			$this->item->features = array();			
 		}
 		else
-		{
-			$this->item->features = ci()->products_m->get_all_features_by_id($id);
-			$this->item->features = $this->populate_features_array($this->item->features);			
-		 	$usetype = ci()->spaces_usetype->get_by_id($this->item->space_usetype_id);
-			$this->item->space_usetype_slug = $usetype->slug;
-			$this->item->space_usetype = $usetype->name;
-		}	
+			{
+				$this->item->features = ci()->products_m->get_all_features_by_id($id);
+				$this->item->features = $this->populate_features_array($this->item->features);			
+			 	$usetype = ci()->spaces_usetype->get_by_id($this->item->space_usetype_id);
+				$this->item->space_usetype_slug = $usetype->slug;
+				$this->item->space_usetype = $usetype->name;
+			}			
 		//generate space_usetypes array
 		$this->item->usetypes = unserialize($this->item->space->usetypes);	
 		//check 
@@ -649,7 +657,7 @@ class Prodset
 
 	function set_validation_rules_values()
 	{	
-		$basicArr =  array(       
+		$defaultArr = array(
 						array(
 							'field' => 'category_id',
 							'label' => 'lang:products_category_label',
@@ -704,10 +712,33 @@ class Prodset
 							'field' => 'chk_basic_publication',
 							'label' => 'products_chk_basic_publication_txt_label',
 							'rules' => 'trim'
-						),										
+						),
 					);
 
-		$fullArr = array(
+		$basicArr =  array(       
+						array(
+							'field' => 'space_usetype_id',
+							'label' => 'lang:products_space_usetype_label',
+							'rules' => 'trim|numeric'
+						),			
+						array(
+							'field' => 'intro',
+							'label' => 'lang:products_intro_label',
+							'rules' => 'trim'
+						),
+						array(
+							'field' => 'body',
+							'label' => 'lang:products_content_label',
+							'rules' => 'trim'
+						),
+						array(
+							'field' => 'features',
+							'label' => 'lang:products_features_label',
+							'rules' => 'trim'
+						),											
+					);
+
+		$categoryArr = array(
 						array(
 							'field' => 'space_usetype_id',
 							'label' => 'lang:products_space_usetype_label',
@@ -716,7 +747,7 @@ class Prodset
 						array(
 							'field' => 'intro',
 							'label' => 'lang:products_intro_label',
-							'rules' => 'trim'
+							'rules' => 'trim|required'
 						),
 						array(
 							'field' => 'body',
@@ -731,17 +762,18 @@ class Prodset
 					);
 		if($this->basicpublication === true)
 		{
-			$this->validation_rules = $basicArr;
+			$this->validation_rules = array_merge($defaultArr, $basicArr);
 		}
 		else
 			{
-				$this->validation_rules = array_merge($basicArr, $fullArr);
+				$this->validation_rules = array_merge($defaultArr, $categoryArr);
 			}
 	}
 
 
 	function populate_features_array($features_array)
 	{
+		$data = array();
 	    if( !empty($features_array) )
 		{	
 			$i=0;	
@@ -759,7 +791,7 @@ class Prodset
 				$i++;
 				$data[] = $obj;			
 			}
-		}
+		}	
 		return $data;
 	}
 

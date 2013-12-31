@@ -10,6 +10,7 @@ $lang['products_space_usetype_label']           = 'Categoría a publicar el Espa
 $lang['products_category_createform_sublabel'] 	= 'SubTipo';
 $lang['products_category_sh_label'] 			= 'Categoría';
 $lang['products_usetype_label'] 				= 'Cat. espacio';
+$lang['products_publicationtype_label'] 		= 'Publicación';
 $lang['products_chk_no_usetype_label']			= 'No asignar categoria, publicación básica.';
 $lang['products_account_label'] 				= 'Cuenta';
 $lang['products_account_autoload_label'] 		= '(Proveedor | Autobúsqueda)';

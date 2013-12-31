@@ -25,6 +25,10 @@ function convert_empty_value_to_zero($var)
 	return (empty($var) || is_null($var)) ? 0 : $var;
 }
 
+function convert_empty_value_to_empty($var)
+{
+	return (empty($var) || is_null($var)) ? '' : $var;
+}
 
 function check_product_slug($slug)
 {

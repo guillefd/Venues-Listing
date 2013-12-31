@@ -140,10 +140,14 @@ function init_images_list()
 		        	{
 		        		row = dzGenerateRowImage(result.data);
 		        		dzInsertRowToBlock(row);
-		        	}        		
+		        	}
+		        	else
+			        	{
+			        		dzRemoveFileIdList(imgList[id]); 
+			        	}        		
 	        	});
 	        }
-        }
+        }  
 }
 
 function request_file(index)
@@ -169,7 +173,8 @@ function request_file(index)
         	},
 	        error: function()
 	        {
-	            $('#dzloader').remove();   
+	            $('#dzloader').remove();
+	            alert(result.message); 	               
 	        }            
     });   
 }

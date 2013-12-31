@@ -3,6 +3,18 @@
 </section>
 <section class="item">
 	<div class="content">	
+<!-- Publication Type :::::::::::::::::: -->	
+		<h3><?php echo lang('front:publicationtype') ?></h3>
+		<table class="tableBox max">
+			<tr>	
+				<td width="15%"><strong>[ <?php echo lang('front:publicationtype_label') ?> ]</strong></td>
+				<td width="50%"><?php echo $item->publicationtype ?></td>
+				<td>								
+				</td>
+			</tr>
+		</table>
+<!-- Product :::::::::::::::::: -->	 
+
 <!-- Category :::::::::::::::::: -->	
 		<h3><?php echo lang('front:publishcategory') ?></h3>
 
@@ -50,11 +62,7 @@
 						<strong><?php echo lang('front:product_usetype') ?></strong>
 					</td>
 					<td>
-						<?php if($item->space_usetype==''): ?>
-							[PUBLICACION BASICA]
-						<?php else: ?>
-							[<?php echo $item->space_usetype ?>]
-						<?php endif; ?>	
+						[<?php echo $item->space_usetype ?>]	
 					</td>
 					<td>
 						<?php echo lang('front:id') ?>: <?php echo $item->space_usetype_id; ?><br>
@@ -197,7 +205,17 @@
 					<td><?php echo $item->loc_type ?></td>
 					<td>
 					</td>					
+				</tr>
+				<tr>
+					<td><strong><?php echo lang('front:intro') ?></strong></td>		
+					<td><?php echo $item->loc_intro ?></td>									
+					<td></td>						
 				</tr>				
+				<tr>
+					<td><strong><?php echo lang('front:description') ?></strong></td>
+					<td><?php echo $item->loc_description ?></td>		
+					<td></td>														
+				</tr>								
 				<tr>
 					<td><strong><?php echo lang('front:address') ?></strong></td>
 					<td>
@@ -282,6 +300,11 @@
 						<?php echo lang('front:slug') ?>: <?php echo $item->space_slug; ?><br>
 					</td>					
 				</tr>
+				<tr>
+					<td><strong><?php echo lang('front:description') ?></strong></td>
+					<td><?php echo $item->space_description ?></td>		
+					<td></td>														
+				</tr>				
 				<tr>
 					<td><strong><?php echo lang('front:level') ?></strong></td>
 					<td><?php echo $item->space_level ?></td>		

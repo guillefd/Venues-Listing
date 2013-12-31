@@ -4,7 +4,7 @@ var img_loader_2 = '<img src="' + IMG_PATH + 'indicator.gif" style="float:right;
 
 var input_seller_account = $('input[name="seller_account"]');
 
-var vecS = Array;
+var vecS = new Array();
 
 var usetypeSelectOptions;
 
@@ -63,16 +63,10 @@ $(document).ready(function(){
         if( $('#chk_basic_publication').is(':checked') )
         { 
             $('.basicTargetFields').addClass('UsetypeDisabledOption'); 
-            $("#space_usetype_id_chzn").addClass('UsetypeDisabledOption');            
-            $('textarea[name="intro"]').attr('disabled','disabled').addClass('UsetypeDisabledOption');
-            $('textarea[name="body"]').attr('disabled','disabled').addClass('UsetypeDisabledOption');
         }
         else
             {
-                $('.basicTargetFields').removeClass('UsetypeDisabledOption');
-                $('select[name="space_usetype_id"]').removeClass('UsetypeDisabledOption');            
-                $('textarea[name="intro"]').removeAttr('disabled').removeClass('UsetypeDisabledOption');
-                $('textarea[name="body"]').removeAttr('disabled').removeClass('UsetypeDisabledOption');            
+                $('.basicTargetFields').removeClass('UsetypeDisabledOption');          
             }       
     }    
 

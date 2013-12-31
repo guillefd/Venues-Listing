@@ -28,6 +28,8 @@ $lang['front:city']				= 'Ciudad';
 $lang['front:area']				= 'Area';
 $lang['front:country']				= 'País';
 $lang['front:located']				= 'Ubicación';
+$lang['front:publicationtype']		= 'Publicación';
+$lang['front:publicationtype_label'] = 'Tipo de publicación';
 
 $lang['front:contact']				= 'Contacto';
 $lang['front:phone']				= 'Telefono';

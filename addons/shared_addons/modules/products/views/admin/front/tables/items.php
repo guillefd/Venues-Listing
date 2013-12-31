@@ -5,7 +5,7 @@
 				<th><?php echo lang('front:name'); ?></th>
 				<th><?php echo lang('front:product_category_slug'); ?></th>
 				<th><?php echo lang('front:account'); ?></th>
-				<th><?php echo lang('front:intro'); ?></th>
+				<th><?php echo lang('front:publicationtype'); ?></th>
 				<th><?php echo lang('front:current_version'); ?></th>
 				<th width="100"><small>Online</small></th>				
 				<th><small><?php echo lang('front:status'); ?></small></th>				
@@ -31,7 +31,7 @@
 					</td>
 					<td><?php echo $item->draft_prod_cat_slug; ?></td>
 					<td><?php echo $item->account; ?></td>
-					<td><small><?php echo $item->draft_prod_intro; ?></small></td>
+					<td><?php echo $item->publicationtype; ?></td>
 					<td><?php echo $item->current_version; ?></td>
 					<td width="150px">
 						<?php echo anchor('admin/products/front/viewdraft/'.$item->draft_prod_cat_id.'/'.$item->draft_id, '<i class="icon-play icon-white"></i>', $item->btn_front_golive.' title="Poner online"'); ?>						

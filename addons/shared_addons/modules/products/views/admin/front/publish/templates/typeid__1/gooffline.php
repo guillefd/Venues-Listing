@@ -2,6 +2,7 @@
 
 var VECqueueProcess = new Array("deletecloudimages", "unpublishproduct");
 var typeID = <?php echo $typeid ?>;
+var prodcatID = <?php echo $prodcatid ?>;
 var frontID = <?php if(isset($front->id)){ echo $front->id; } else { echo '"undefined"'; } ?>;
 var img_loader = '<img src="' + IMG_PATH + 'indicator.gif" style="float:right; margin:5px;" id="loader" alt="" /></div>';
 

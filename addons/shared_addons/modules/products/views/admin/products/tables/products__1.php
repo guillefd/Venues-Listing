@@ -5,7 +5,7 @@
 <!-- 			<th width="20"><?php //echo form_checkbox(array('name' => 'action_to_all', 'class' => 'check-all')); ?></th> -->
 				<th><?php echo lang('products_name_label'); ?></th>
 				<th><?php echo lang('products_category_label'); ?></th>
-				<th><?php echo lang('products_usetype_label'); ?></th>				
+				<th><?php echo lang('products_publicationtype_label'); ?></th>				
 				<th><?php echo lang('products_accountowner_label'); ?></th>
 				<th><?php echo lang('products_outsourced_label'); ?></th>
 				<th width="150"></th>								
@@ -33,7 +33,7 @@
 						<small class="muted"><?php echo $product->space; ?></small><br>						
 					</td>
 					<td><?php echo $product->category; ?></td>
-					<td><?php echo $product->space_usetype; ?></td>
+					<td><?php echo strtoupper($product->publication_type); ?></td>
 					<td><?php echo $product->account; ?></td>
 					<td><?php echo $product->outsourced == 1 ? $product->seller_account : $product->account; ?></td>
 					<td>

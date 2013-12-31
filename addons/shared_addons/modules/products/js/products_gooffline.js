@@ -165,7 +165,8 @@ $(document).ready(function(){
             process: VECqueueProcess[PIndex],
             index: Nindex,
             frontid: frontID,
-            typeid: typeID                   
+            typeid: typeID,
+            prodcatid: prodcatID                    
         };
         $.ajax({
                 type: "POST",

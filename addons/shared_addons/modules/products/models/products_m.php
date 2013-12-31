@@ -16,8 +16,11 @@ class Products_m extends MY_Model {
 
 	
 	function insert_features($array)
-	{
-		return $this->db->insert_batch($this->t_products_f, $array); 
+	{	
+		if(!empty($array))
+		{
+			return $this->db->insert_batch($this->t_products_f, $array); 
+		}
 	}
 
 
@@ -164,6 +167,7 @@ class Products_m extends MY_Model {
 	        "prod.account_id AS account_id,". 
 	        "prod.seller_account_id AS seller_account_id,". 
 	        "prod.outsourced AS outsourced,". 
+	        "prod.publication_type AS publication_type,". 
 	        "prod.location_id AS location_id,". 
 	        "prod.space_id AS space_id,". 
 	        "prod.space_usetype_id AS space_usetype_id,". 	        

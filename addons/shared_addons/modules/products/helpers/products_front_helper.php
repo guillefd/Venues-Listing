@@ -168,14 +168,15 @@ function show_validation($value)
 
 
 function populate_front_items_ids($items, $dd_array)
-{
+{	
 	if(is_array($items))
 	{
 		foreach ($items as $item) 
-		{
+		{		
 			$item->category = isset($dd_array->cat_products_array[$item->draft_prod_cat_id]) ? $dd_array->cat_products_array[$item->draft_prod_cat_id] : '';
 			$item->account = ci()->products->get_account_field_by_id($item->draft_account_id, 'name');
 			$item->seller_account = ci()->products->get_account_field_by_id($item->draft_seller_account_id, 'name');
+			$item->publicationtype = $item->prod_space_usetype_slug == '' ? 'BASIC' : 'CATEGORY';
 		}
 	}
 	return $items;
@@ -187,6 +188,7 @@ function populate_front_publish_item_ids($item, $dd_array)
 	$item->category = isset($dd_array->cat_products_array[$item->prod_cat_id]) ? $dd_array->cat_products_array[$item->prod_cat_id] : '';
 	$item->account = ci()->products->get_account_field_by_id($item->account_id, 'name');
 	$item->seller_account = ci()->products->get_account_field_by_id($item->seller_account_id, 'name');
+	$item->publicationtype = $item->space_usetype_slug == '' ? 'BASIC' : 'CATEGORY';	
 	return $item;
 }
 

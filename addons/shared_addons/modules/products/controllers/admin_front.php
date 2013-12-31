@@ -288,21 +288,13 @@ class Admin_Front extends Admin_Controller
 			$this->session->set_flashdata(array('error' => sprintf(lang('front:error_noexist'), $front_id)));
 			redirect('admin/products/front/index/'.$typeid);				
 		}			
-		// $this->load->model(array('products_front_m'));	    	
-  //       if($this->products_front_m->delete_front($front_id, $typeid))
-		// {
-		// 	$this->session->set_flashdata(array('success' => sprintf(lang('front:delete_success'), $front_id)));			
-		// }	
-		// else
-		// 	{
-		// 		$this->session->set_flashdata(array('error' => sprintf(lang('front:delete_error'), $front_id)));				
-		// 	}
 		$this->template
 			 ->title($this->module_details['name'])
 			 ->append_js('module::products_gooffline.js')
 			 ->append_css('module::jquery-ui-progressbar.css')				 
 			 ->set('front', $front)
 			 ->set('typeid', $typeid)	 			 
+			 ->set('prodcatid', $prod_cat_id)
 			 // TEMPLATE must exist	 
 			 ->build('admin/front/publish/templates/typeid__'.$typeid.'/gooffline');	
 	}
@@ -352,7 +344,7 @@ class Admin_Front extends Admin_Controller
 				/* gooffline */						
 
 				case 'deletecloudimages':
-										$result = $this->ajx_delete_front_cloud_images($this->input->post('frontid'), $this->input->post('typeid'));	
+										$result = $this->ajx_delete_front_cloud_images($this->input->post('frontid'), $this->input->post('typeid'), $this->input->post('prodcatid'));	
 										break;	
 
 				case 'unpublishproduct':  	
@@ -497,8 +489,8 @@ class Admin_Front extends Admin_Controller
 		return $result;			
 	}	
 
-	public function ajx_delete_front_cloud_images($frontid, $typeid)
-	{
+	public function ajx_delete_front_cloud_images($frontid, $typeid, $prodcatid)
+	{	
 		$result = new stdClass();
 		$front = $this->products_front_m->get_front_by_id($frontid, $typeid);
 		if($front == null)
@@ -517,8 +509,8 @@ class Admin_Front extends Admin_Controller
 				$apiResponse->result = null;
 				$apiResponse->data = array();
 				foreach($imgCloudArray as $objName)
-				{
-					$response = $this->googleapiclient->delete_object($GCS_config->buckets[$typeid], $objName);
+				{					
+					$response = $this->googleapiclient->delete_object($GCS_config->buckets[$prodcatid], $objName);
 					if($response !== null)
 					{
 						$apiResponse->result = false;
