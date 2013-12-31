@@ -19,14 +19,22 @@ function doAjaxQuery(data)
         data: form_data,
         dataType: 'html',
         success: function(result){
-            $('#btnCancel').attr('class','cancel btn orange');            
-            //replace Table with new values 
-            $('#indexView').replaceWith(result);            
+            if(result!='')
+            {
+                $('#btnCancel').attr('class','cancel btn orange');            
+                //replace Table with new values                 
+                $('#indexView').replaceWith(result);
+            }
+            else
+                {
+                    alert('error(typeidNotFound)');
+                }            
             // remove GIF
             $('#loader').remove();                          
         },
         error: function()
         {
+            alert('error(comm)');            
             $('#loader').remove(); 
         }
     });         
@@ -41,7 +49,7 @@ $(document).ready(function(){
         f_data.category_id = $('select[name="f_category_id"]');
         f_data.status_id = $('select[name="f_status"]');    
         f_data.deleted = $('select[name="f_deleted"]');                
-        f_data.link = SITE_URL + 'admin/products/ajax_filter';
+        f_data.link = SITE_URL + 'admin/products/ajax_filter/1';
 
         $('#btnCancel').attr('class','btn gray cancel');
    

@@ -37,14 +37,14 @@
 					<td><?php echo $product->account; ?></td>
 					<td><?php echo $product->outsourced == 1 ? $product->seller_account : $product->account; ?></td>
 					<td>
-						<?php echo anchor('admin/products/view/' . $product->product_id, '<i class="icon-eye-open"></i>', 'class="modal btn gray" title="'.lang('global:view').'"'); ?>
-						<?php echo anchor('admin/products/edit/'.$product->typeid.'/'. $product->product_id, '<i class="icon-edit"></i>', 'class="btn gray edit" title="'.lang('global:edit').'"'); ?>
-						<?php echo anchor('admin/products/delete/' . $product->product_id, '<i class="icon-trash"></i>', 'class="confirm btn gray delete" title="'.lang('global:delete').'"'); ?>
+						<?php echo anchor('admin/products/view/'.$product->typeid.'/'.$product->product_id, '<i class="icon-eye-open"></i>', 'class="modal btn gray" title="'.lang('global:view').'"'); ?>
+						<?php echo anchor('admin/products/edit/'.$product->typeid.'/'.$product->product_id, '<i class="icon-edit"></i>', 'class="btn gray edit" title="'.lang('global:edit').'"'); ?>
+						<?php echo anchor('admin/products/delete/'.$product->typeid.'/'.$product->product_id, '<i class="icon-trash"></i>', 'class="confirm btn gray delete" title="'.lang('global:delete').'"'); ?>
 					</td>
 					<td>
-						<?php echo anchor('admin/products/publishdraft/' . $product->product_id, '<i class="icon-share icon-white"></i>', $product->btn_publish_draft.' title="Solicitar publicación en vivo"'); ?>				
-						<?php echo anchor('admin/products/publishdraft/' . $product->product_id, '<i class="icon-retweet icon-white"></i>', $product->btn_update_draft.' title="Actualizar Publicación"'); ?>				
-						<?php echo anchor('admin/products/deletedraft/' . $product->product_id, '<i class="icon-remove icon-white"></i>', $product->btn_delete_draft.' title="Eliminar Publicación"'); ?>				
+						<?php echo anchor('admin/products/publishdraft/'.$product->typeid.'/'.$product->product_id, '<i class="icon-share icon-white"></i>', $product->btn_publish_draft.' title="Solicitar publicación en vivo"'); ?>				
+						<?php echo anchor('admin/products/publishdraft/'.$product->typeid.'/'.$product->product_id, '<i class="icon-retweet icon-white"></i>', $product->btn_update_draft.' title="Actualizar Publicación"'); ?>				
+						<?php echo anchor('admin/products/deletedraft/'.$product->typeid.'/'.$product->product_id, '<i class="icon-remove icon-white"></i>', $product->btn_delete_draft.' title="Eliminar Publicación"'); ?>				
 					</td>
 					<td>
 						<?php echo '<span class="'.$product->txt_validation_draft.'">'.$product->icon_validation_draft.' <small>Validación</small></span><br>'; ?>

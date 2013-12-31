@@ -120,6 +120,7 @@ $lang['products_post_add_error'] 				= 'Ha ocurrido un error.';
 $lang['products_edit_success'] 					= 'La publicación "%s" fue actualizada.';
 $lang['products_edit_error'] 					= 'Ha ocurrido un error.';
 $lang['products_edit_error_noexist'] 			= 'La publicación a editar no existe.';
+$lang['products_edit_not_defined']				= 'Publicación no definida';
 $lang['products_error_noexist'] 			    = 'La publicación no existe.';
 $lang['products_mass_publish_success'] 			= 'Los productos "%s" fueron publicados.';
 $lang['products_publish_error'] 				= 'Hubo un error al publicarse.';
@@ -139,6 +140,7 @@ $lang['products_seller_account_not_selected']	= 'Ha habilitado "%s", debe selecc
 $lang['products:delete_consistency_error']      = "No es posible eliminar la publicación, esta en uso en %s.<br><small>Para eliminarlo, borre los items mencionados y vuelva a intentarlo.</small>";
 $lang['products_create_select_type']            = "Seleccione la categoría de la publicación que desea crear.";
 $lang['products_create_select_type_not_defined']   = "La plantilla de creación aun no esta definida.";
+$lang['product_type_not_defined']				= 'El tipo de producto [%s] no esta definido';
 
 
 $lang['products_publish_draft_error_noexist'] 		= 'La publicación no existe, no es posible generar la plantilla de publicación.';

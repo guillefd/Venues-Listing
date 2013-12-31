@@ -36,7 +36,7 @@ class Module_Products extends Module {
                               'products' => array
                                             (
                                             'name' => 'products_list',
-                                            'uri' => 'admin/products',
+                                            'uri' => 'admin/products/index/1',
                                             'shortcuts' => array
                                                            (
                                                             array

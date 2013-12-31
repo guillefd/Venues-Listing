@@ -5,10 +5,10 @@
 	<section class="item">
 		<div class="content">		
 			<?php if ($products) : ?>
-			<?php echo $this->load->view('admin/products/partials/filters'); ?>
+			<?php echo $this->load->view('admin/products/partials/filters__1'); ?>
 			<div id="filter-stage">
 				<?php echo form_open('admin/products/action'); ?>
-				<?php echo $this->load->view('admin/products/tables/products'); ?>
+				<?php echo $this->load->view('admin/products/tables/products__1'); ?>
 				<?php echo form_close(); ?>
 			</div>
 			<?php else : ?>

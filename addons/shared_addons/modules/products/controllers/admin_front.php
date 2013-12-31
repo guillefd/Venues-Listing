@@ -29,7 +29,7 @@ class Admin_Front extends Admin_Controller
 	{
 		parent::__construct();	
 		$this->load->model('products_front_m');
-        $this->load->helper(array('products','products_front'));
+        $this->load->helper(array('products_front', 'products'));
 		$this->lang->load(array('front','products', 'categories', 'locations','features','spaces'));
 		// Load the validation library along with the rules
 		$this->load->library(array('form_validation','product_type', 'products', 'categories','features_categories','usageunit','geoworldmap', 'layouts', 'shapes', 'facilities','spaces_usetype'));            

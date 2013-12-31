@@ -1,6 +1,40 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 
+/**
+ * [gen_dropdowns_array 
+ * generates products dropdowns]
+ * @return [type] [description]
+ */
+function gen_dropdowns_array()
+{
+    $dd_array = new stdClass();
+    $dd_array->type_array = ci()->product_type->gen_dd_array();
+    // categoria de espacio a publicar ----------------
+    $dd_array->spaces_usetype_array = ci()->spaces_usetype->gen_dd_array();  
+    /* ----------------------------------------------- */
+    $dd_array->type_with_cat_products_multiarray = ci()->categories->gen_dd_multiarray();
+    $dd_array->cat_products_array = ci()->categories->gen_dd_array();
+    $dd_array->cat_features_array = ci()->features_categories->gen_dd_array();
+    $dd_array->usageunit_array = ci()->usageunit->gen_dd_array();  
+    $dd_array->dd_yes_no  = gen_dd_yes_no_filter();
+    $dd_array->dd_status = gen_dd_status();     
+	$dd_array->hours = array_combine($hours = range(0, 23), $hours);
+	$dd_array->minutes = array_combine($minutes = range(0, 59), $minutes);
+	return $dd_array;   		 	
+} 
+
+function gen_dd_yes_no_filter()
+{
+    return array('0'=>lang('products_no_label'),'1'=>lang('products_yes_label'));
+}
+
+function gen_dd_status()
+{
+    return array(''=>lang('products_all_label'),'1'=>lang('products_published'),'0'=>lang('products_not_published'));
+}
+
+
 function golive_validation_rules($typeid)
 {
 	switch($typeid)
