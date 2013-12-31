@@ -50,7 +50,11 @@
 						<strong><?php echo lang('front:product_usetype') ?></strong>
 					</td>
 					<td>
-						[<?php echo $item->space_usetype ?>]
+						<?php if($item->space_usetype==''): ?>
+							[PUBLICACION BASICA]
+						<?php else: ?>
+							[<?php echo $item->space_usetype ?>]
+						<?php endif; ?>	
 					</td>
 					<td>
 						<?php echo lang('front:id') ?>: <?php echo $item->space_usetype_id; ?><br>

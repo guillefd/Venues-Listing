@@ -44,8 +44,8 @@ class Publication
 	}
 
 	public function create()
-	{
-		$this->prodset->set_validation_rules();		
+	{			
+		$this->prodset->set_validation_rules();	
 		if (ci()->form_validation->run())
 		{
 			$this->prodset->set_create_data_array();

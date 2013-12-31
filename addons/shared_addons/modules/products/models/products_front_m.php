@@ -36,7 +36,7 @@ class Products_front_m extends MY_Model
 	 * @return [type]        [description]
 	 */
 	function insert_product_front_draft($product, $typeid)
-	{
+	{		
 		//init transaction
 		$this->db->trans_start();
 			//insert product info
@@ -107,7 +107,7 @@ class Products_front_m extends MY_Model
 			$this->db->insert($this->t_prod_front_draft_PREF.$typeid, $data);
 			$id = $this->db->insert_id();
 			//insert product_facilities
-			unset($data);
+			$data=array();
 			foreach($product->facilities as $facility)
 			{
 				$item->front_space_id = $id;
@@ -115,9 +115,12 @@ class Products_front_m extends MY_Model
 				$data[] = $item;
 				unset($item);
 			}
-			$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_facilities', $data);
+			if(!empty($data))
+			{			
+				$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_facilities', $data);
+			}
 			//insert product_usetypes
-			unset($data);
+			$data=array();
 			foreach($product->usetypes as $usetype)
 			{
 				$item->front_space_id = $id;
@@ -125,9 +128,12 @@ class Products_front_m extends MY_Model
 				$data[] = $item;
 				unset($item);
 			}
-			$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_usetypes', $data);
+			if(!empty($data))
+			{			
+				$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_usetypes', $data);
+     		}
      		//insert product_features
-			unset($data);
+			$data=array();
 			foreach($product->layouts_array as $layout=>$capacity)
 			{
 				$item->front_space_id = $id;
@@ -136,9 +142,12 @@ class Products_front_m extends MY_Model
 				$data[] = $item;
 				unset($item);
 			}
-			$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_layouts', $data);
+			if(!empty($data))
+			{			
+				$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_layouts', $data);
+			}
 			//insert product_layouts
-			unset($data);
+			$data=array();
 			foreach($product->features as $feature)
 			{
 				$item->front_space_id = $id;
@@ -151,8 +160,10 @@ class Products_front_m extends MY_Model
 				$data[] = $item;
 				unset($item);				
 			}
-			$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_features', $data);			
-
+			if(!empty($data))
+			{			
+				$this->db->insert_batch($this->t_prod_front_draft_PREF.$typeid.'_features', $data);	
+			}		
 		$this->db->trans_complete();
 		// end
 		return $this->db->trans_status();
@@ -460,20 +471,31 @@ class Products_front_m extends MY_Model
 							$front_id = $this->db->insert_id();	
 						/* insert front facilities */	
 							$data = $this->prepare_front_space_facilities($draft->facilities, $front_id);
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_facilities', $data);
-							unset($data);
+							if(!empty($data))
+							{
+						 		$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_facilities', $data);
+							}
+							$data=array();
 						/* insert front usetypes */	
-							$data = $this->prepare_front_space_usetypes($draft->usetypes, $front_id);
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_usetypes', $data);
-							unset($data);
+							$data = $this->prepare_front_space_usetypes($draft->usetypes, $front_id);				
+							if(!empty($data))
+							{
+								$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_usetypes', $data);
+							}
+							$data=array();							
 						/* insert front features */	
 							$data = $this->prepare_front_space_features($draft->features, $front_id);
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_features', $data);
-							unset($data);
+							if(!empty($data))
+							{
+								$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_features', $data);
+							}
+							$data=array();
 						/* insert front layouts */	
 							$data = $this->prepare_front_space_layouts($draft->layouts, $front_id);
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_layouts', $data);							
-							unset($data);
+							if(!empty($data))
+							{
+								$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_layouts', $data);							
+							}							
 					$this->db->trans_complete();
 					return $this->db->trans_status();						
  	       			break;
@@ -513,20 +535,32 @@ class Products_front_m extends MY_Model
 							$this->db->update($this->t_prod_front_PREF.$type_id, $draft_array);				
 						/* insert front facilities */	
 							$data = $this->prepare_front_space_facilities($draft->facilities, $front_id);
-						 	$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_facilities', $data);
-							unset($data);
+							if(!empty($data))
+							{
+						 		$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_facilities', $data);
+							}
+							$data=array();
 						/* insert front usetypes */	
 							$data = $this->prepare_front_space_usetypes($draft->usetypes, $front_id);				
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_usetypes', $data);
-							unset($data);							
+							if(!empty($data))
+							{
+								$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_usetypes', $data);
+							}
+							$data=array();							
 						/* insert front features */	
 							$data = $this->prepare_front_space_features($draft->features, $front_id);
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_features', $data);
-							unset($data);
+							if(!empty($data))
+							{
+								$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_features', $data);
+							}
+							$data=array();
 						/* insert front layouts */	
 							$data = $this->prepare_front_space_layouts($draft->layouts, $front_id);
-							$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_layouts', $data);							
-							unset($data);
+							if(!empty($data))
+							{
+								$this->db->insert_batch($this->t_prod_front_PREF.$type_id.'_layouts', $data);							
+							}
+							$data=array();
 					$this->db->trans_complete();
 					return $this->db->trans_status();						
  	       			break;

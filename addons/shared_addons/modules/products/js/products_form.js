@@ -6,18 +6,27 @@ var input_seller_account = $('input[name="seller_account"]');
 
 var vecS = Array;
 
+var usetypeSelectOptions;
+
 $(document).ready(function(){
 
     // Init location and space dropdown    
     init_locations_and_spaces_selects();
     //init seller account input
     init_seller_account_input();
+    //init seller account input
+    init_basic_publication();
+
 
 // watchers - triggers :::::::::::::::::::::::::::::::::::::::::
  
     $('#product_chk_seller_account').click(function() {
         toggle_seller_account_input();
     }); 
+
+    $('#chk_basic_publication').click(function() {
+        toggle_basic_publication();
+    });     
 
     function init_seller_account_input()
     {
@@ -31,6 +40,11 @@ $(document).ready(function(){
         }
     }
 
+    function init_basic_publication()
+    {
+        toggle_basic_publication();      
+    }
+
     function toggle_seller_account_input()
     {
         if( $('#product_chk_seller_account').is(':checked') )
@@ -42,6 +56,24 @@ $(document).ready(function(){
         {
             $('#seller_accountAjax').attr('disabled','disabled');
         }
+    }
+
+    function toggle_basic_publication()
+    {
+        if( $('#chk_basic_publication').is(':checked') )
+        { 
+            $('.basicTargetFields').addClass('UsetypeDisabledOption'); 
+            $("#space_usetype_id_chzn").addClass('UsetypeDisabledOption');            
+            $('textarea[name="intro"]').attr('disabled','disabled').addClass('UsetypeDisabledOption');
+            $('textarea[name="body"]').attr('disabled','disabled').addClass('UsetypeDisabledOption');
+        }
+        else
+            {
+                $('.basicTargetFields').removeClass('UsetypeDisabledOption');
+                $('select[name="space_usetype_id"]').removeClass('UsetypeDisabledOption');            
+                $('textarea[name="intro"]').removeAttr('disabled').removeClass('UsetypeDisabledOption');
+                $('textarea[name="body"]').removeAttr('disabled').removeClass('UsetypeDisabledOption');            
+            }       
     }    
 
     function init_locations_and_spaces_selects()

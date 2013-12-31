@@ -4,9 +4,9 @@
 $lang['products_posted_label']					= 'Escrito';
 $lang['products_keywords_label']				= 'Palabras claves'; #translate
 $lang['products_tagged_label']					= 'Tagged'; #translate
-$lang['products_category_label'] 				= 'Categoría';
-$lang['products_category_createform_label'] 	= 'Categoría de Publicación';
-$lang['products_space_usetype_label']           = 'Categoría del Espacio';
+$lang['products_category_label'] 				= 'Categoría gral';
+$lang['products_category_createform_label'] 	= 'Categoría general de la Publicación';
+$lang['products_space_usetype_label']           = 'Categoría a publicar el Espacio';
 $lang['products_category_createform_sublabel'] 	= 'SubTipo';
 $lang['products_category_sh_label'] 			= 'Categoría';
 $lang['products_usetype_label'] 				= 'Cat. espacio';
@@ -18,6 +18,7 @@ $lang['products_seller_account_autoload_label'] = '(Cuenta para Gestión y Venta
 $lang['products_outsourced_label'] 				= 'Gestiona';
 $lang['products_chk_seller_account_label'] 		= 'Publicación Administrada por otra Cuenta';
 $lang['products_chk_seller_account_txt_label'] 	= 'Habilitar';
+$lang['products_chk_basic_publication_txt_label']	= '<strong>Publicación básica.</strong> No publicar en Categoria.';
 $lang['products_enabled_label'] 	     		= 'Habilitado';
 $lang['products_disabled_label'] 				= 'Deshabilitado';
 $lang['products_all_label'] 	     			= 'Todos';
@@ -78,6 +79,7 @@ $lang['product_view_title']                		= 'Publicación: ';
 $lang['product_detail_label']                	= 'Detalle de la publicación';
 $lang['products_f_description']                 = 'Descripción adicional';
 $lang['products_if_applies_label']              = '(Seleccione si aplica a la publicación)';
+$lang['products_spaceselect_label']				= 'Selección del espacio';
 
 // new
 $lang['products_info_label'] 				= 'Información';
@@ -118,7 +120,7 @@ $lang['products_currently_no_posts'] 			= 'No hay publicaciones hasta el momento
 $lang['products_post_add_success'] 				= 'La publicación "%s" fue agregada.';
 $lang['products_post_add_error'] 				= 'Ha ocurrido un error.';
 $lang['products_edit_success'] 					= 'La publicación "%s" fue actualizada.';
-$lang['products_edit_error'] 					= 'Ha ocurrido un error.';
+$lang['products_edit_error'] 					= 'Ha ocurrido un error al editar.';
 $lang['products_edit_error_noexist'] 			= 'La publicación a editar no existe.';
 $lang['products_edit_not_defined']				= 'Publicación no definida';
 $lang['products_error_noexist'] 			    = 'La publicación no existe.';

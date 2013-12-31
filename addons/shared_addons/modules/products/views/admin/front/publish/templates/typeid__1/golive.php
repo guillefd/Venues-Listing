@@ -24,7 +24,13 @@ var img_loader = '<img src="' + IMG_PATH + 'indicator.gif" style="float:right; m
 			</tr>
 			<tr>	
 				<td><strong><?php echo lang('front:product_usetype') ?></strong></td>
-				<td>[<?php echo $draft->space_usetype; ?>]</td>
+				<td>
+					<?php if($draft->space_usetype==''): ?>
+						[PUBLICACION BASICA]
+					<?php else: ?>
+						[<?php echo $draft->space_usetype ?>]
+					<?php endif; ?>						
+				</td>
 			</tr>
 			<tr>	
 				<td><strong><?php echo lang('front:product_name') ?></strong></td>

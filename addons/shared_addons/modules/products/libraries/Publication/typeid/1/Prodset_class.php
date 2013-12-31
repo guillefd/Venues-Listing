@@ -18,6 +18,7 @@ class Prodset
 	public $tot_rows;
 	public $post_data;
 	public $result;
+	public $basicpublication;
 	public $data_array;
 	public $item;
 	public $draft;
@@ -41,9 +42,36 @@ class Prodset
 
     function set_validation_rules()
     {
+		$this->chk_post_basic_publication();    	
     	$this->set_validation_rules_values();
 		ci()->form_validation->set_rules( $this->validation_rules );    	
     }
+
+    function chk_post_basic_publication()
+    {
+    	if( ci()->input->post('chk_basic_publication')==1)
+    	{
+    		$this->basicpublication = true;
+    	}
+    	else
+	    	{
+	    		$this->basicpublication = false;
+	    	}	    
+    }
+
+    function chk_item_basic_publication()
+    {
+	    if($this->item->space_usetype_id == 0)
+	    {
+	    	$this->item->chk_basic_publication = 1;
+	    	$this->basicpublication = true;
+	    }
+    	else
+	    	{
+	    		$this->item->chk_basic_publication = '';
+	    		$this->basicpublication = false;
+	    	}
+    }    
 
     /////////////////////////////////////////
     // INDEX --------------------------- / //
@@ -125,22 +153,28 @@ class Prodset
 		$imgIDs = gen_imageIDs_array(ci()->input->post('dzfileslistid'));
 		/* DATA ARRAY */
 		$this->data_array = array(
-							'location_id'       => convert_empty_value_to_zero(ci()->input->post('location_id')),
-							'space_id'          => convert_empty_value_to_zero(ci()->input->post('space_id')),
-							'space_usetype_id'  => ci()->input->post('space_usetype_id'),			
-							'category_id'       => ci()->input->post('category_id'),
-							'account_id'        => ci()->input->post('account_id'),
-							'outsourced'        => convert_empty_value_to_zero(ci()->input->post('chk_seller_account')),
-							'seller_account_id' => convert_empty_value_to_zero(ci()->input->post('seller_account_id')),
-							'name'				=> ci()->input->post('name'),
-							'slug'				=> slugify_string(ci()->input->post('name')),
-							'intro'				=> ci()->input->post('intro'),
-							'body'				=> ci()->input->post('body'),
-							'images'			=> ci()->input->post('dzfileslistid'),
-							'created_on'        => now(),								
-							'author_id'			=> ci()->current_user->id,
-							'updated_on'        => now(),								
-							);    	
+						'location_id'       => convert_empty_value_to_zero(ci()->input->post('location_id')),
+						'space_id'          => convert_empty_value_to_zero(ci()->input->post('space_id')),
+						'space_usetype_id'  => ci()->input->post('space_usetype_id'),			
+						'category_id'       => ci()->input->post('category_id'),
+						'account_id'        => ci()->input->post('account_id'),
+						'outsourced'        => convert_empty_value_to_zero(ci()->input->post('chk_seller_account')),
+						'seller_account_id' => convert_empty_value_to_zero(ci()->input->post('seller_account_id')),
+						'name'				=> ci()->input->post('name'),
+						'slug'				=> slugify_string(ci()->input->post('name')),
+						'images'			=> ci()->input->post('dzfileslistid'),
+						'intro'				=> ci()->input->post('intro'),
+						'body'				=> ci()->input->post('body'),						
+						'created_on'        => now(),								
+						'author_id'			=> ci()->current_user->id,
+						'updated_on'        => now(),								
+					);    
+		if($this->basicpublication === true)
+		{
+			$this->data_array['space_usetype_id'] = 0;
+			$this->data_array['intro'] = '';
+			$this->data_array['body'] = '';
+		}							
     }
 
     function run_save()
@@ -150,16 +184,19 @@ class Prodset
 		$product_id = ci()->products_m->insert($this->data_array);		
 		if($product_id)
 		{
-			$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
-			$features_array = array();
-			$features_array = $this->generate_features_array_from_json( $features_field_list, ci()->input->post('features'), $product_id );
 			if( ($prod_folder_id = check_folder($product_id)) && (count($imgIDs)>0) )
 			{
 				//imagenes
 				move_tempfiles_to_prod_folder($prod_folder_id, $imgIDs);	
 			}
+			if($this->basicpublication=== false)
+			{
+				$this->save_features();
+			}
 		}
-		if (ci()->products_m->insert_features($features_array))
+		ci()->db->trans_complete();
+		// END TRANSACTION :::::::::::::::::::::::::::::::::::::			
+		if (ci()->db->trans_status())
 		{
 			ci()->session->set_flashdata(
 				'success', sprintf(ci()->lang->line('products_post_add_success'),ci()->input->post('title'))
@@ -168,11 +205,19 @@ class Prodset
 		else
 			{
 				ci()->session->set_flashdata('error', ci()->lang->line('products_post_add_error'));
-			}
-		ci()->db->trans_complete();
-		// END TRANSACTION :::::::::::::::::::::::::::::::::::::			
+			}		
 		$this->redirect_index();	
     }
+
+    function save_features()
+    {
+		$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
+		$features_array = array();
+		$features_array = $this->generate_features_array_from_json( $features_field_list, ci()->input->post('features'), $product_id );
+		ci()->products_m->insert_features($features_array);    	
+    }
+
+
 
     function run_create_view()
     {    	
@@ -223,7 +268,8 @@ class Prodset
 				$this->item->features = ci()->products_m->get_all_features_by_id($id);	
 				$this->item->features = $this->populate_features_array($this->item->features);
 		        $this->item->features_json = $this->generate_features_json_from_array($this->item->features);
-		        $this->item->dzfileslistid = $this->item->images;					
+		        $this->item->dzfileslistid = $this->item->images;		
+				$this->chk_item_basic_publication();		        					
 			}
 			else
 				{
@@ -236,7 +282,7 @@ class Prodset
 				//save feature json
 				$this->item->features_json = ci()->input->post('features');
 				// if post exist, save edited, else save database value.
-				$this->item->dzfileslistid = ci()->input->post('dzfileslistid'); 				
+				$this->item->dzfileslistid = ci()->input->post('dzfileslistid');				 				
 			}    	
     }
 
@@ -259,8 +305,15 @@ class Prodset
 								'body'				=> ci()->input->post('body'),
 								'images'			=> ci()->input->post('dzfileslistid'),
 								'updated_on'        => now(),									
-							);	    	
+							);	
+		if($this->basicpublication === true)
+		{
+			$this->data_array['space_usetype_id'] = 0;
+			$this->data_array['intro'] = '';
+			$this->data_array['body'] = '';
+		}							    	
     }
+
 
     function run_update($id)
     {
@@ -269,33 +322,42 @@ class Prodset
 		$result = ci()->products_m->update_product($id, $this->data_array);			
 		if ($result && ci()->products_m->delete_products_features($id) )
 		{
-			//features
-			$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
-			$features = array();
-			$features = $this->generate_features_array_from_json( $features_field_list, ci()->input->post('features'), $id );
 			//imagenes
 			if( ($prod_folder_id = check_folder($id)) && (count($imgIDs)>0) )
 			{
 				//imagenes
 				move_tempfiles_to_prod_folder($prod_folder_id, $imgIDs);
-			}				
-			if (ci()->products_m->insert_features($features))
+			}	
+			if($this->basicpublication=== false)
 			{
-				ci()->session->set_flashdata(array('success' => sprintf(lang('products_edit_success'), ci()->input->post('name'))));
-			}
-			else
-			{
-				ci()->session->set_flashdata('error', $this->lang->line('products_edit_error'));
-			}		
+				$this->update_features($id);
+			}					
 		}			
 		else
-		{
-			ci()->session->set_flashdata('error', $this->lang->line('products_edit_error'));
-		}
+			{
+				ci()->session->set_flashdata('error', ci()->lang->line('products_edit_error'));
+			}
 		ci()->db->trans_complete();
 		// END TRANSACTION :::::::::::::::::::::::::::::::::::::			
+		if (ci()->db->trans_status())
+		{						
+			ci()->session->set_flashdata(array('success' => sprintf(lang('products_edit_success'), ci()->input->post('name'))));
+		}
+		else
+			{
+				ci()->session->set_flashdata('error', ci()->lang->line('products_edit_error'));
+			}					
 		// Redirect back to the form or main page
 		$this->redirect_index();    	
+    }
+
+
+    function update_features($id)
+    {
+		//features
+			$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
+			$features = array();
+			$features = $this->generate_features_array_from_json( $features_field_list, ci()->input->post('features'), $id );    	
     }
 
 
@@ -317,6 +379,7 @@ class Prodset
             ->append_js('module::jquery/jquery.mask.min.js')                        
 			->append_js('module::products_form.js')
             ->append_js('module::products_form_features.js')
+        	->set('product_type_name', $this->dd_array->type_array[TYPEID])            
 			->set('product', $this->item)
 			->set('dzForm', ci()->dropzone->dzFormMarkup('admin/products/filetempupload_ajax'))
 			->set('dd_array', $this->dd_array)
@@ -375,8 +438,7 @@ class Prodset
 	    if( $this->item = ci()->products_m->get($id) )
 	    {
 			$this->item = $this->populate_product_ids_iteration($this->item);
-			$this->item->features = ci()->products_m->get_all_features_by_id($id);
-			$this->item->features = $this->populate_features_array($this->item->features);
+			$this->chk_item_basic_publication();
 		}
 		else
 			{
@@ -387,7 +449,7 @@ class Prodset
 
     function set_draft_template($id)
     {
-		$this->set_full_draft();	
+		$this->set_draft($id);	
 		if($this->draft === null)
 		{
 			ci()->session->set_flashdata(array('error' => sprintf(lang('products_publish_draft_error_template_gen'), $id)));
@@ -415,12 +477,13 @@ class Prodset
 		ci()->load->model(array('products_front_m'));    	
     }
 
+
 	/**
 	 * [gen_front_draft__1_template Generate Front Draft Template of data, for Product Type = 1]
 	 * @param  [type] $product [description]
 	 * @return [type]          [description]
 	 */
-	function set_full_draft()
+	function set_draft()
 	{
 		//get category detail
 		$this->item->category = ci()->categories->get_by_id($this->item->category_id);
@@ -445,9 +508,20 @@ class Prodset
 		//generate front-slug
 		$this->item->space->space_slug = $this->gen_space_slug($this->item->space->denomination, $this->item->space->name);
 		//get space usetype
-	 	$usetype = ci()->spaces_usetype->get_by_id($this->item->space_usetype_id);
-		$this->item->space_usetype_slug = $usetype->slug;
-		$this->item->space_usetype = $usetype->name;
+		if($this->basicpublication)
+		{
+			$this->item->space_usetype_slug = '';
+			$this->item->space_usetype = '';
+			$this->item->features = array();			
+		}
+		else
+		{
+			$this->item->features = ci()->products_m->get_all_features_by_id($id);
+			$this->item->features = $this->populate_features_array($this->item->features);			
+		 	$usetype = ci()->spaces_usetype->get_by_id($this->item->space_usetype_id);
+			$this->item->space_usetype_slug = $usetype->slug;
+			$this->item->space_usetype = $usetype->name;
+		}	
 		//generate space_usetypes array
 		$this->item->usetypes = unserialize($this->item->space->usetypes);	
 		//check 
@@ -568,85 +642,101 @@ class Prodset
 		$product->location = ci()->products->get_location_field_by_id($product->location_id, 'name');
 		$product->space = ci()->products->get_space_field_by_id($product->space_id, 'name');
 		$product->typeid = get_product_typeid($product->category_id);
-		$product->space_usetype = isset($product->space_usetype_id) ? ci()->spaces_usetype->get_field_by_id($product->space_usetype_id, 'name') : '';
+		$product->space_usetype = isset($product->space_usetype_id) && $product->space_usetype_id>0 ? ci()->spaces_usetype->get_field_by_id($product->space_usetype_id, 'name') : 'BASIC';
 		return $product;
 	}
 
 
 	function set_validation_rules_values()
 	{	
-		$this->validation_rules =  array(       
-										array(
-											'field' => 'category_id',
-											'label' => 'lang:products_category_label',
-											'rules' => 'trim|numeric|required'
-										),
-										array(
-											'field' => 'account',
-											'label' => 'lang:products_account_label',
-											'rules' => 'trim'
-										),             
-										array(
-											'field' => 'account_id',
-											'label' => 'lang:products_account_label',
-											'rules' => 'trim|numeric|required'
-										), 
-										array(
-											'field' => 'seller_account',
-											'label' => 'lang:products_account_label',
-											'rules' => 'trim'
-										), 
-										array(
-											'field' => 'chk_seller_account',
-											'label' => 'lang:products_chk_seller_account_label',
-											'rules' => 'trim'
-										), 										
-										array(
-											'field' => 'seller_account_id',
-											'label' => 'lang:products_account_label',
-											'rules' => 'trim|numeric|callback__check_seller_account_option'
-										), 	
-								        array(
-											'field' => 'name',
-											'label' => 'lang:products_title_label',
-											'rules' => 'trim|htmlspecialchars|required|max_length[100]'
-										),
-										array(
-											'field' => 'intro',
-											'label' => 'lang:products_intro_label',
-											'rules' => 'trim'
-										),
-										array(
-											'field' => 'body',
-											'label' => 'lang:products_content_label',
-											'rules' => 'trim|required'
-										),
-										array(
-											'field' => 'features',
-											'label' => 'lang:products_features_label',
-											'rules' => 'trim|required|callback__check_features'
-										),
-										array(
-											'field' => 'dzfileslistid',
-											'label' => 'lang:products_images_label',
-											'rules' => 'trim'
-										),					
-										array(
-											'field' => 'location_id',
-											'label' => 'lang:products_location_label',
-											'rules' => 'trim|numeric|required'
-										),                        
-										array(
-											'field' => 'space_id',
-											'label' => 'lang:products_space_label',
-											'rules' => 'trim|numeric|required'
-										),
-										array(
-											'field' => 'space_usetype_id',
-											'label' => 'lang:products_space_usetype_label',
-											'rules' => 'trim|numeric|required'
-										),
-									);		
+		$basicArr =  array(       
+						array(
+							'field' => 'category_id',
+							'label' => 'lang:products_category_label',
+							'rules' => 'trim|numeric|required'
+						),
+						array(
+							'field' => 'account',
+							'label' => 'lang:products_account_label',
+							'rules' => 'trim'
+						),             
+						array(
+							'field' => 'account_id',
+							'label' => 'lang:products_account_label',
+							'rules' => 'trim|numeric|required'
+						), 
+						array(
+							'field' => 'seller_account',
+							'label' => 'lang:products_account_label',
+							'rules' => 'trim'
+						), 
+						array(
+							'field' => 'chk_seller_account',
+							'label' => 'lang:products_chk_seller_account_label',
+							'rules' => 'trim'
+						), 										
+						array(
+							'field' => 'seller_account_id',
+							'label' => 'lang:products_account_label',
+							'rules' => 'trim|numeric|callback__check_seller_account_option'
+						), 	
+				        array(
+							'field' => 'name',
+							'label' => 'lang:products_title_label',
+							'rules' => 'trim|htmlspecialchars|required|max_length[100]'
+						),
+						array(
+							'field' => 'dzfileslistid',
+							'label' => 'lang:products_images_label',
+							'rules' => 'trim'
+						),					
+						array(
+							'field' => 'location_id',
+							'label' => 'lang:products_location_label',
+							'rules' => 'trim|numeric|required'
+						),                        
+						array(
+							'field' => 'space_id',
+							'label' => 'lang:products_space_label',
+							'rules' => 'trim|numeric|required'
+						),
+						array(
+							'field' => 'chk_basic_publication',
+							'label' => 'products_chk_basic_publication_txt_label',
+							'rules' => 'trim'
+						),										
+					);
+
+		$fullArr = array(
+						array(
+							'field' => 'space_usetype_id',
+							'label' => 'lang:products_space_usetype_label',
+							'rules' => 'trim|numeric|required'
+						),			
+						array(
+							'field' => 'intro',
+							'label' => 'lang:products_intro_label',
+							'rules' => 'trim'
+						),
+						array(
+							'field' => 'body',
+							'label' => 'lang:products_content_label',
+							'rules' => 'trim|required'
+						),
+						array(
+							'field' => 'features',
+							'label' => 'lang:products_features_label',
+							'rules' => 'trim|required|callback__check_features'
+						),		
+					);
+		if($this->basicpublication === true)
+		{
+			$this->validation_rules = $basicArr;
+		}
+		else
+			{
+				$this->validation_rules = array_merge($basicArr, $fullArr);
+			}
 	}
 
 

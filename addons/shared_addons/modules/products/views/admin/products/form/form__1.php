@@ -32,6 +32,7 @@
 		<div class="tabs">
 			<ul class="tab-menu">
 				<li><a href="#products-setup-tab"><span><?php echo lang('products_setup_label'); ?></span></a></li>
+				<li><a href="#products-spaceselect-tab"><span><?php echo lang('products_spaceselect_label'); ?></span></a></li>
 				<li><a href="#products-features-tab"><span><?php echo lang('products_features_label'); ?></span></a></li>                
 				<li><a href="#products-images-tab"><span><?php echo lang('products_images_label'); ?></span></a></li>        
 			</ul>
@@ -59,42 +60,56 @@
 			                </div>	
 			            </div>
 					</li> 					                                                                                  
-					<li class="even">                			
-						<label for="location_id"><?php echo lang('products_location_label'); ?> <span> *</span></label>				
-						<div class="input">
-							<?php echo form_dropdown('location_id', array(), '','class="med" data-placeholder="'.lang('products_no_locations_select_label').'"') ?>					                
-		                </div>
-					</li> 			                                                                                  
-					<li class="even">                 
-						<label for="space_id"><?php echo lang('products_space_label'); ?> <span> *</span></label>                                                   	                
-		                <div class="input">                                    
-							<?php echo form_dropdown('space_id', array(), '','class="med" data-placeholder="'.lang('products_no_spaces_select_label').'"') ?>					                
-		                </div>				                                
-					</li>
+					<li class="even">
+						<label for="name"><?php echo lang('products_name_label'); ?> <span>*</span></label>
+						<div class="input"><?php echo form_input('name', htmlspecialchars_decode($product->name), 'class="med" maxlength="200" id="name"'); ?></div>				
+					</li>					
 					<li class="even">
 						<label for="category_id"><?php echo lang('products_category_createform_label'); ?> <span> *</span></label>
 						<div class="input">
 		                 <?php echo form_dropdown('category_id', array(''=>'') + $dd_categories, $product->category_id,' data-placeholder="'.lang('products_no_category_select_label').'" id="category_id" ') ?>					
 						</div>
-					</li>		
-					<li class="even"> 
-						<label for="space_usetype_id"><?php echo lang('products_space_usetype_label'); ?> <span> *</span></label>  				 		                                                                	                
-		                <div class="input">                                    
-							<?php echo form_dropdown('space_usetype_id', array(), '','class="med" data-placeholder="'.lang('products_no_space_selected_label').'"') ?>					                
-		                </div>			                		                                
-					</li>													                    			                     
+					</li>															                    			                     
 				</ul>		
 				</fieldset>		
 			</div>
 
 			<!-- Infos tab -->
-			<div class="form_inputs" id="products-features-tab">
+			<div class="form_inputs" id="products-spaceselect-tab">
 		        <fieldset>	
-		            <ul>  		            	
-					<li class="even">
-						<label for="name"><?php echo lang('products_name_label'); ?> <span>*</span></label>
-						<div class="input"><?php echo form_input('name', htmlspecialchars_decode($product->name), 'maxlength="100" id="name"'); ?></div>				
-					</li>					
+		            <ul> 
+						<li class="even">                			
+							<label for="location_id"><?php echo lang('products_location_label'); ?> <span> *</span></label>				
+							<div class="input">
+								<?php echo form_dropdown('location_id', array(), '','class="med" data-placeholder="'.lang('products_no_locations_select_label').'"') ?>					                
+			                </div>
+						</li> 			                                                                                  
+						<li class="even">                 
+							<label for="space_id"><?php echo lang('products_space_label'); ?> <span> *</span></label>                                                   	                
+			                <div class="input">                                    
+								<?php echo form_dropdown('space_id', array(), '','class="med" data-placeholder="'.lang('products_no_spaces_select_label').'"') ?>					                
+			                </div>				                                
+						</li>
+					</ul>		
+				</fieldset>	                        
+		    </div>  
+
+
+			<!-- Infos tab -->
+			<div class="form_inputs" id="products-features-tab">
+		        <fieldset class="basicTargetFields">	
+		            <ul>  
+		            <li>
+		                <p class="block-warning">
+		                	<span class><?php echo form_checkbox('chk_basic_publication', 1, $product->chk_basic_publication == 1, ' id="chk_basic_publication" '); ?></span><?php echo lang('products_chk_basic_publication_txt_label'); ?>	
+		                </p>		            	
+		            </li>	
+					<li class="even"> 
+						<label for="space_usetype_id"><?php echo lang('products_space_usetype_label'); ?> <span> *</span></label>  				 		                                                                	                
+		                <div class="input">                                    
+							<?php echo form_dropdown('space_usetype_id', array(), '',' id="space_usetype_id" class="med" data-placeholder="'.lang('products_no_space_selected_label').'"') ?>					                
+		                </div>			                		                                
+					</li>		            		            						
 					<li>
 						<label for="intro"><?php echo lang('products_intro_label'); ?> <span></span></label>
 						<div class="input">

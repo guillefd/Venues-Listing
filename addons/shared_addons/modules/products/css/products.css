@@ -343,4 +343,25 @@ table tr.deleted{
 #loader{
     float: center;
 }
+
+/* form */
+
+p.block-warning{
+    padding: 5px;
+    margin: 10px 0 10px 0;
+    font-size: 13px;
+    color: #313131;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #fff0c0;
+    border: 1px solid #ffe38d;
+    width: 300px;   
+}
+
+.UsetypeDisabledOption{
+    color: #999;
+}
+
  
