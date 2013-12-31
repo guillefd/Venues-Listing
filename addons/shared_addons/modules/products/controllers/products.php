@@ -232,6 +232,7 @@ class Products extends Public_Controller
 						break;
 
 			case 400:
+						$modalform = $this->load->view('frontend/modals/form400query', $this->front->page, true);			
 						$this->template
 							->title($this->module_details['name'])
 							->set_layout('L_item_cat_1')
@@ -239,6 +240,7 @@ class Products extends Public_Controller
 							->set('item', $this->front->page->result->item)
 							->set('facilitiesArr', $this->front->page->get_categoryauxiliars('facilities'))
 							->set('layoutsArr', $this->front->page->get_categoryauxiliars('layouts'))
+							->set('modalform', $modalform)							
 							->build($this->front->page->view['view']);
 						break;	
 			default: redirect('/');										

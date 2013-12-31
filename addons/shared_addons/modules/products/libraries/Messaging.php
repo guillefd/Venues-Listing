@@ -17,6 +17,9 @@ class Messaging
 {
 	public $msg;
 	public $result;
+	public $messenger;
+	public $messenger_domain;
+	public $messenger_response;
 
     function __construct($params)
     {	
@@ -42,6 +45,14 @@ class Messaging
 		$this->result->response = true;
 		$this->result->Error = true;
 		$this->result->message = 'initError';
+	}
+
+	private function load_mailgun_api()
+	{
+		require_once 'addons/shared_addons/libraries/Mailgun/Mailgun.php';
+		# Instantiate the client.
+		$this->messenger = new Mailgun($this->msg->cfg['mailgun_api']);
+		$this->messenger_domain = $this->msg->cfg['mailgun_domain'];
 	}
 
     ////////////////////////////
@@ -98,14 +109,47 @@ class Messaging
 
     public function run_queues()
     { 
-$this->__dump();       	
+        //config
+        $config['protocol'] = 'sendmail';
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'utf-8';
+        ci()->email->initialize($config);
+
+    	$this->messenger_response = array();  	
     	foreach($this->msg->queuelist as $queue)
     	{ 		
-    		//insert queue to DB
-			//API CALL 
-			//save API result
-    	}     
+	        ci()->email->from($queue['from']);
+	        ci()->email->to($queue['to']);
+	        ci()->email->subject($queue['subject']);
+	        ci()->email->message($queue['html']);        
+        	$this->messenger_response[] = ci()->email->send();    		
+    	}
+    	$this->save_queuelist_to_db();        	
     } 
+
+
+    public function save_queuelist_to_db()
+    {
+    	$data = array();
+    	$q = array();
+    	$i = 0;
+		foreach($this->msg->queuelist as $queue)
+		{
+			$q['msg_id'] = $this->msg->dbinsertedID;
+			$q['queuetype'] = $queue['type'];
+			$q['from'] = $queue['from'];
+			$q['to'] = $queue['to'];
+			$q['subject'] = $queue['subject'];
+			$q['html'] = $queue['html'];
+			$q['sendattempt'] = $this->messenger_response[$i];
+			array_push($data, $q);
+			$i++;
+		}		
+		if(!empty($data))
+		{
+			ci()->db->insert_batch($this->msg->cfg['msgqueuedb'], $data);
+		}		    	
+    }
 
 
 	//////////////////////////////

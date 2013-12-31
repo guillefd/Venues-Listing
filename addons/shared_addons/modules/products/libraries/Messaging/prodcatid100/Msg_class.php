@@ -44,7 +44,11 @@ class Msg
 		$this->cfg['msgformdb'] = $settings['msg_db_form_messages'][$this->prodcatid];
 		$this->cfg['dbfields'] = $settings['msg_db_fields'][$this->prodcatid];  
 		$this->cfg['template'] = $settings['msg_template'][$this->prodcatid][$this->viewid];
-		$this->cfg['systemparams'] = $settings['msg_system_params']; 
+		$this->cfg['systemparams'] = $settings['msg_system_params'];
+		$this->cfg['mailgun_api'] = $settings['msg_mailgun_api'];
+		$this->cfg['mailgun_domain'] = $settings['msg_mailgun_domain'];
+		$this->cfg['msgqueuedb'] = $settings['msg_db_api_queue'];
+		$this->cfg['msgqueuedb_fields'] = $settings['msg_db_api_queue_fields'];				 
     }
 
 	private function init()
@@ -87,6 +91,26 @@ class Msg
 			                    	);	
 							break;
 
+			case 'form400query': 	
+							return array(
+			                            array(
+			                                'field' => 'name',
+			                                'label' => 'lang:front:form-name',
+			                                'rules' => 'trim|required'
+			                            ), 
+			                            array(
+			                                'field' => 'email',
+			                                'label' => 'lang:front:form-email',
+			                                'rules' => 'trim|valid_email|required'
+			                            ), 
+			                            array(
+			                                'field' => 'message',
+			                                'label' => 'lang:front:form-message',
+			                                'rules' => 'trim|required'
+			                            ),                                                                 
+			                    	);	
+							break;							
+
 			default: 
 							return array();
 		}	
@@ -115,6 +139,19 @@ class Msg
 															'name'=>$post['name'],																																	
 															);
 							break;
+
+			case 'form400query':		
+							$this->frontitemparams = array(
+															'prod_cat_slug'=>$post['dataFprod_cat_slug'],
+															'loc_city_slug'=>$post['dataFloc_city_slug'],
+															'loc_slug'=>$post['dataFloc_slug'],
+															'space_slug'=>$post['dataFspace_slug'],
+															'reference'=>$post['reference'],
+															'message'=>$post['message'],
+															'email'=>$post['email'],
+															'name'=>$post['name'],																																	
+															);
+							break;
 		}
 	}	
 
@@ -125,6 +162,7 @@ class Msg
 		{
 			/* consulta en vista espacio */
 			case 'form300query':			
+			case 'form400query':
 						$dataTOserialize = array(
 												'prod_cat_slug'=>$this->frontitem->prod_cat_slug,
 												'loc_city_slug'=>$this->frontitem->loc_city_slug,
@@ -202,6 +240,7 @@ class Msg
 		$subject = $this->replace_string_data_vars($queuedata['subject']);
 		$html = $this->set_email_html($queuedata['html']);
 		$queue = array(
+						'type'=>$queuedata['type'],	
 						'name'=>$queuedata['queuename'],
 						'from'=>$from,
 						'to'=>$to,
