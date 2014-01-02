@@ -27,7 +27,7 @@ class Messaging
 		switch($params['prodcatid'])
 		{
 			case ALQUILERDESALAS_CATID: 
-										require_once 'messaging/prodcatid100/Msg_class.php';					    				
+										require_once 'Messaging/prodcatid100/Msg_class.php';					    				
 									    break;
 
 			default:					return $this->result;						    

@@ -22,7 +22,7 @@ class Publication
 		switch($params['typeid'])
 		{
 			case ALQ_ESPACIOS_TYPEID: 
-										require_once 'publication/typeid/'.ALQ_ESPACIOS_TYPEID.'/prodset_class.php';
+										require_once 'Publication/typeid/'.ALQ_ESPACIOS_TYPEID.'/Prodset_class.php';
 										break;
 
 			default:					
