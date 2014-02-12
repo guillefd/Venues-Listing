@@ -8,7 +8,7 @@
 #itempanelnav > li > a{
 	font-weight: bold;
 	color: #393c3d;
-	font-size: 14px;	
+	font-size: 18px;	
 }
 
 
@@ -44,13 +44,14 @@ div.panel-heading > h3{
 }
 
 
-ul.list-group.spacedetails{
-	margin: 5px 10px 10px 10px;
-	width: 50%;	
+ul.list-group.spacedetails > li{
+	padding: 5px 20px;
 }
 
-ul.list-group.spacedetails > li{
-	padding: 5px 10px;
+ul.list-group.spacedetails > li.active{
+	background-color: #ededed;
+	font-weight: bold;
+	font-size: 18px;
 }
 
 ul.list-group.spacedetails > li > span.badge.white{
@@ -112,24 +113,24 @@ table.detail > tbody > tr > td > dl > dd{
 }
 
 span.label.facility{
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
 	line-height: 20px;
 	display: inline-block;
 	width: 170px;
 	padding: 4px;
-	margin: 0px 3px 3px 0px;
+	margin: 0px 0px 3px 0px;
 }
 
 span.label.facility.label-default{
 	background-color: #ccc;
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: normal;
 	line-height: 20px;
 	display: inline-block;
 	width: 170px;
 	padding: 4px;
-	margin: 0px 3px 3px 0px;
+	margin: 0px 0px 3px 0px;
 }
 
 table.detail > tbody > tr > td > .panel{
@@ -153,6 +154,28 @@ span.label.usetype{
 span.label.usetype.label-default{
 	background-color: #ccc;
 }
+
+div.itempanel.svdetails table tr td{
+	vertical-align: top;
+	padding: 10px;
+}
+
+div.itempanel.svdetails table tr td ul li.active{
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #ededed;
+
+}
+
+.panel.panel-default.facilities .panel-body{
+	padding: 0px;
+}
+
+.panel.panel-default.facilities .panel-body div p{
+	margin: 10px;
+}
+
+
 
 /* layouts tab */
 
@@ -213,9 +236,11 @@ span.label.usetype.label-default{
 
 /* layouts panel */
 
-.panel-default>.panel-heading {
+.panel-default > .panel-heading {
 	color: #393c3d;
 	background-color: #ededed;
+	font-size: 18px;
+	font-weight: bold;
 }
 
 div#layoutsdetailpanel.panel-body{
@@ -331,6 +356,10 @@ div#layoutsdetailpanel.panel-body p{
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;	
 }
 
+#usetypesdetailpanel > p{
+	margin-bottom: 13px;
+}
+
 #usetypesdetailpanel > div{
 	text-align: center;
 }
@@ -400,6 +429,13 @@ div#layoutsdetailpanel.panel-body p{
 
 /* SpaceView SideBar */
 
+.inner-page.space-view h2.firstit{
+	font-size: 35px !important;
+	font-weight: bold;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 25px;
+}
+
 .inner-page.space-view .inner-sidebar{
 	padding-top: 20px;
 }
@@ -419,8 +455,16 @@ div#layoutsdetailpanel.panel-body p{
 	padding: 15px;
 	background: #fcfcfc;
 	font-size: 13px;
-	line-height: 24px;
+	line-height: 16px;
 	border: 1px solid #eee;
+}
+
+.inner-page.space-view .inner-sidebar .widget-content ul.fa-ul{
+	margin-left: 21px;
+}
+
+.inner-page.space-view .inner-sidebar .widget-content ul.fa-ul li{
+	margin-bottom: 5px;
 }
 
 .inner-page.space-view .inner-sidebar .side-widget .widget-content h2 {
@@ -446,20 +490,32 @@ div#layoutsdetailpanel.panel-body p{
 	border: 0px; 
 }
 
-.inner-page.space-view h2 strong {
+/*.inner-page.space-view h2 strong {
 	font-size: 25px;
-}
+}*/
 
 .inner-page.space-view h2.sub {
 	margin-top: 0px;	
-	margin-bottom: 10px;
+	margin-bottom: 1px;
 	color: #393c3d;	
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #393c3d;
+	font-size: 35px;
+	padding-bottom: 5px;
+}
+
+.list-inline.sub{
+	font-size: 13px;
 }
 
 .inner-page.space-view h2.sub strong {
 	font-size: 35px;
-	color: #4ab6f6;
+	color: #4ab6f6;	
+}
+
+.inner-page.space-view h2.sub span.loctit {
+	font-size: 35px;
+	color: #393c3d;	
+/*	font-weight: bold;*/
 }
 
 .inner-page.space-view ul.list-inline {
@@ -468,6 +524,23 @@ div#layoutsdetailpanel.panel-body p{
 
 .inner-page.space-view{
 	color: #393c3d;
+}
+
+.inner-page.space-view div.widget-content i{
+	min-width: 10px;
+}
+
+.widget-content .space-panel{
+	margin: 20px 0px;
+	padding: 15px;
+	background-color: #ededed;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+}
+
+.widget-content .space-panel h3{
+	margin: 0px 0px 10px;
+	color: #4ab6f6;	
 }
 
 /* MAP */

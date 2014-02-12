@@ -587,7 +587,7 @@ button.btn.btn-link.plus-options{
 }
 
 .table-homelist > tbody > tr > td.theader{
-	padding: 10px 10px 10px;
+	padding: 10px 10px 5px;
 }
 
 .table-homelist > tbody > tr > td.theader span.title{
@@ -658,6 +658,18 @@ button.btn.btn-link.plus-options{
 	font-weight: bold;
 	font-size: 13px;
 }
+
+/* product table */
+.table-homelist.product > tbody > tr > td.theader h4 span.label-usetype a{
+	margin: 0px;
+ 	color: #fff;
+/*	text-shadow: 0 1px 0 rgba(255,255,255,0.8);*/
+}
+
+.table-homelist.product > tbody > tr > td.theader h4 span.label-usetype a:hover{
+	color: #ededed;
+}
+
 
 /* alertbox */
 .alert.flashdata{

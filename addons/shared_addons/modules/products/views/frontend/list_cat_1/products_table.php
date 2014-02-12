@@ -1,7 +1,7 @@
 <?php $i = $result->list->offset; ?>
 <?php foreach($result->list->items as $item): ?>
 <div id="amrresulttable" class="table-responsive">
-	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
+	<table class="table table-bordered table-homelist product" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
 			<td rowspan="4" width="300px">
 				<div id="crsl-homelist-<?php echo $item->id ?>" class="carousel slide crsl-homelist" data-ride="carousel">
@@ -27,22 +27,23 @@
 			</td>
 			<td colspan="2" class="theader">
 				<h4>				
-					<span class="label-usetype"><span class="glyphicon glyphicon-ok"></span> <?php echo $item->space_usetype_slug ?></span> 						
-					<a href="<?php echo $item->itemUri; ?>">
-						<span class="glyphicon glyphicon-chevron-right"></span> 
-						<?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?>
-					</a>
+				<a href="<?php echo $item->itemUri; ?>"><h4><span class="glyphicon glyphicon-chevron-right"></span> <?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?></a>
 					<span class="pull-right">
 						<span class="glyphicon glyphicon-map-marker"></span> <?php echo $item->loc_area ?>
 					</span>
 					<span class="pull-right"> 
-						<span class="glyphicon glyphicon-user"></span> <?php echo $item->space_max_capacity ?> &nbsp;&nbsp;&nbsp;
+						<span class="glyphicon glyphicon-user"></span> <?php echo $item->space_max_capacity ?>  <a data-toggle="tooltip" title="Capacidad máxima de personas">pax</a> &nbsp;&nbsp;&nbsp;
 					</span>						
 				</h4>						
 			</td>
 		</tr>
 		<tr>
 			<td class="content" width="35%">
+				<ul class="list-group">
+					<span class="label label-success"><?php echo $item->space_usetype_slug ?> <span class="glyphicon glyphicon-ok"></span></span>
+				</ul>
+			</td>
+			<td class="content">
 				<ul class="list-group">
 					<li class="list-group-item">
 						<span class="badge badge-inv"><?php echo $item->space_width ?> x <?php echo $item->space_length ?> (<?php echo $item->space_square_mt ?> m2)</span>
@@ -51,15 +52,7 @@
 					<li class="list-group-item">
 						<span class="badge badge-inv"><?php echo $item->space_shape ?></span>
 						<p><span class="glyphicon glyphicon-stop"></span> forma</p>
-					</li>				
-				</ul>
-			</td>
-			<td class="content">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->space_max_capacity ?></span>
-						<p><span class="glyphicon glyphicon-user"></span> capacidad max</p>
-					</li>			
+					</li>		
 				</ul>			
 			</td>
 		</tr>	
@@ -67,7 +60,7 @@
 			<td class="content">
 				<ul class="list-group">
 					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->loc_name ?></span>
+						<span class="badge badge-inv color"><?php echo $item->loc_name ?></span>
 						<h5>Locación</h5>
 					</li>			
 				</ul>					
@@ -93,7 +86,7 @@
 			<td class="content last">
 				<ul class="list-group">
 					<li class="list-group-item">
-						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>">Ver mas</a>					
+						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>">Ver servicios y consultar</a>					
 						<span class="badge badge-inv"></span>
 					</li>				
 				</ul>

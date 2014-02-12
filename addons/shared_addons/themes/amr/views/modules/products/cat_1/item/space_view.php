@@ -5,19 +5,18 @@
 	<div class="container">	
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-1">
-				<h2><strong>Alquiler de <?php echo $item->space_denomination ?></strong></h2>
-				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> en <?php echo $item->loc_name ?></h2>
-				<ul class="list-inline">
-				  <li><i class="fa fa-home"></i> <?php echo $item->loc_type.' ('.$item->space_denomination.')'; ?></li>
-				  <li><i class="fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' '.round_number($item->loc_geo_street_number).' ('.$item->loc_area.'), '.$item->loc_city.', '.$item->loc_country ?></li>				  				  
+				<h2 class="firstit">Alquiler de <?php echo $item->space_denomination ?></h2>
+				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> <span class="loctit">en <?php echo $item->loc_name ?></span></h2>
+				<ul class="list-inline sub">
+				  <li><i class="fa fa-home"></i> <?php echo $item->loc_type; ?></li>
+				  <li><i class="fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' al '.round_number($item->loc_geo_street_number).' ('.$item->loc_area.'), '.$item->loc_city; ?></li>				  				  
 				</ul>
 				<!-- PHOTOS AND MAP -->
 				<div class="itempanel">
 					<div class="inner-tab">
 						<!-- Nab Bar Tan Menu list -->
 						<ul id="itempanelnav" class="nav nav-tabs">
-							<li class="active"><a href="#photo" data-toggle="tab">Fotos y Mapa</a></li>
-<!-- 							<li><a id="btnMap" href="#map" data-toggle="tab">Mapa</a></li> -->
+							<li class="active"><a href="#photo" data-toggle="tab"><i class="fa fa-picture-o"></i> Fotos  /  <i class="fa fa-map-marker"></i> Mapa</a></li>
 						</ul>
 						<!-- Content for each menu item -->
 						<div class="tab-content">
@@ -54,144 +53,34 @@
 						</div>
 					</div>
 				</div>
-				<!-- SPACE USETYPES -->
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">Usos del espacio</h3>
-					</div>
-					<div id="usetypesdetailpanel" class="panel-body">
-						<p>El espacio es adecuado y esta sugerido para realizar:</p>
-						<div>
-						<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
-							<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
-								<span class="label label-primary usetype" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
-							<?php else: ?>
-								<span class="label label-default usetype"><span class="glyphicon glyphicon-remove"></span>&nbsp;
-							<?php endif; ?>
-							<?php echo $obj->name; ?></span>
-						<?php endforeach; ?>
-						</div>
-					</div>
-				</div>	
 
-				<!-- SPACE LOCATION DETAILS -->				
-				<div class="itempanel spacedetails">
-					<div class="inner-tab">
-						<!-- Nab Bar Tan Menu list -->
-						<ul id="itempanelnav" class="nav nav-tabs">
-							<li class="active"><a href="#spacedetail" data-toggle="tab"><?php echo $item->space_denomination; ?></a></li>
-							<li><a href="#locationdetail" data-toggle="tab">Locación</a></li>
-							<li><a href="#facilitiesdetail" data-toggle="tab">Facilidades</a></li>				
-						</ul>	
-						<!-- Content for each menu item -->
-						<div class="tab-content">
-							<div class="tab-pane fade in active" id="spacedetail">								
-								<ul class="list-group spacedetails pull-right">
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->space_denomination; ?></span>
-										Tipo de espacio
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->space_max_capacity; ?></span>
-										Capacidad máxima
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->space_width.' x '.$item->space_length.' mt (alto '.$item->space_height.' mt)'; ?></span>
-										Medidas
-									</li>	
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->space_square_mt; ?> m2</span>
-										Metros cuadrados
-									</li>																	
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->space_shape; ?></span>
-										Forma
-									</li>	
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->space_level; ?></span>
-										Nivel
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_country; ?></span>
-										Pais
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_city; ?></span>
-										Ciudad
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_area; ?></span>
-										Zona
-									</li>
-								</ul>
-								<p class="half">Detalles y especificaciones del Espacio.</p>								
-							</div>
-							<div class="tab-pane fade in" id="locationdetail">
-								<ul class="list-group spacedetails pull-right">
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_type; ?></span>
-										Tipo de locación
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_name; ?></span>
-										Nombre
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_geo_street_name; ?></span>
-										Dirección (Calle)
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo round_number($item->loc_geo_street_number); ?></span>
-										Dirección (Altura)
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_country; ?></span>
-										Pais
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_city; ?></span>
-										Ciudad
-									</li>
-									<li class="list-group-item">
-										<span class="badge white"><?php echo $item->loc_area; ?></span>
-										Zona
-									</li>
-								</ul>
-								<p class="half">Detalles y especificaciones de la Locación.</p>		
-							</div>
-							<div class="tab-pane fade in" id="facilitiesdetail">
-								<p>Facilidades disponibles en el espacio, pueden ser opcionales o incluidas en el alquiler.</p>	
-								<table class="detail">	
-									<?php foreach($this->front->page->get_categoryauxiliars('facilities_dd') as $catname=>$listcatArr): ?>	
-									<tr>	
-										<td>
-											<dl class="dl-horizontal">
-												<dt><?php echo $catname ?></dt>
-												<dd>									
-												<?php $i=0; ?>
-												<?php foreach($listcatArr as $id=>$name): ?>
-												<?php $i++; ?>
-													<?php if(in_array($id, $item->data_facilities)): ?>
-														<span class="label label-success facility" data-toggle="tooltip" title="<?php echo $facilitiesArr[$id]->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
-													<?php else: ?>
-														<span class="label label-default facility"><span class="glyphicon glyphicon-remove"></span>&nbsp;
-													<?php endif; ?>
-													<?php echo $name; ?></span>
-												<?php endforeach; ?>
-												</dd>												
-											</dl>
-										</td>
-									</tr>		
-									<?php endforeach; ?>
-								</table>	
-							</div>							
-						</div>
-					</div>
-				</div>	
+				<!-- SPACE DETAILS -->				
+				<ul class="list-group spacedetails">
+					<li class="list-group-item active">
+						<i class="fa fa-sign-in"></i> <?php echo $item->space_denomination; ?> <?php echo $item->space_name; ?>
+					</li>												
+					<li class="list-group-item">
+						<span class="pull-right"><?php echo $item->space_max_capacity; ?> pax</span>
+						<i class="fa fa-users"></i> Capacidad máxima
+					</li>
+					<li class="list-group-item">
+						<span class="pull-right"><?php echo $item->space_width.' x '.$item->space_length.' mt (alto '.$item->space_height.' mt)'; ?> / <?php echo $item->space_square_mt; ?> m2</span>
+						<i class="fa fa-arrows-alt"></i> Medidas
+					</li>																
+					<li class="list-group-item">
+						<span class="pull-right"><?php echo $item->space_shape; ?></span>
+						<i class="fa fa-external-link-square"></i> Forma
+					</li>	
+					<li class="list-group-item">
+						<span class="pull-right"><?php echo $item->space_level; ?></span>
+						<i class="fa fa-bars"></i> Nivel
+					</li>
+				</ul>
+
 				<!-- SPACE LAYOUTS -->
-				<div class="panel panel-default">
+				<div class="panel panel-default layouts">
 					<div class="panel-heading">
-						<h3 class="panel-title">Armados</h3>
+						<i class="fa fa-wrench"></i> Armados
 					</div>
 					<div id="layoutsdetailpanel" class="panel-body">
 						<p>Armados disponibles y su capacidad máxima.</p>	
@@ -220,7 +109,61 @@
 						</tr>
 						</table>
 					</div>
-				</div>																	
+				</div>	
+
+				<!-- SPACE USETYPES -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<i class="fa fa-gears"></i> Servicios
+					</div>
+					<div id="usetypesdetailpanel" class="panel-body">
+						<p>El espacio es adecuado y esta sugerido para realizar:</p>
+						<div>
+						<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
+							<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
+								<span class="label label-success usetype" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
+							<?php else: ?>
+								<span class="label label-default usetype"><span class="glyphicon glyphicon-remove"></span>&nbsp;
+							<?php endif; ?>
+							<?php echo $obj->name; ?></span>
+						<?php endforeach; ?>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel panel-default facilities">
+					<div class="panel-heading"><i class="fa fa-plus-square"></i> Facilidades</div>
+					<div class="panel-body">
+							<div id="facilitiesdetail">
+								<p>Facilidades disponibles en el espacio, pueden ser opcionales o incluidas en el alquiler.</p>	
+								<table class="detail">	
+									<?php foreach($this->front->page->get_categoryauxiliars('facilities_dd') as $catname=>$listcatArr): ?>	
+									<tr>	
+										<td>
+											<dl class="dl-horizontal">
+												<dt><?php echo $catname ?></dt>
+												<dd>									
+												<?php $i=0; ?>
+												<?php foreach($listcatArr as $id=>$name): ?>
+												<?php $i++; ?>
+													<?php if(in_array($id, $item->data_facilities)): ?>
+														<span class="label label-success facility" data-toggle="tooltip" title="<?php echo $facilitiesArr[$id]->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
+													<?php else: ?>
+														<span class="label label-default facility" data-toggle="tooltip" title="No disponible"><span class="glyphicon glyphicon-remove"></span>&nbsp;
+													<?php endif; ?>
+													<?php echo $name; ?></span>
+												<?php endforeach; ?>
+												</dd>												
+											</dl>
+										</td>
+									</tr>		
+									<?php endforeach; ?>
+								</table>	
+							</div>
+					</div>
+				</div>
+																
 			</div>
 			<!-- Side Bar Start -->
 			<div class="col-xs-12 col-sm-12 col-md-3">
@@ -229,12 +172,27 @@
 					<div class="side-widget">
 						<div class="widget-content">
 							<h2><?php echo $item->loc_name; ?></h2>
-							<p>
-								<i class="fa fa-home"></i> <?php echo $item->loc_type ?><br>
-								<i class="fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' '.round_number($item->loc_geo_street_number).', '.$item->loc_city; ?>
-							</p>							
-							<button class="btn large amrblue btn-block" data-toggle="modal" data-target="#amrformmessage">Envianos una consulta</button>
-						</div>
+							<ul class="fa-ul">
+								<li><i class="fa-li fa fa-home"></i> <?php echo $item->loc_type ?></li>
+								<li><i class="fa-li fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' al '.round_number($item->loc_geo_street_number); ?>
+								<br>(<?php echo $item->loc_area ?>) </li>	
+								<li><i class="fa-li fa fa-globe"></i><?php echo $item->loc_city ?>, <?php echo $item->loc_country ?></li>
+							</ul>
+							<div class="space-panel">
+								<h3><?php echo $item->space_denomination; ?> <?php echo $item->space_name; ?></h3>
+								<ul class="fa-ul">
+									<li><i class="fa-li fa fa-gears"></i> Servicios:<br>
+										<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
+											<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
+												<i class="fa fa-check"></i> <?php echo $obj->name; ?><br>
+											<?php endif; ?>
+										<?php endforeach; ?> 
+									</li>
+									<li><i class="fa-li fa fa-users"></i> <?php echo $item->space_max_capacity ?> pax.</li>
+								</ul>
+							</div>
+							<button class="btn btn-lg amrblue btn-block" data-toggle="modal" data-target="#amrformmessage">Envianos una consulta</button>						
+						</div>					
 					</div>
 				</div>
 			</div>

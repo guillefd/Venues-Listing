@@ -13,7 +13,7 @@ $(document).ready(function(){
     //map data params
     var gmapData = $.parseJSON(amrMapData);
 
-    if(showmap == 1)
+    if(typeof showmap != 'undefined' && showmap == 1)
     {
         setTimeout(initialize, 500);       
     }

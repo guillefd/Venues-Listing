@@ -8,7 +8,12 @@ $(document).ready(function(){
 	});
 
 	//tooltip
-	$('span.label.label-success.facility').tooltip();
+	$('span.label.label-success.facility').tooltip({
+		container: 'body'
+	});
+	$('span.label.label-default.facility').tooltip({
+		container: 'body'
+	});
 
 	//tooltip
 	$('span.label.label-primary.usetype').tooltip();
