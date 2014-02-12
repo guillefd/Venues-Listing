@@ -505,6 +505,8 @@ button.btn.btn-link.plus-options{
 	bottom: 5px;
 }
 
+/* caption big ---------------------------------------------------------*/
+
 .carousel.crsl-homelist > .carousel-inner > .item > .carousel-caption,
 .carousel.crsl-homelist > .carousel-inner >.item > a > .carousel-caption{
 	padding-bottom: 20px;
@@ -520,6 +522,18 @@ button.btn.btn-link.plus-options{
 	right: 2px;
 	left: 2px;
 }
+
+/* caption small ---------------------------------------------------------*/
+
+.carousel.crsl-homelist > .carousel-inner > .item > .carousel-caption.ccsm,
+.carousel.crsl-homelist > .carousel-inner >.item > a > .carousel-caption.ccsm{
+	padding-bottom: 8px;
+	padding-top: 8px;
+}
+
+/* END caption big ---------------------------------------------------------*/
+
+
 .carousel.crsl-homelist > .carousel-inner > .item > img, .carousel-inner >.item > a > img{
 	border: 2px solid #efefef;	
 	-moz-border-radius: 3px 0px 0px 3px;
@@ -529,6 +543,19 @@ button.btn.btn-link.plus-options{
 
 .carousel.crsl-homelist > .carousel-inner >.item > a:hover > img{
 	border: 2px solid #F9009D;
+}
+
+.carousel-control{
+	font-size: 30px;
+	opacity: .8;
+	filter: alpha(opacity=80);
+}
+
+.carousel-control .icon-prev, 
+.carousel-control .icon-next, 
+.carousel-control .glyphicon-chevron-left, 
+.carousel-control .glyphicon-chevron-right {
+	top: 40%;
 }
 
 /* TABLE HOMELIST*/
@@ -623,6 +650,13 @@ button.btn.btn-link.plus-options{
 	color: #666;
 	background-color: #fff;
 	font-weight: normal;
+}
+
+.table-homelist > tbody > tr > td.content > .list-group > .list-group-item .badge-inv.color {
+	color: #25A7F5;
+	background-color: #fff;
+	font-weight: bold;
+	font-size: 13px;
 }
 
 /* alertbox */

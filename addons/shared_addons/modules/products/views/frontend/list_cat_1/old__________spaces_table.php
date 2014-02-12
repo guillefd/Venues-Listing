@@ -3,14 +3,14 @@
 <div id="amrresulttable" class="table-responsive">
 	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
-			<td rowspan="4" width="200px">
+			<td rowspan="4" width="300px">
 				<div id="crsl-homelist-<?php echo $item->id ?>" class="carousel slide crsl-homelist" data-ride="carousel">
 				<div class="carousel-inner">
-					<?php foreach($item->cloud_th_images as $index=>$img): ?>
+					<?php foreach($item->cloud_sm_images as $index=>$img): ?>
 						<div class="item <?php if($index==0) echo 'active'; ?>">
 							<a href="<?php echo $item->itemUri; ?>">
 								<img src="<?php echo $media->cdnUri.$img; ?>" alt="<?php echo $item->space_denomination.' '.$item->space_name ?>" />
-								<div class="carousel-caption ccsm">
+								<div class="carousel-caption">
 									<p><?php echo $item->space_denomination.' '.$item->space_name ?></p>
 								</div>
 							</a>
@@ -31,16 +31,38 @@
 					<span class="glyphicon glyphicon-map-marker"></span> <?php echo $item->loc_area ?>
 				</span>
 				<span class="pull-right"> 
-					<i class="fa fa-users"></i> <?php echo $item->space_max_capacity ?> <a data-toggle="tooltip" title="Capacidad máxima de personas">pax</a>&nbsp;&nbsp;&nbsp;
+					<i class="fa fa-users"></i> <?php echo $item->space_max_capacity ?> &nbsp;&nbsp;&nbsp;
 				</span>						
 				</h4>						
 			</td>
 		</tr>
 		<tr>
+			<td class="content" width="35%">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<span class="badge badge-inv"><?php echo $item->space_width ?> x <?php echo $item->space_length ?> (<?php echo $item->space_square_mt ?> m2)</span>
+						<p><span class="glyphicon glyphicon-fullscreen"></span> medidas</p>
+					</li>
+					<li class="list-group-item">
+						<span class="badge badge-inv"><?php echo $item->space_shape ?></span>
+						<p><span class="glyphicon glyphicon-stop"></span> forma</p>
+					</li>						
+				</ul>
+			</td>
 			<td class="content">
 				<ul class="list-group">
 					<li class="list-group-item">
-						<span class="badge badge-inv color"><?php echo $item->loc_name ?></span>
+						<span class="badge badge-inv"><?php echo $item->space_max_capacity ?></span>
+						<p><i class="fa fa-users"></i> capacidad max</p>
+					</li>			
+				</ul>			
+			</td>
+		</tr>	
+		<tr>
+			<td class="content">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<span class="badge badge-inv"><?php echo $item->loc_name ?></span>
 						<h5>Locación</h5>
 					</li>			
 				</ul>					
@@ -66,7 +88,7 @@
 			<td class="content last">
 				<ul class="list-group">
 					<li class="list-group-item">
-						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>" >Ver y Consultar</a>					
+						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>" >Ver mas</a>					
 						<span class="badge badge-inv"></span>
 					</li>				
 				</ul>

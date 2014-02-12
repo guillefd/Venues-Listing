@@ -112,17 +112,24 @@ table.detail > tbody > tr > td > dl > dd{
 }
 
 span.label.facility{
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: normal;
 	line-height: 20px;
 	display: inline-block;
 	width: 170px;
 	padding: 4px;
-	margin-bottom: 3px;
+	margin: 0px 3px 3px 0px;
 }
 
 span.label.facility.label-default{
 	background-color: #ccc;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 20px;
+	display: inline-block;
+	width: 170px;
+	padding: 4px;
+	margin: 0px 3px 3px 0px;
 }
 
 table.detail > tbody > tr > td > .panel{
@@ -374,6 +381,22 @@ div#layoutsdetailpanel.panel-body p{
 }
 
 
+@media (min-width: 768px) {
+	.photoslider-sm{
+		position: relative;
+		padding: 7px;
+		max-width: 300px;
+	}
+}
+
+.photoslider-sm{
+	position: relative;
+	padding: 7px;
+	max-width: 314px;
+	float: left;
+}
+
+
 
 /* SpaceView SideBar */
 
@@ -420,6 +443,23 @@ div#layoutsdetailpanel.panel-body p{
 .inner-page.space-view h2 {
 	margin-bottom: 10px;
 	color: #393c3d;	
+	border: 0px; 
+}
+
+.inner-page.space-view h2 strong {
+	font-size: 25px;
+}
+
+.inner-page.space-view h2.sub {
+	margin-top: 0px;	
+	margin-bottom: 10px;
+	color: #393c3d;	
+	border-bottom: 1px solid #eee;
+}
+
+.inner-page.space-view h2.sub strong {
+	font-size: 35px;
+	color: #4ab6f6;
 }
 
 .inner-page.space-view ul.list-inline {
@@ -432,6 +472,10 @@ div#layoutsdetailpanel.panel-body p{
 
 /* MAP */
 
+.spaceviewfotomap{
+	overflow: hidden;
+}
+
 .item-map{
     padding: 7px;	
 }
@@ -439,6 +483,19 @@ div#layoutsdetailpanel.panel-body p{
 #itemMap-canvas {
 	height: 430px;
 	width: 100%;
+}
+
+.item-map-sm{
+    padding: 7px;
+    float: right;	
+}
+
+#itemMap-canvas.small {
+	height: 200px;
+	width: 320px;
+	position: relative;
+	right:0px;
+	border: 1px solid #ddd;
 }
 
 /* buttons */

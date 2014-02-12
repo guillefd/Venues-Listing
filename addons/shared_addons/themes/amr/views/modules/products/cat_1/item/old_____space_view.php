@@ -5,8 +5,7 @@
 	<div class="container">	
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-1">
-				<h2><strong>Alquiler de <?php echo $item->space_denomination ?></strong></h2>
-				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> en <?php echo $item->loc_name ?></h2>
+				<h2><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> - <?php echo $item->loc_name; ?></h2>
 				<ul class="list-inline">
 				  <li><i class="fa fa-home"></i> <?php echo $item->loc_type.' ('.$item->space_denomination.')'; ?></li>
 				  <li><i class="fa fa-map-marker"></i> <?php echo $item->loc_geo_street_name.' '.round_number($item->loc_geo_street_number).' ('.$item->loc_area.'), '.$item->loc_city.', '.$item->loc_country ?></li>				  				  
@@ -16,17 +15,17 @@
 					<div class="inner-tab">
 						<!-- Nab Bar Tan Menu list -->
 						<ul id="itempanelnav" class="nav nav-tabs">
-							<li class="active"><a href="#photo" data-toggle="tab">Fotos y Mapa</a></li>
-<!-- 							<li><a id="btnMap" href="#map" data-toggle="tab">Mapa</a></li> -->
+							<li class="active"><a href="#photo" data-toggle="tab">Fotos</a></li>
+							<li><a id="btnMap" href="#map" data-toggle="tab">Mapa</a></li>
 						</ul>
 						<!-- Content for each menu item -->
 						<div class="tab-content">
 							<!-- First Content for Nav bar -->
-							<div class="tab-pane fade in active spaceviewfotomap" id="photo">
-								<div class="photoslider-sm">								
+							<div class="tab-pane fade in active" id="photo">
+								<div class="photoslider">								
 									<div id="crsl-itemview-<?php echo $item->id ?>" class="carousel slide crsl-itemview" data-ride="carousel">					
 									<div class="carousel-inner">
-										<?php foreach($item->cloud_sm_images as $index=>$img): ?>
+										<?php foreach($item->cloud_md_images as $index=>$img): ?>
 											<div class="item <?php if($index==0) echo 'active'; ?>">
 												<a>
 													<img class="photosliderimg" src="<?php echo $data->media->cdnUri.$img; ?>" width="640px" height="430px" alt="<?php echo $item->space_denomination.' '.$item->space_name ?>" />
@@ -45,10 +44,12 @@
 									</a>
 									</div>								
 								</div>
-								<div class="item-map-sm">
-									<script>var showmap = 1; </script>
+							</div>
+							<!-- Second Content for Nav bar -->
+							<div class="tab-pane fade" id="map">
+								<div class="item-map">
 						            <!-- google maps api v3-->
-						            <div id="itemMap-canvas" class="small"></div>
+						            <div id="itemMap-canvas"></div>
 						        </div>	
 							</div>
 						</div>

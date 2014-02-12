@@ -27,7 +27,7 @@
 					<span class="glyphicon glyphicon-chevron-right"></span> 
 					<?php echo $data->searchparams['prodcatname']; ?>
 					<small class="pull-right">
-						espacios en alquiler &nbsp;&nbsp;&nbsp;<strong><?php echo $data->result->list->totrows; ?></strong>
+						Total espacios en esta búsqueda &nbsp;&nbsp;&nbsp;<strong><?php echo $data->result->list->totrows; ?></strong>
 					</small>
 				</h4>																		
 			</div>
@@ -49,7 +49,9 @@
 <!-- end list -->
 <!-- more results button -->
 			<?php if($this->front->page->pagination->link): ?>
-				<button class="btn btn-primary btn-block btn-lg" id="btnmoreresults"><strong>Mas resultados</strong></button>
+				<button class="btn btn-primary btn-block btn-lg" id="btnmoreresults"><strong>Cargar mas resultados</strong></button>
+			<?php else: ?>
+				<p class="center-block">Todos los espacios fueron cargados.</p>
 			<?php endif; ?>
 <!-- end button -->		
 	</div>

@@ -13,6 +13,11 @@ $(document).ready(function(){
     //map data params
     var gmapData = $.parseJSON(amrMapData);
 
+    if(showmap == 1)
+    {
+        setTimeout(initialize, 500);       
+    }
+
     $('#btnMap').on("click", function(){
         if(typeof map == 'undefined')
         {
@@ -24,7 +29,7 @@ $(document).ready(function(){
     {
         //map data 
         var mapOptions = {
-            zoom: 16,
+            zoom: 15,
             center: new google.maps.LatLng(gmapData.center.lat, gmapData.center.lng),
             //UI
             disableDefaultUI: true,
