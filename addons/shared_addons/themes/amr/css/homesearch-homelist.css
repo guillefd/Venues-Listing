@@ -629,8 +629,12 @@ button.btn.btn-link.plus-options{
 }
 
 .table-homelist > tbody > tr > td.content p{
-	font-size: 12px;
+	font-size: 13px;
 	margin-bottom: 3px;
+}
+
+.table-homelist > tbody > tr > td.content.last p{
+	float: left;
 }
 
 .table-homelist > tbody > tr > td.content h5{
@@ -656,7 +660,7 @@ button.btn.btn-link.plus-options{
 	color: #25A7F5;
 	background-color: #fff;
 	font-weight: bold;
-	font-size: 13px;
+	font-size: 14px;
 }
 
 /* product table */
@@ -670,6 +674,26 @@ button.btn.btn-link.plus-options{
 	color: #ededed;
 }
 
+span.label.label-success.usetype{
+	display: block;
+	margin-top: 5px;
+	font-size: 100%;
+}
+
+.label.label-info-product {
+	color: #5cb85c;
+	font-weight: normal;
+	background-color: #ededed;
+	display: inline-block;
+	min-width: 85px;
+	padding: 2px;	
+}
+
+table.table-homelist .loc-color{
+	color: #25A7F5;
+	font-weight: bold;
+	font-size: 14px;
+}
 
 /* alertbox */
 .alert.flashdata{

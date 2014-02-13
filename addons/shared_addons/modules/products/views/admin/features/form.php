@@ -21,6 +21,10 @@
 							<label for="name"><?php echo lang('features:name'); ?> <span>*</span></label>
 							<div class="input"><?php echo form_input('name', $feature->name) ?></div>
 						</li>                     
+						<li class="even">
+							<label for="short_name"><?php echo lang('features:short_name_f'); ?> <span>*</span></label>
+							<div class="input"><?php echo form_input('name', $feature->short_name, ' class="small" ') ?></div>
+						</li>   
 			            <li class="even">
 							<label for="cat_product_id"><?php echo lang('features:cat_product'); ?> <span>*</span></label>
 							<div class="input">

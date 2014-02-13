@@ -25,7 +25,7 @@
 				</a>
 				</div>
 			</td>
-			<td colspan="2" class="theader">
+			<td colspan="3" class="theader">
 				<h4>				
 				<a href="<?php echo $item->itemUri; ?>"><h4><span class="glyphicon glyphicon-chevron-right"></span> <?php echo $item->space_denomination ?>&nbsp;<?php echo $item->space_name ?></a>
 					<span class="pull-right">
@@ -37,59 +37,41 @@
 				</h4>						
 			</td>
 		</tr>
-		<tr>
-			<td class="content" width="35%">
+		<tr width="100%">
+			<td class="content" width="25%">
 				<ul class="list-group">
-					<span class="label label-success"><?php echo $item->space_usetype_slug ?> <span class="glyphicon glyphicon-ok"></span></span>
+					<span class="label label-success usetype"><span class="glyphicon glyphicon-ok"></span> <?php echo $item->space_usetype_slug ?></span>
 				</ul>
 			</td>
-			<td class="content">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->space_width ?> x <?php echo $item->space_length ?> (<?php echo $item->space_square_mt ?> m2)</span>
-						<p><span class="glyphicon glyphicon-fullscreen"></span> medidas</p>
-					</li>
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->space_shape ?></span>
-						<p><span class="glyphicon glyphicon-stop"></span> forma</p>
-					</li>		
-				</ul>			
+			<td class="content" colspan="2">
+				<div class="pull-right">
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+				</div>
+			</td>					
+		</tr>	
+		<tr>
+			<td class="content" colspan="3">
+				<p>
+					<span class="loc-color"><span class="glyphicon glyphicon-home"></span> <?php echo $item->loc_name ?></span>
+					<span class="pull-right"><i class="fa fa-flag"></i> <?php echo $item->loc_type ?></span>
+				</p>			
 			</td>
 		</tr>	
 		<tr>
-			<td class="content">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv color"><?php echo $item->loc_name ?></span>
-						<h5>Locación</h5>
-					</li>			
-				</ul>					
-			</td>
-			<td class="content">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->loc_type ?></span>
-						<p><span class="glyphicon glyphicon-home"></span> Tipo</p>
-					</li>			
-				</ul>				
-			</td>
-		</tr>	
-		<tr>
-			<td class="content last">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->loc_area ?>, <?php echo $item->loc_city ?><br><small class="pull-right"><?php echo $item->loc_country ?></small></span>
-						<h5>Ubicación</h5>	
-					</li>			
-				</ul>			
-			</td>
-			<td class="content last">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>">Ver servicios y consultar</a>					
-						<span class="badge badge-inv"></span>
-					</li>				
-				</ul>
+			<td class="content last" colspan="3">
+				<p>
+					<i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?> ( <?php echo $item->loc_area ?> )<br>
+					<small class="pull-left"><i class="fa fa-globe"></i> <?php echo $item->loc_country ?></small>
+			    </p>					
+				<a class="btn btn-primary btn-md pull-right" href="<?php echo $item->itemUri; ?>">Ver <strong>servicios</strong> y <strong>consultar</strong></a>					
 			</td>
 		</tr>		
 	</table>

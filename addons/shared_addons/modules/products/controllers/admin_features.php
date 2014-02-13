@@ -82,6 +82,7 @@ class Admin_Features extends Admin_Controller {
                 'cat_product_id' => $this->input->post('cat_product_id'),
                 'cat_feature_id' => $this->input->post('cat_feature_id'),
                 'name' => $this->input->post('name'),
+                'short_name' => $this->input->post('short_name'),
                 'description' => $this->input->post('description'),
                 'usageunit_id' => $this->input->post('usageunit_id'),
                 'value' => $this->input->post('value'),
@@ -136,6 +137,7 @@ class Admin_Features extends Admin_Controller {
                 'cat_product_id' => $this->input->post('cat_product_id'),
                 'cat_feature_id' => $this->input->post('cat_feature_id'),
                 'name' => $this->input->post('name'),
+                'short_name' => $this->input->post('short_name'),
                 'description' => $this->input->post('description'),
                 'usageunit_id' => $this->input->post('usageunit_id'),
                 'value' => $this->input->post('value'),
@@ -195,12 +197,10 @@ class Admin_Features extends Admin_Controller {
             {
                 $message = lang('features:addcat_error');
             }
-            //convierte a array por idiomas
-            $name = $this->features_categories->split_name_lang($this->input->post('name'));
             return $this->template
                         ->build_json(array(
                             'message' => $message,
-                            'name' => $name[CURRENT_LANGUAGE],
+                            'name' => $this->input->post('name'),
                             'category_id' => $id,
                             'status' => 'ok'
                         ));

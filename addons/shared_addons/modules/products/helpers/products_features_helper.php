@@ -23,6 +23,11 @@
 	            'label' => 'lang:features:name',
 	            'rules' => 'trim|required',
 	        ),
+            array(
+                'field' => 'short_name',
+                'label' => 'lang:features:short_name',
+                'rules' => 'trim|required',
+            ),
 	        array(
 	            'field' => 'description',
 	            'label' => 'lang:features:description_label',

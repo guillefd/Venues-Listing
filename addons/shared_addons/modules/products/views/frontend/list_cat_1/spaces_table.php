@@ -37,39 +37,20 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="content">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv color"><?php echo $item->loc_name ?></span>
-						<h5>Locación</h5>
-					</li>			
-				</ul>					
-			</td>
-			<td class="content">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->loc_type ?></span>
-						<p><span class="glyphicon glyphicon-home"></span> Tipo</p>
-					</li>			
-				</ul>				
-			</td>
+			<td class="content" colspan="3">
+				<p>
+					<span class="loc-color"><span class="glyphicon glyphicon-home"></span> <?php echo $item->loc_name ?></span>
+					<span class="pull-right"><i class="fa fa-flag"></i> <?php echo $item->loc_type ?></span>
+				</p>			
+			</td>			
 		</tr>	
 		<tr>
-			<td class="content last">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<span class="badge badge-inv"><?php echo $item->loc_area ?>, <?php echo $item->loc_city ?><br><small class="pull-right"><?php echo $item->loc_country ?></small></span>
-						<h5>Ubicación</h5>	
-					</li>			
-				</ul>			
-			</td>
-			<td class="content last">
-				<ul class="list-group">
-					<li class="list-group-item">
-						<a class="btn btn-primary btn-sm pull-right" href="<?php echo $item->itemUri; ?>" >Ver y Consultar</a>					
-						<span class="badge badge-inv"></span>
-					</li>				
-				</ul>
+			<td class="content last" colspan="3">
+				<p>
+					<i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?> ( <?php echo $item->loc_area ?> )<br>
+					<small class="pull-left"><i class="fa fa-globe"></i> <?php echo $item->loc_country ?></small>				
+			    </p>
+				<a class="btn btn-primary btn-md pull-right" href="<?php echo $item->itemUri; ?>">Ver y <strong>consultar</strong></a>				    
 			</td>
 		</tr>		
 		</table>
