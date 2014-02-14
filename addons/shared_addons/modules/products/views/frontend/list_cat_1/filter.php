@@ -1,9 +1,10 @@
+<?php //var_dump($usetypes_txt); die; ?>
 <!-- capacity -->				
 		<form id="homefilterform" action="" method="post" name="homefilterform">
 <!-- usetype / category -->								
 			<div class="row filter">
 				<div class="col-xs-12 col-sm-12 col-md-2">
-					<h6><i class="fa fa-folder-open"></i> &nbsp;CATEGORIA <a id="btnusetypesinfo" data-toggle="popover" title="" data-original-title="Categorías de los espacios segun el uso"><i class="fa fa-question-circle"></i></a></h6>
+					<h6><i class="amrlogo-sm filter"></i> &nbsp;CATEGORIA <a id="btnusetypesinfo" data-toggle="popover" title="" data-original-title="Categorías de los espacios segun el uso"><i class="fa fa-question-circle"></i></a></h6>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-10">
 					<div class="btn-group color" data-toggle="buttons">

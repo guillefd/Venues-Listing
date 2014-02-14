@@ -55,6 +55,7 @@ class Front
 			case ALQUILERDESALAS_CATID:
 										$params['categories_dd'] = ci()->categories->gen_dd_array();  
 										$params['usetypes'] = ci()->spaces_usetype->get();
+										$params['usetypessync'] = ci()->spaces_usetype->get_syncindex();
 										$params['locations_type'] = ci()->locations_type->get();  
 										$params['facilities'] = ci()->facilities->get_syncindex();  
 										$params['layouts'] = ci()->layouts->get_syncindex();
@@ -401,11 +402,11 @@ class Front
 		{
 			//space list
 			case 100: 
-							return base_url().$item->prod_cat_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug;	
+							return $this->cat1_gen_frontlink_space($item);
 							break;
 			//product list						
 			case 200:
-							return base_url().$item->prod_cat_slug.'+'.$item->space_usetype_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug.'+'.$item->front_version;	
+							return $this->cat1_gen_frontlink_product($item);		
 							break;
 			//space
 			case 300:
@@ -425,8 +426,15 @@ class Front
 		}
 	}
 
+	function cat1_gen_frontlink_space($item)
+	{
+		return base_url().$item->prod_cat_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug;	
+	}
 
-
+	function cat1_gen_frontlink_product($item)
+	{
+		return base_url().$item->prod_cat_slug.'+'.$item->space_usetype_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug.'+'.$item->front_version;	
+	}
 
 
 	//////////////////////////////////////////////
@@ -617,7 +625,8 @@ class Front
 		{
 			foreach ($result->list->items as $item) 
 			{	
-				$item = $this->gen_image_array_per_item_result($item, $imgSizes);	
+				$item = $this->explode_items_string($item);
+    			$item = $this->gen_image_array_per_item_result($item, $imgSizes);	
 				$item->itemUri = $this->frontlink_generator($item);
 				$formatedResult[] = $item;
 
@@ -627,6 +636,7 @@ class Front
 		}
 		if(isset($result->item))
 		{	
+			$result->item = $this->explode_items_string($result->item);			
 			$formatedResult = $this->gen_image_array_per_item_result($result->item, $imgSizes);
 			$result = $formatedResult;
 			$this->page->set_result($result);					
@@ -642,6 +652,35 @@ class Front
 			$item->{$imgdbfield} = $this->gen_imageIDs_array($item->{$imgdbfield});
 		}
 		return $item;		
+	}
+
+	function explode_items_string($item)
+	{
+		if($this->page->view['id'] == 100)
+		{		
+			$item->space_usetypes_all = explode(",", $item->space_usetypes_all);
+			$item->space_usetypes_published = explode(",", $item->space_usetypes_published);
+			$item->front_version_published = explode(",", $item->front_version_published);
+			$item->space_usetypes_published_uri = $this->generate_usetypes_published_uris($item);
+		}
+		return $item;		
+	}
+
+	function generate_usetypes_published_uris($item)
+	{
+		$uris = array();
+		for($i=0; $i<=count($item->space_usetypes_published)-1; $i++)
+		{
+			$sup = new stdClass();
+			$sup->prod_cat_slug = $item->prod_cat_slug;
+			$sup->space_usetype_slug = $item->space_usetype_slug;
+			$sup->loc_city_slug = $item->loc_city_slug;
+			$sup->loc_slug = $item->loc_slug;
+			$sup->space_slug = $item->space_slug;
+			$sup->front_version = $item->front_version_published[$i];
+			$uris[$item->space_usetypes_published[$i]] = $this->cat1_gen_frontlink_product($sup);
+		}
+		return $uris;
 	}
 
 

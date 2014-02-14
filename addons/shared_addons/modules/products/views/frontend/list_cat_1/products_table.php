@@ -38,19 +38,14 @@
 			</td>
 		</tr>
 		<tr width="100%">
-			<td class="content" width="25%">
+			<td class="content" colspan="3">
 				<ul class="list-group">
-					<span class="label label-success usetype"><span class="glyphicon glyphicon-ok"></span> <?php echo $item->space_usetype_slug ?></span>
+					<span class="label label-success usetype"><i class="amrlogo-sm table-product-usetype"></i> <?php echo $item->space_usetype_slug ?></span>
 				</ul>
-			</td>
-			<td class="content" colspan="2">
-				<div class="pull-right">
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+				<div class="pull-left">
+					<span class="label label-info-product "><i class="fa fa-check"></i> Facility</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Facility</span>
+					<span class="label label-info-product "><i class="fa fa-check"></i> Facility</span>
 					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
 					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
 					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
@@ -68,7 +63,7 @@
 		<tr>
 			<td class="content last" colspan="3">
 				<p>
-					<i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?> ( <?php echo $item->loc_area ?> )<br>
+					<i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?><br>
 					<small class="pull-left"><i class="fa fa-globe"></i> <?php echo $item->loc_country ?></small>
 			    </p>					
 				<a class="btn btn-primary btn-md pull-right" href="<?php echo $item->itemUri; ?>">Ver <strong>servicios</strong> y <strong>consultar</strong></a>					

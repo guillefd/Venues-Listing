@@ -30,14 +30,18 @@ class Products_frontend_1_m extends MY_Model
 		/* aux */
 		$all_wildcard = $CFG->urisegments->areawildcard;
 		// for homelist_view
-		$query.= 'SELECT SQL_CALC_FOUND_ROWS null as rows, dpf.* '
+		$query.= 'SELECT SQL_CALC_FOUND_ROWS null as rows, dpf.*, 
+				 GROUP_CONCAT(ut.usetype_id) space_usetypes_all, 
+				 GROUP_CONCAT( DISTINCT dpf.space_usetype_id ) space_usetypes_published,
+				 GROUP_CONCAT( DISTINCT dpf.front_version ) front_version_published '
 				.'FROM `default_'.$this->t_front.'` dpf '
 				.'JOIN 
 				 ( SELECT space_id, MIN(space_usetype_id) minusetypeid
 				   FROM `default_'.$this->t_front.'` 
 				   GROUP BY space_id
 				 ) dpf2
-				 ON dpf.space_id = dpf2.space_id AND dpf.space_usetype_id = dpf2.minusetypeid ';
+				 ON dpf.space_id = dpf2.space_id AND (dpf.space_usetype_id = dpf2.minusetypeid) 
+				 JOIN `default_products_front__1_usetypes` as ut ON ut.front_space_id=dpf.id  ';
 		/* SEGMENTS --------------------------------------------------------------------*/					 
 		$query.= 'WHERE `prod_cat_slug` = "'.$page->validurisegments[1]->prod_cat_slug.'" '
 				.'AND `loc_city_slug` = "'.$page->validurisegments[2]->loc_city_slug.'" ';
@@ -58,6 +62,7 @@ class Products_frontend_1_m extends MY_Model
 		{
 			$query.=$this->_aux_get_loctypes_condition_MANUAL($page->validurifilters['loctypes']);				
 		}
+		$query.=' GROUP BY dpf.id, dpf.space_id, dpf.space_id';
 		$query.=' ORDER BY name ASC';		
 		//limit
 		if($page->isajaxrequest)
@@ -72,6 +77,7 @@ class Products_frontend_1_m extends MY_Model
 			}
 		$query.=' LIMIT '.$offset.', '.$limit;
 		/* --------- RUN QUERY ----------- */
+		// print_r($query); die;
  		$q = $this->db->query($query);		
 		$result = new stdClass();
 		if ($q->num_rows()>0)

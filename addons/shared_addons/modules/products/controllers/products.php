@@ -47,34 +47,34 @@ class Products extends Public_Controller
 	 */
 	public function index_router()
 	{			
-		//process URI
+				//process URI
 		$urisegments = $this->front->validate_urisegments();		
-		// if not valid uri, redirect 404
+				// if not valid uri, redirect 404
 		if(empty($urisegments) )
 		{
 			redirect('/');
 		}
-		//process URI values				
+				//process URI values				
 		if( $this->front->validate_urisegments_values($urisegments) == false )
 		{
 			redirect('/404'); 
 		}		
-		//set uri
+				//set uri
 		$this->front->page->set_validurisegments($urisegments);					
-		//process URI filters
+				//process URI filters
 		$this->front->page->set_validurifilters($this->front->validate_urifilters());	
-	//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 
-		//go on, search with valid segments and URIs
+				//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 
+				//go on, search with valid segments and URIs
 		$view = $this->front->route_request_view();		
 		if($view === null)
 		{
 			redirect('/viewUndefined');			
 		}
 		$this->front->page->set_view($view);			
-	//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 	
+				//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 	
 		products::search();
 		$this->front->set_search_params();		
-	//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 		
+				//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 		
 		switch($this->front->page->catid)
 		{
 			case ALQUILERDESALAS_CATID: 	
@@ -104,7 +104,7 @@ class Products extends Public_Controller
 			default:
 									log_message('error','search() case not defined');						
 		}
-		//set result in page object
+				//set result in page object
 		$this->front->page->set_result($result);	
 	}
 
