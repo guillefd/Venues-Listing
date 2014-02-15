@@ -314,6 +314,9 @@ class Configdata
 		$this->cloudstorage->cdn->uri = $this->get_array_value('gcs_cdn_url_list');
 		$this->cloudstorage->images = new stdClass();
 		$this->cloudstorage->images->sizes = $this->get_value('gcs_images_size');
+		//labels list display
+		$this->facilities_labels_display = $this->get_value('facilities_display_per_usetype');
+		$this->features_labels_display = $this->get_value('features_display_per_usetype');
 	}
 
 	/* private -------------------------------- */

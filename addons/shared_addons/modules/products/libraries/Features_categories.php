@@ -68,6 +68,30 @@ class Features_categories
         }  
     }   
 
+
+        /**
+     * get
+     * Get list of features categories
+     * return array
+     */
+    public function get_defaults_syncindex($catid = 0)
+    {
+        $q = ci()->db->get_where($this->_table_defaults, array('cat_product_id'=>$catid));      
+        if($q->num_rows()>0)
+        {
+            $vec = array();
+            foreach ($q->result() as $key => $obj) 
+            {
+                $vec[$obj->id] = $obj;
+            }
+            return $vec;
+        }
+        else
+        {
+            return FALSE;
+        }  
+    } 
+
     
     /**
      * genera array para dropdowns form

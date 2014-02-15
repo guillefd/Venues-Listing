@@ -101,41 +101,46 @@ class Products_frontend_1_m extends MY_Model
 	/* products list by params */
 	function get_list_products($page, $CFG)
 	{
+		$query = '';		
 		/* aux */
 		$all_wildcard = $CFG->urisegments->areawildcard;
 		// for homelist_view	
+		$query.= 'SELECT SQL_CALC_FOUND_ROWS null as rows, dpf.*, 
+				  GROUP_CONCAT( DISTINCT fac.facility_id ) space_facilities_list, 
+				  GROUP_CONCAT( DISTINCT ftr.default_feature_id ) space_features_list '
+				.'FROM `default_'.$this->t_front.'` dpf '
+				.'JOIN `default_'.$this->t_facilities.'` as fac ON fac.front_space_id = dpf.id ' 
+				.'JOIN `default_'.$this->t_features.'` as ftr ON ftr.front_space_id = dpf.id ';
 		/* SEGMENTS --------------------------------------------------------------------*/	
 		/* cat-slug */
-		$this->db->where('prod_cat_slug', $page->validurisegments[1]->prod_cat_slug);
+		$query.= 'WHERE '
+				 .'prod_cat_slug = "'.$page->validurisegments[1]->prod_cat_slug.'" '; 
 		/* space-usetype */
 		if(array_key_exists('space_usetype_slug', $page->validurisegments[1]))
 		{
-			$this->db->where('space_usetype_slug', $page->validurisegments[1]->space_usetype_slug);			
+			$query.= 'AND space_usetype_slug = "'.$page->validurisegments[1]->space_usetype_slug.'" ';					
 		}
 		/* city-slug */
-		$this->db->where('loc_city_slug', $page->validurisegments[2]->loc_city_slug );
+		$query.= 'AND loc_city_slug = "'.$page->validurisegments[2]->loc_city_slug.'" ';
 		/* area-slug */		
 		if(array_key_exists('loc_area_slug', $page->validurisegments[2]) 
 			&& $page->validurisegments[2]->loc_area_slug != $all_wildcard)
 		{
-			$this->db->where('loc_area_slug', $page->validurisegments[2]->loc_area_slug);			
-		}	
+			$query.='AND loc_area_slug = "'.$page->validurisegments[2]->loc_area_slug.'" ';
+		}				 	
 		/* FILTERS --------------------------------------------------------------------*/
+		/* capacity */
 		if(array_key_exists('capacity', $page->validurifilters))
 		{
-			$this->_aux_get_list_capacity($page->validurifilters['capacity']);			
-		}	
+			$query.=$this->_aux_get_list_capacity_MANUAL($page->validurifilters['capacity']);				
+		}
 		/* loctypes */
 		if(array_key_exists('loctypes', $page->validurifilters))
 		{
-			$this->_aux_get_loctypes_condition($page->validurifilters['loctypes']);				
-		}		
-		/* GET ------------------------------------------------------------------------*/		
-		//count rows - total result		
-		$fields = $this->db->list_fields($this->t_front);
-		array_unshift($fields, 'SQL_CALC_FOUND_ROWS null as rows');
-        $this->db->select($fields, FALSE);
-		$this->db->from($this->t_front);
+			$query.=$this->_aux_get_loctypes_condition_MANUAL($page->validurifilters['loctypes']);				
+		}			
+		$query.=' GROUP BY dpf.id, dpf.id ';
+		$query.=' ORDER BY name ASC';		
 		//limit
 		if($page->isajaxrequest)
 		{
@@ -146,11 +151,11 @@ class Products_frontend_1_m extends MY_Model
 			{
 				$limit = $CFG->page->maxrecords * $page->validurifilters['page'];				
 				$offset = 0;	
-			}	
-		$this->db->limit($limit, $offset);
-		$this->db->order_by('space_max_capacity','ASC');
-		//records
-		$q = $this->db->get();
+			}
+		$query.=' LIMIT '.$offset.', '.$limit;
+		/* --------- RUN QUERY ----------- */
+		//print_r($query); die;
+ 		$q = $this->db->query($query);		
 		$result = new stdClass();		
 		if ($q->num_rows()>0)
 		{

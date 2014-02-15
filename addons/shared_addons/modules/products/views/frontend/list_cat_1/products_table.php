@@ -1,5 +1,10 @@
+<?php //var_dump($this->front->page->get_categoryauxiliars('facilities')); die; ?>
 <?php $i = $result->list->offset; ?>
+<?php $facilitiesArr = $this->front->page->get_categoryauxiliars('facilities'); ?>
+<?php $featuresArr = $this->front->page->get_categoryauxiliars('features_defaults_list'); ?>
 <?php foreach($result->list->items as $item): ?>
+<?php //var_dump($featuresArr); die; ?>		
+<?php //var_dump($item); die; ?>		
 <div id="amrresulttable" class="table-responsive">
 	<table class="table table-bordered table-homelist product" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
@@ -43,12 +48,20 @@
 					<span class="label label-success usetype"><i class="amrlogo-sm table-product-usetype"></i> <?php echo $item->space_usetype_slug ?></span>
 				</ul>
 				<div class="pull-left">
-					<span class="label label-info-product "><i class="fa fa-check"></i> Facility</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Facility</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Facility</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
-					<span class="label label-info-product "><i class="fa fa-check"></i> Feature</span>
+					<?php foreach($this->front->CFG->facilities_labels_display[$item->space_usetype_id] as $fldid ): ?>
+						<?php if(in_array($fldid, $item->space_facilities_list)): ?>	
+							<span class="label label-info-product "><i class="fa fa-check"></i> <?php echo $facilitiesArr[$fldid]->name; ?></span>
+						<?php else: ?>
+							<span class="label label-info-product none"> <?php echo $facilitiesArr[$fldid]->name; ?></span>
+						<?php endif; ?>
+					<?php endforeach; ?>
+					<?php foreach($this->front->CFG->features_labels_display[$item->space_usetype_id] as $ftrid ): ?>
+						<?php if(in_array($fldid, $item->space_features_list)): ?>	
+							<span class="label label-info-product "><i class="fa fa-check"></i> <?php echo $featuresArr[$ftrid]->short_name; ?></span>
+						<?php else: ?>
+							<span class="label label-info-product none"> <?php echo $featuresArr[$ftrid]->short_name; ?></span>
+						<?php endif; ?>					
+					<?php endforeach; ?>					
 				</div>
 			</td>					
 		</tr>	
@@ -56,15 +69,14 @@
 			<td class="content" colspan="3">
 				<p>
 					<span class="loc-color"><span class="glyphicon glyphicon-home"></span> <?php echo $item->loc_name ?></span>
-					<span class="pull-right"><i class="fa fa-flag"></i> <?php echo $item->loc_type ?></span>
 				</p>			
 			</td>
 		</tr>	
 		<tr>
 			<td class="content last" colspan="3">
 				<p>
-					<i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?><br>
-					<small class="pull-left"><i class="fa fa-globe"></i> <?php echo $item->loc_country ?></small>
+					<i class="fa fa-flag"></i> <?php echo $item->loc_type ?><br>
+					<small class="pull-left"><i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?></small>
 			    </p>					
 				<a class="btn btn-primary btn-md pull-right" href="<?php echo $item->itemUri; ?>">Ver <strong>servicios</strong> y <strong>consultar</strong></a>					
 			</td>

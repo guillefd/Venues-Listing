@@ -60,6 +60,7 @@ class Front
 										$params['facilities'] = ci()->facilities->get_syncindex();  
 										$params['layouts'] = ci()->layouts->get_syncindex();
 										$params['features_defaults'] = ci()->features_categories->get_features_defaults_by_prodcat_syncindex($this->page->catid);										
+										$params['features_defaults_list'] = ci()->features_categories->get_defaults_syncindex($this->page->catid);
 										//dd_arrays
 										$params['usetypes_slug_dd'] = ci()->spaces_usetype->gen_dd_array_slug_local($params['usetypes']);
 										$params['locations_type_dd'] = ci()->locations_type->gen_dd_array_local($params['locations_type']);   
@@ -663,6 +664,11 @@ class Front
 			$item->front_version_published = explode(",", $item->front_version_published);
 			$item->space_usetypes_published_uri = $this->generate_usetypes_published_uris($item);
 		}
+		if($this->page->view['id'] == 200)
+		{	
+			$item->space_facilities_list = explode(",", $item->space_facilities_list);
+			$item->space_features_list = explode(",", $item->space_features_list);
+		}		
 		return $item;		
 	}
 
