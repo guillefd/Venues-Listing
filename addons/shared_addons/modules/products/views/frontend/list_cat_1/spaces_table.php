@@ -45,7 +45,7 @@
 				<div class="service-tags pull-left">
 					<?php foreach($item->space_usetypes_all as $utid): ?>
 						<?php if(in_array($utid, $item->space_usetypes_published)): ?>
-							<a href="<?php echo $item->space_usetypes_published_uri[$utid]; ?>"><span class="label label-servicetable published"><i class="amrlogo-tiny space-table-service"></i> <?php echo $usetypesArr[$utid]->name; ?> <i class="fa fa-chevron-circle-right"></i></span></a>						
+							<a href="<?php echo $item->space_usetypes_published_uri[$utid]; ?>"><span class="label label-servicetable published">{{ theme:image file="amr-isologo-sm.png" class="amrlogo-tiny space-table-service" }} <?php echo $usetypesArr[$utid]->name; ?> <i class="fa fa-chevron-circle-right"></i></span></a>						
 						<?php else: ?>
 							<span class="label label-servicetable"><i class="fa fa-check"></i> <?php echo $usetypesArr[$utid]->name; ?></span>
 						<?php endif; ?>

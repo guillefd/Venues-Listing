@@ -4,7 +4,7 @@
 <!-- usetype / category -->								
 			<div class="row filter">
 				<div class="col-xs-12 col-sm-12 col-md-2">
-					<h6><i class="amrlogo-sm filter"></i> &nbsp;CATEGORIA <a id="btnusetypesinfo" data-toggle="popover" title="" data-original-title="Categorías de los espacios segun el uso"><i class="fa fa-question-circle"></i></a></h6>
+					<h6>{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm filter" }} &nbsp;CATEGORIA <a id="btnusetypesinfo" data-toggle="popover" title="" data-original-title="Categorías de los espacios segun el uso"><i class="fa fa-question-circle"></i></a></h6>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-10">
 					<div class="btn-group color" data-toggle="buttons">

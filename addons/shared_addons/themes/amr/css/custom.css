@@ -61,28 +61,28 @@ header{
 	border-bottom: 1px solid #eeeeee;
 }
 
-i.amrlogo-sm{
+.amrlogo-sm{
 	width: 21px;
 	height: 20px;
-	content: url('../img/amr-isologo-sm.png') 0 0;
+/*	content: url('../img/amr-isologo-sm.png') 0 0;*/
 }
 
-i.amrlogo-sm.filter{
-	margin: 0px -4px -4px -3px;	
+.amrlogo-sm.filter{
+	margin: 0px -4px 2px -3px;	
 }
 
-i.amrlogo-tiny{
+.amrlogo-tiny{
 	width: 18px;
 	height: 17px;
-	content: url('../img/amr-isologo-sm.png') 0 0;
+/*	content: url('../img/amr-isologo-sm.png') 0 0;*/
 }
 
-i.amrlogo-tiny.space-table-service{
-	margin: 0px 1px -4px -3px;	
+.amrlogo-tiny.space-table-service{
+	margin: 0px 1px 1px -3px;
 }
 
-i.amrlogo-sm.table-product-usetype{
-	margin: -1px 0px -5px -4px;
+.amrlogo-sm.table-product-usetype{
+	margin: -1px 0px 1px -4px;
 }
 
 /* breadcrumb */
@@ -101,7 +101,7 @@ i.amrlogo-sm.table-product-usetype{
 .breadcrumb-amr .amrlogo-sm{
 	width: 36px;
 	height: 34px;
-	margin: 0px 3px -8px -13px;	
+	margin: 0px 3px 2px -13px;	
 }
 
 .lightbox-item .amrlogo-sm{

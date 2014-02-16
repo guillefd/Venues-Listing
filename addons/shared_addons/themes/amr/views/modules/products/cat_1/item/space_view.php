@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-1">
 				<div class="breadcrumb-amr">
-					<h2><i class="amrlogo-sm"></i>Alquiler de <?php echo $item->space_denomination ?></h2>
+					<h2>{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm" }}Alquiler de <?php echo $item->space_denomination ?></h2>
 				</div>
 				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> <span class="loctit">en <?php echo $item->loc_name ?></span></h2>
 				<ul class="list-inline sub">

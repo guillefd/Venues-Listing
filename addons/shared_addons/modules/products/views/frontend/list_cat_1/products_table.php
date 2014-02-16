@@ -44,7 +44,7 @@
 		</tr>
 		<tr width="100%">
 			<td class="content" colspan="3">
-			<span class="label-usetype-list"><i class="amrlogo-sm table-product-usetype"></i> <?php echo $item->space_denomination; ?> para <strong><?php echo $item->space_usetype_slug; ?></strong></span>
+			<span class="label-usetype-list">{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm table-product-usetype" }} <?php echo $item->space_denomination; ?> para <strong><?php echo $item->space_usetype_slug; ?></strong></span>
 				<div class="pull-left">
 					<?php foreach($this->front->CFG->facilities_labels_display[$item->space_usetype_id] as $fldid ): ?>
 						<?php if(in_array($fldid, $item->space_facilities_list)): ?>	
