@@ -1,8 +1,9 @@
-<?php //var_dump($this->front->page->get_categoryauxiliars('usetypessync')); die; ?>
+<?php //var_dump($this->front->page->get_categoryauxiliars('usetypessync')); ?>
 <?php $i = $result->list->offset; ?>
 <?php $usetypesArr = $this->front->page->get_categoryauxiliars('usetypessync'); ?>
+<?php //var_dump($usetypesArr); ?>	
 <?php foreach($result->list->items as $item): ?>
-<?php //var_dump($item); die; ?>	
+<?php //var_dump($item); ?>	
 <div id="amrresulttable" class="table-responsive">
 	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
@@ -44,7 +45,7 @@
 				<div class="service-tags pull-left">
 					<?php foreach($item->space_usetypes_all as $utid): ?>
 						<?php if(in_array($utid, $item->space_usetypes_published)): ?>
-							<a href="<?php echo $item->space_usetypes_published_uri[$utid]; ?>"><span class="label label-servicetable published"><i class="amrlogo-tiny space-table-service"></i> <?php echo $usetypesArr[$utid]->name; ?></span></a>						
+							<a href="<?php echo $item->space_usetypes_published_uri[$utid]; ?>"><span class="label label-servicetable published"><i class="amrlogo-tiny space-table-service"></i> <?php echo $usetypesArr[$utid]->name; ?> <i class="fa fa-chevron-circle-right"></i></span></a>						
 						<?php else: ?>
 							<span class="label label-servicetable"><i class="fa fa-check"></i> <?php echo $usetypesArr[$utid]->name; ?></span>
 						<?php endif; ?>
@@ -58,7 +59,7 @@
 					<span class="loc-color"><span class="glyphicon glyphicon-home"></span> <?php echo $item->loc_name ?></span> &nbsp;&nbsp;<small><i class="fa fa-flag"></i> <?php echo $item->loc_type ?></small><br>
 					<small class="pull-left"><i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?> ( <?php echo $item->loc_area ?> ) &nbsp;&nbsp;<i class="fa fa-globe"></i> <?php echo $item->loc_country ?></small>				
 			    </p>
-				<a class="btn btn-primary btn-md pull-right" href="<?php echo $item->itemUri; ?>">Ver y <strong>consultar</strong></a>				    
+				<a class="btn btn-primary btn-md pull-right btn-list-go" href="<?php echo $item->itemUri; ?>">Ver y <strong>consultar</strong></a>				    
 			</td>
 		</tr>		
 		</table>

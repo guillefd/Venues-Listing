@@ -18,14 +18,14 @@
 							<?php echo form_dropdown('select_category', $usetypes_select, '', ' id="select_category" multiple style="width:130px;" ') ?>														
 						</label>
 						<label id="category-filter-7" class="btn all btn-sm unique category-filter">
-							<input type="radio" value=""><span class="glyphicon glyphicon-remove"></span>
+							<input type="radio" value=""><span class="glyphicon glyphicon-repeat"></span>
 						</label>										
 					</div>																		
 				</div>		
 			</div>										
 			<div class="row filter">
 				<div class="col-xs-12 col-sm-12 col-md-2">
-					<h6><i class="fa fa-users"></i> CAPACIDAD <a data-toggle="tooltip" title="Rango estimado de capacidad requerida en el espacio"><i class="fa fa-question-circle"></i></a></h6>			
+					<h6><span class="glyphicon glyphicon-user"></span> CAPACIDAD <a data-toggle="tooltip" title="Rango estimado de capacidad requerida en el espacio"><i class="fa fa-question-circle"></i></a></h6>			
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-10">
 					<div class="btn-group color" data-toggle="buttons">
@@ -48,7 +48,7 @@
 							<input type="radio" value="50plus"> 50 ó mas
 						</label>
 						<label id="cap-filter-6" class="btn all btn-sm unique cap-filter">
-							<input type="radio" value=""><span class="glyphicon glyphicon-remove"></span>
+							<input type="radio" value=""><span class="glyphicon glyphicon-repeat"></span>
 						</label>							
 					</div>																		
 				</div>		
@@ -56,7 +56,7 @@
 <!-- Locationtype -->										
 			<div class="row filter">
 				<div class="col-xs-12 col-sm-12 col-md-2">
-					<h6><i class="fa fa-home"></i> LOCACION <a id="btnlocationtypesinfo" data-toggle="popover" title="" data-original-title="Tipos de Locación"><i class="fa fa-question-circle"></i></a></h6>
+					<h6><span class="glyphicon glyphicon-home"></span> LOCACION <a id="btnlocationtypesinfo" data-toggle="popover" title="" data-original-title="Tipos de Locación"><i class="fa fa-question-circle"></i></a></h6>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-10">				
 					<div class="btn-group color" data-toggle="buttons">

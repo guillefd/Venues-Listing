@@ -16,6 +16,9 @@ select.small
     width: 150px;
 }
 
+select.medium{
+    width: 200px;
+}
 
 select.med{
     width: 20em;
@@ -29,6 +32,14 @@ select.med{
 .input input.small{
     min-width: 10px!important;
     width: 80px;
+}
+
+input.tiny{
+    width: 30px;    
+}
+
+input.f_small{
+    width: 55px;    
 }
 
 input.med{

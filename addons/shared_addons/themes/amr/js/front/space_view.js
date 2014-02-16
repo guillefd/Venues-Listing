@@ -27,7 +27,6 @@ $(document).ready(function(){
 		});	
 
 
-
 	function doAjaxQuery(link)
 	{
 		disable_sumbit_button();

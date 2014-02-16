@@ -72,19 +72,40 @@ i.amrlogo-sm.filter{
 }
 
 i.amrlogo-tiny{
-	width: 13px;
-	height: 13px;
+	width: 18px;
+	height: 17px;
 	content: url('../img/amr-isologo-sm.png') 0 0;
 }
 
 i.amrlogo-tiny.space-table-service{
-	margin: 0px 1px -2px -3px;	
+	margin: 0px 1px -4px -3px;	
 }
 
 i.amrlogo-sm.table-product-usetype{
-	margin: -1px 5px -5px -4px;
+	margin: -1px 0px -5px -4px;
 }
 
+/* breadcrumb */
+.breadcrumb-amr{
+	color: #393c3d;
+}
 
+.breadcrumb-amr h2{	
+	font-weight: bold;		
+}
 
+.breadcrumb-amr i.fa{
+	font-size: 20px;
+}
 
+.breadcrumb-amr .amrlogo-sm{
+	width: 36px;
+	height: 34px;
+	margin: 0px 3px -8px -13px;	
+}
+
+.lightbox-item .amrlogo-sm{
+	width: 36px;
+	height: 34px;
+	margin: 0px 3px -8px -12px;	
+}

@@ -5,7 +5,9 @@
 	<div class="container">	
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-1">
-				<h2 class="firstit">Alquiler de <?php echo $item->space_denomination ?></h2>
+				<div class="breadcrumb-amr">
+					<h2><i class="amrlogo-sm"></i>Alquiler de <?php echo $item->space_denomination ?></h2>
+				</div>
 				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> <span class="loctit">en <?php echo $item->loc_name ?></span></h2>
 				<ul class="list-inline sub">
 				  <li><i class="fa fa-home"></i> <?php echo $item->loc_type; ?></li>
@@ -16,7 +18,7 @@
 					<div class="inner-tab">
 						<!-- Nab Bar Tan Menu list -->
 						<ul id="itempanelnav" class="nav nav-tabs">
-							<li class="active"><a href="#photo" data-toggle="tab"><i class="fa fa-picture-o"></i> Fotos  /  <i class="fa fa-map-marker"></i> Mapa</a></li>
+							<li class="active"><a href="#photo" data-toggle="tab"><i class="fa fa-camera"></i> Fotos  /  <i class="fa fa-map-marker"></i> Mapa</a></li>
 						</ul>
 						<!-- Content for each menu item -->
 						<div class="tab-content">
@@ -53,7 +55,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- SPACE DETAILS -->				
 				<ul class="list-group spacedetails">
 					<li class="list-group-item active">
@@ -76,7 +77,6 @@
 						<i class="fa fa-bars"></i> Nivel
 					</li>
 				</ul>
-
 				<!-- SPACE LAYOUTS -->
 				<div class="panel panel-default layouts">
 					<div class="panel-heading">
@@ -110,7 +110,6 @@
 						</table>
 					</div>
 				</div>	
-
 				<!-- SPACE USETYPES -->
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -130,8 +129,7 @@
 						</div>
 					</div>
 				</div>
-
-
+				<!-- SPACE FACILITIES -->
 				<div class="panel panel-default facilities">
 					<div class="panel-heading"><i class="fa fa-plus-square"></i> Facilidades</div>
 					<div class="panel-body">
@@ -162,8 +160,7 @@
 								</table>	
 							</div>
 					</div>
-				</div>
-																
+				</div>																
 			</div>
 			<!-- Side Bar Start -->
 			<div class="col-xs-12 col-sm-12 col-md-3">

@@ -127,9 +127,9 @@
 		            <li class="even">
 						<label for="features"><?php echo lang('products_features_label'); ?> <span>*</span></label>
 		                    <table class="f_table"><tr>
-		                    <td>
+		                    <td width="35%">
 			                    &nbsp;&nbsp;
-			                    <?php echo form_dropdown('dd_features', array(),'',' id="dd_features" class="med" data-placeholder="'.lang('products_no_features_select_label').'"') ?>					
+			                    <?php echo form_dropdown('dd_features', array(),'',' class="medium" id="dd_features" data-placeholder="'.lang('products_no_features_select_label').'"') ?>					
 			                    <?php echo form_hidden('f_id','',' id = "f_id"'); ?>  
 			                    <?php echo form_input('usageunit','',' placeholder="'.lang('products_usageunit').'" class="f_small" id="usageunit" disabled'); ?>    
 			                    <?php echo form_input('f_qty','',' placeholder="'.lang('products_qty').'" class="tiny" id="f_qty"'); ?>                      

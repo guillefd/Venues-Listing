@@ -239,8 +239,14 @@ div.itempanel.svdetails table tr td ul li.active{
 .panel-default > .panel-heading {
 	color: #393c3d;
 	background-color: #ededed;
-	font-size: 18px;
+	font-size: 23px;
 	font-weight: bold;
+}
+
+.panel-default > .panel-heading p {
+	margin: 10px 0px 0px 30px;
+	font-weight: normal;
+	font-size: 15px;
 }
 
 div#layoutsdetailpanel.panel-body{
@@ -425,15 +431,53 @@ div#layoutsdetailpanel.panel-body p{
 	float: left;
 }
 
+.lightbox-item {
+	margin: 20px 0px;
+	padding: 25px;
+}
 
+.lightbox-item.lbgreen{
+	background-color: #29a23d;
+	color: #fff;	
+}
+
+.lightbox-item.lbgreen ul{
+	color: #29a23d;
+}
+
+.lightbox-item.lbblue{
+	background-color: #0a8cdb;
+	color: #fff;	
+}
+
+.lightbox-item .lbyellow{
+	color: #f5f331;
+	font-size: 16px;	
+}
+
+.lightbox-item h3{
+	margin: 0px 0px 10px;
+}
+
+.lightbox-item p{
+	margin: 0px 0px 20px;
+}
 
 /* SpaceView SideBar */
 
 .inner-page.space-view h2.firstit{
-	font-size: 35px !important;
+	font-size: 25px !important;
 	font-weight: bold;
 	border-bottom: 1px solid #eee;
 	margin-bottom: 25px;
+}
+
+.inner-page.space-view h2 span.blue{
+	color: #25A7F5;
+}
+
+.inner-page.space-view h2 span.unbold{
+	font-weight: normal;
 }
 
 .inner-page.space-view .inner-sidebar{
@@ -582,7 +626,6 @@ button.btn{
 
 .btn.amrblue{
 	background-color: #25A7F5;
-	border: 1px solid #106fa9;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
 }
 
