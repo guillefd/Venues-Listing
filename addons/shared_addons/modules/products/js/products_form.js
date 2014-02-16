@@ -304,10 +304,18 @@ $(document).ready(function(){
     {
         init = (typeof init === "undefined") ? false : init; 
         //img loader
-        $('select[name="space_id"]').after(img_loader_2);                        
+        $('select[name="space_id"]').after(img_loader_2); 
+        if(init)
+        {
+            locID = LOCATIONID;
+        }
+        else
+            {
+                locID = $('select[name="location_id"]').val(); 
+            }                       
             var form_data = {
                 limit: 20,
-                location_id: $('select[name="location_id"]').val()                    
+                location_id: locID               
             };
             $.ajax({
                     type: "POST",

@@ -16,7 +16,7 @@
     var SPACES_USETYPE_ARRAY = <?php echo json_encode($dd_array->spaces_usetype_array); ?>;	          
 </script>
 <!-- END JAVASCRIPT GLOBAL VARS -->
-
+<?php //var_dump($product); ?>
 <section class="title">
 	<h4>	
 	<?php if ($this->method == 'create'): ?>  
@@ -81,7 +81,7 @@
 						<li class="even">                			
 							<label for="location_id"><?php echo lang('products_location_label'); ?> <span> *</span></label>				
 							<div class="input">
-								<?php echo form_dropdown('location_id', array(), '','class="med" data-placeholder="'.lang('products_no_locations_select_label').'"') ?>					                
+								<?php echo form_dropdown('location_id', array(), '',' id="location_id" class="med" data-placeholder="'.lang('products_no_locations_select_label').'"') ?>					                
 			                </div>
 						</li> 			                                                                                  
 						<li class="even">                 
