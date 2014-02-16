@@ -183,32 +183,32 @@ $config['gcs_session_queue_var'] = 'cloud_queues';
 
 /* LIST RESULT INFO DISPLAY */
 // facilities to display pero usetype
-$config['facilities_to_display_in_list_front_usetypes'] = array(
-																0=>array(1,2,15),
-																1=>array(1,2,15),
-																2=>array(1,2,15),
-																3=>array(1,2,15),
-																4=>array(1,2,15),																																
-																5=>array(1,2,15),
-																6=>array(1,2,15),
-																7=>array(1,2,17),
-																8=>array(1,2,15),
-																9=>array(1,2,15),
-																10=>array(1,2,15),
-																11=>array(1,2,15),															
-																);
+$config['facilities_display_per_usetype'] = array(
+													0=>array(1,2,15),
+													1=>array(1,2,15),
+													2=>array(1,2,15),
+													3=>array(1,2,15),
+													4=>array(1,2,18),																																
+													5=>array(1,2,15),
+													6=>array(1,2,15), 
+													7=>array(1,2,17),
+													8=>array(1,2,15),
+													9=>array(1,2,15),
+													10=>array(1,2,15),
+													11=>array(1,2,15),															
+													);
 
-$config['features_to_display_in_list_front_usetypes'] = array(
-																0=>array(19,3,5),
-																1=>array(19,3,5),
-																2=>array(19,3,5),
-																3=>array(19,3,5),
-																4=>array(9,14,17),																																
-																5=>array(19,3,5),
-																6=>array(19,3,5),
-																7=>array(3,32,22),
-																8=>array(19,3,25),
-																9=>array(19,3,5),
-																10=>array(58,57,56),
-																11=>array(52,55,54),															
-																);
+$config['features_display_per_usetype'] = array(
+													0=>array(19,3,5),
+													1=>array(19,3,5),
+													2=>array(19,3,5),
+													3=>array(19,3,5),
+													4=>array(9,14,17),																																
+													5=>array(19,3,5),
+													6=>array(19,3,5),
+													7=>array(3,32,22),
+													8=>array(19,3,25),
+													9=>array(19,3,5),
+													10=>array(58,57,56),
+													11=>array(52,55,54),															
+													);

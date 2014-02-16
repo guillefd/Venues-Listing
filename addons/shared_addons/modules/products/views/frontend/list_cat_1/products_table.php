@@ -44,7 +44,7 @@
 		</tr>
 		<tr width="100%">
 			<td class="content" colspan="3">
-			<span class="label-usetype-list">{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm table-product-usetype" }} <?php echo $item->space_denomination; ?> para <strong><?php echo $item->space_usetype_slug; ?></strong></span>
+			<span class="label-usetype-list"><img src="<?php echo BASE_URL.SHARED_ADDONPATH.'themes/amr/img/'; ?>amr-isologo-sm.png" class="amrlogo-sm table-product-usetype" /> <?php echo $item->space_denomination; ?> para <strong><?php echo $item->space_usetype; ?></strong></span>
 				<div class="pull-left">
 					<?php foreach($this->front->CFG->facilities_labels_display[$item->space_usetype_id] as $fldid ): ?>
 						<?php if(in_array($fldid, $item->space_facilities_list)): ?>	
@@ -54,7 +54,7 @@
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<?php foreach($this->front->CFG->features_labels_display[$item->space_usetype_id] as $ftrid ): ?>
-						<?php if(in_array($fldid, $item->space_features_list)): ?>	
+						<?php if(in_array($ftrid, $item->space_features_list)): ?>	
 							<span class="label label-info-product "><i class="fa fa-check"></i> <?php echo $featuresArr[$ftrid]->short_name; ?></span>
 						<?php else: ?>
 							<span class="label label-info-product none"> <?php echo $featuresArr[$ftrid]->short_name; ?></span>
