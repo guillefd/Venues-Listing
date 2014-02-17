@@ -16,7 +16,7 @@ $(document).ready(function(){
 	});
 
 	//tooltip
-	$('span.label.label-primary.usetype').tooltip();
+	$('span.label.usetype').tooltip();
 
 
 	// MESSAGES

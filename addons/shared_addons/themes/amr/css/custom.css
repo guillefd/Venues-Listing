@@ -81,6 +81,14 @@ header{
 	margin: 0px 1px 1px -3px;
 }
 
+.amrlogo-tiny.space-view-sidepanel{
+	margin: 0px 0px 1px -4px;
+}
+
+.amrlogo-sm.space-view-list{
+	margin: 0px 0px 1px -4px;
+}
+
 .amrlogo-sm.table-product-usetype{
 	margin: -1px 0px 1px -4px;
 }

@@ -151,6 +151,16 @@ span.label.usetype{
 	margin: 3px 3px 6px 3px;
 }
 
+a span.label.usetype.published{
+	background-color: #0a8cdb; 
+	padding: 4px;
+}
+
+a:hover span.label.usetype.published{
+	background-color: #ddd;
+	color: #000;
+}
+
 span.label.usetype.label-default{
 	background-color: #ccc;
 }
@@ -509,6 +519,17 @@ div#layoutsdetailpanel.panel-body p{
 
 .inner-page.space-view .inner-sidebar .widget-content ul.fa-ul li{
 	margin-bottom: 5px;
+	line-height: 1.5;
+}
+
+.inner-page.space-view .inner-sidebar .widget-content ul.fa-ul.usetypes li a{
+	margin: 0px 0px 2px 0px;
+	display: inline-block;
+	color: #25A7F5;
+}
+
+.inner-page.space-view .inner-sidebar .widget-content ul.fa-ul.usetypes li a:hover{
+	color: #000;
 }
 
 .inner-page.space-view .inner-sidebar .side-widget .widget-content h2 {

@@ -1,6 +1,8 @@
 <script>
 	var amrMapData = '<?php echo json_encode($this->front->page->map); ?>';
 </script>
+<?php //var_dump($item); ?>
+<?php $usetypesArr = $this->front->page->get_categoryauxiliars('usetypessync'); ?>
 <div class="inner-page space-view">
 	<div class="container">	
 		<div class="row">
@@ -118,13 +120,20 @@
 					<div id="usetypesdetailpanel" class="panel-body">
 						<p>El espacio es adecuado y esta sugerido para realizar:</p>
 						<div>
-						<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
-							<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
-								<span class="label label-success usetype" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
+						<?php foreach($usetypesArr as $obj): ?>									
+							<?php if(in_array($obj->id, $item->space_usetypes_all)): ?>
+								<?php if(in_array($obj->id, $item->space_usetypes_published)): ?>
+									<a href="<?php echo $item->space_usetypes_published_uri[$obj->id]; ?>">
+										<span class="label usetype published" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><img src="<?php echo BASE_URL.SHARED_ADDONPATH.'themes/amr/img/'; ?>amr-isologo-sm.png" class="amrlogo-sm space-view-list" /> 
+											<?php echo $obj->name; ?>
+										</span>
+									</a>
+								<?php else: ?>
+									<span class="label label-success usetype" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><span class="glyphicon glyphicon-ok"></span> <?php echo $obj->name; ?></span>
+								<?php endif; ?>
 							<?php else: ?>
-								<span class="label label-default usetype"><span class="glyphicon glyphicon-remove"></span>&nbsp;
+								<span class="label label-default usetype"><span class="glyphicon glyphicon-remove"></span> <?php echo $obj->name; ?></span>
 							<?php endif; ?>
-							<?php echo $obj->name; ?></span>
 						<?php endforeach; ?>
 						</div>
 					</div>
@@ -145,7 +154,7 @@
 												<?php $i=0; ?>
 												<?php foreach($listcatArr as $id=>$name): ?>
 												<?php $i++; ?>
-													<?php if(in_array($id, $item->data_facilities)): ?>
+													<?php if(in_array($id, $item->space_facilities_list)): ?>
 														<span class="label label-success facility" data-toggle="tooltip" title="<?php echo $facilitiesArr[$id]->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
 													<?php else: ?>
 														<span class="label label-default facility" data-toggle="tooltip" title="No disponible"><span class="glyphicon glyphicon-remove"></span>&nbsp;
@@ -177,11 +186,16 @@
 							</ul>
 							<div class="space-panel">
 								<h3><?php echo $item->space_denomination; ?> <?php echo $item->space_name; ?></h3>
-								<ul class="fa-ul">
+								<ul class="fa-ul usetypes">
 									<li><i class="fa-li fa fa-gears"></i> Servicios:<br>
-										<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
-											<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
-												<i class="fa fa-check"></i> <?php echo $obj->name; ?><br>
+										<?php foreach($item->space_usetypes_all as $utid): ?>									
+											<?php if(in_array($utid, $item->space_usetypes_published)): ?>
+												<a href="<?php echo $item->space_usetypes_published_uri[$utid]; ?>">
+												<img src="<?php echo BASE_URL.SHARED_ADDONPATH.'themes/amr/img/'; ?>amr-isologo-sm.png" class="amrlogo-tiny space-view-sidepanel" /> 
+												<?php echo $usetypesArr[$utid]->name; ?>
+												</a><br>
+											<?php else: ?>
+												<i class="fa fa-check-circle"></i> &nbsp;<?php echo $usetypesArr[$utid]->name; ?><br>											
 											<?php endif; ?>
 										<?php endforeach; ?> 
 									</li>
