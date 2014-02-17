@@ -52,6 +52,7 @@ function dzAddFileIdList(jsonData) {
 function dzRemoveFileIdList(index) {
 	fileslist = $('input[name="dzfileslistid"]').val();
     fileslist = fileslist.replace(index + ";", "");
+    fileslist = fileslist.replace(index, "");
     //update hidden field
 	$('input[name="dzfileslistid"]').val(fileslist);
 }
