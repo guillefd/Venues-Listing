@@ -70,7 +70,9 @@ class Products extends Public_Controller
 		{
 			redirect('/viewUndefined');			
 		}
-		$this->front->page->set_view($view);			
+		$this->front->page->set_view($view);
+				//set user current url
+		$this->front->set_usernavigation_current_url();					
 				//$this->___dump(__METHOD__.' line:'.__LINE__); /* --------------------TESTpoint--------------------- */ 	
 		products::search();
 		$this->front->set_search_params();		

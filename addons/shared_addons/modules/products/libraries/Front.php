@@ -437,6 +437,97 @@ class Front
 		return base_url().$item->prod_cat_slug.'+'.$item->space_usetype_slug.'/'.$item->loc_city_slug.'/'.$item->loc_slug.'/'.$item->space_slug.'+'.$item->front_version;	
 	}
 
+	//go back links
+
+	function cat1_front_goback_link_generator()
+	{	
+		switch($this->page->view['id'])
+		{
+
+			//space
+			case 300:
+							return $this->cat1_gen_front_goback_link_space();
+							break;
+
+			//product
+			case 400:
+							return $this->cat1_gen_front_goback_link_product();
+							break;		
+			
+			//location
+			case 500:
+
+			default:			
+							return $this->cat1_gen_front_goback_link_space();
+		}
+	}	
+
+
+	function cat1_gen_front_goback_link_space()
+	{
+		return base_url().$this->page->validurisegments[1]->prod_cat_slug.'/'.$this->page->validurisegments[2]->loc_city_slug.$this->link_restore_lastfilteruri();	
+	}
+
+	function cat1_gen_front_goback_link_product()
+	{
+		return base_url().$this->page->validurisegments[1]->prod_cat_slug.'+'.$this->page->validurisegments[1]->space_usetype_slug.'/'.$this->page->validurisegments[2]->loc_city_slug.$this->link_restore_lastfilteruri();	
+	}
+
+	function link_restore_lastfilteruri()
+	{
+		$filteruri = ''; 
+		if($lastfilters = ci()->session->userdata('lastfilters'))
+		{	
+			$i = 0;
+			foreach ($lastfilters as $key => $value) 
+			{
+				if($i==0)
+				{
+					$filteruri.= '/?'.$key.'='.$value;
+				}
+				else
+					{
+						$filteruri.='&'.$key.'='.$value;
+					}
+				$i++;
+			}
+		}
+		return $filteruri;
+	}	
+
+
+	//////////////////////////////////////////
+	// USER CURRENT URL   ---------------- //
+	//////////////////////////////////////////
+
+	function set_usernavigation_current_url()
+	{
+		$sessionusernav = ci()->session->all_userdata();
+		if(!array_key_exists('lastfilters', $sessionusernav))
+		{
+			$lastfilters = array();
+		}		
+		if($this->page->view['id']<300 ) 
+		{
+			$lastfilters = $this->page->validurifilters;
+		}
+		else
+			{
+				$lastfilters = $sessionusernav['lastfilters'];
+			}
+		$currentusernav = array(
+							'currenturl'=> current_url(), 
+					 	 	'lasturl'=> $this->set_usernavigation_default_last_url(),
+					 	 	'lastfilters'=> $lastfilters,
+						);				
+		ci()->session->set_userdata($currentusernav);	
+		$this->page->sessiondata = ci()->session->all_userdata();
+	}
+
+	function set_usernavigation_default_last_url()
+	{
+		return $this->cat1_front_goback_link_generator();
+	}
 
 	//////////////////////////////////////////////
 	// SEARCH / PAGINATION   --------------- // //

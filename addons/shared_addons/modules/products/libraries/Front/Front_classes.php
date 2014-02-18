@@ -32,6 +32,7 @@ class Page
 	// vars to be unsetted after use
 	public $urisegments;
 	public $urifilters;
+	public $sessiondata;
 
 
 	function __construct($id, $segments)

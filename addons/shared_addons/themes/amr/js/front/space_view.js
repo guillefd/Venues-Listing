@@ -21,6 +21,9 @@ $(document).ready(function(){
 	//tooltip
 	$('span.label.usetype').tooltip();
 
+	$('.amr-tooltip').tooltip({
+		container: 'body'
+	});
 
 	// MESSAGES
 	/* BTN SEND MESSAGE */

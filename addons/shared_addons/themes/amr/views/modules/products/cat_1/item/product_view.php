@@ -1,12 +1,13 @@
 <script>
 	var amrMapData = '<?php echo json_encode($this->front->page->map); ?>';
 </script>
+<?php $lastURL = $this->front->page->sessiondata['lasturl']; ?>
 <div class="inner-page space-view">
 	<div class="container">	
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-1">
 				<div class="breadcrumb-amr">
-					<h2><a class="returnlink" href=""><i class="fa fa-chevron-left"></i></a>{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm" }}Alquiler de <?php echo $item->space_denomination ?> <i class="fa fa-caret-right"></i><span class="blue"><?php echo $item->space_usetype; ?></span></h2>
+					<h2><a class="returnlink amr-tooltip" href="<?php echo $lastURL; ?>" data-toggle="tooltip" title="Volver al listado"><i class="fa fa-chevron-left"></i></a>{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm" }}Alquiler de <?php echo $item->space_denomination ?> <i class="fa fa-caret-right"></i><span class="blue"><?php echo $item->space_usetype; ?></span></h2>
 				</div>
 				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> <span class="loctit">en <?php echo $item->loc_name ?></span></h2>
 				<ul class="list-inline sub">
@@ -214,7 +215,7 @@
 							</div>
 					</div>
 				</div>	
-				<a class="returnlink bottom" href=""><i class="fa fa-chevron-circle-left"></i> Volver</a>																		
+				<a class="returnlink bottom" href="<?php echo $lastURL; ?>"><i class="fa fa-chevron-circle-left"></i> Volver</a>																		
 			</div>
 			<!-- Side Bar Start -->
 			<div class="col-xs-12 col-sm-12 col-md-3">
