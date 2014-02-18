@@ -14,6 +14,9 @@ $(document).ready(function(){
 	$('span.label.label-default.facility').tooltip({
 		container: 'body'
 	});
+	$('span.service-icon-included').tooltip({
+		container: 'body'
+	});	
 
 	//tooltip
 	$('span.label.usetype').tooltip();

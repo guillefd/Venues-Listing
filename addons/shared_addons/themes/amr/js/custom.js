@@ -108,15 +108,6 @@ $("#slist a").click(function(e){
    $(this).next('p').toggle(200);
 });
 
-/* Inner Coming Soon Page JS */
-/* Countdown */
-
-$(function(){
- launchTime = new Date("Fri Dec 20 2013 15:00:00 GMT-0300");
-	$("#countdown").countdown({until: launchTime, format: "dHMS"});
-});
-
-
 
 /* prettyPhoto Gallery */
 

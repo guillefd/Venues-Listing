@@ -133,7 +133,7 @@ $config['google_maps_v3_api_key'] = 'AIzaSyCALh28eeOof07ncjrfNHL80fYPUpz4nVc';
 
 /* Gmap marker image */
 $config['front_gmap_marker_image'] = 	'amr_marker.png';
-$config['front_gmap_marker_image_hover'] = 	'amr_marker-pink.png';
+$config['front_gmap_marker_image_hover'] = 	'amr_marker-pink-bg.png';
 
 /* Gmap Result Items db fields */
 $config['front_gmap_result_items_fields'] = array(

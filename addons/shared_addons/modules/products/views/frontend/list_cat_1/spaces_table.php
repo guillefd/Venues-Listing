@@ -5,15 +5,20 @@
 <?php foreach($result->list->items as $item): ?>
 <?php //var_dump($item); ?>	
 <div id="amrresulttable" class="table-responsive">
-	<table class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
+	<table id="tablespaceitem<?php echo $i; ?>" class="table table-bordered table-homelist" onmouseover="markers[<?php echo $i; ?>].setIcon(gimage_hover)" onmouseout="markers[<?php echo $i; ?>].setIcon(gimage)">
 		<tr>
 			<td rowspan="4" width="200px">
 				<div id="crsl-homelist-<?php echo $item->id ?>" class="carousel slide crsl-homelist" data-ride="carousel">
 				<div class="carousel-inner">
+					<?php $n = 0; ?>
 					<?php foreach($item->cloud_th_images as $index=>$img): ?>
+						<?php $n++; ?>
 						<div class="item <?php if($index==0) echo 'active'; ?>">
 							<a href="<?php echo $item->itemUri; ?>">
 								<img src="<?php echo $media->cdnUri.$img; ?>" alt="<?php echo $item->space_denomination.' '.$item->space_name ?>" />
+								<div class="carousel-caption top">
+									<p><?php echo $n; ?> <i class="fa fa-caret-right"></i> <?php echo count($item->cloud_th_images); ?></p>
+								</div>
 								<div class="carousel-caption ccsm">
 									<p><?php echo $item->space_denomination.' '.$item->space_name ?></p>
 								</div>
@@ -59,7 +64,7 @@
 					<span class="loc-color"><span class="glyphicon glyphicon-home"></span> <?php echo $item->loc_name ?></span> &nbsp;&nbsp;<small><i class="fa fa-flag"></i> <?php echo $item->loc_type ?></small><br>
 					<small class="pull-left"><i class="fa fa-location-arrow"></i> <?php echo $item->loc_city ?> ( <?php echo $item->loc_area ?> ) &nbsp;&nbsp;<i class="fa fa-globe"></i> <?php echo $item->loc_country ?></small>				
 			    </p>
-				<a class="btn btn-primary btn-md pull-right btn-list-go" href="<?php echo $item->itemUri; ?>">Ver y <strong>consultar</strong></a>				    
+				<a id="btngo-<?php echo $i; ?>" class="btn btn-primary btn-md pull-right btn-list-go" href="<?php echo $item->itemUri; ?>">Ver y <strong>consultar</strong></a>				    
 			</td>
 		</tr>		
 		</table>

@@ -423,7 +423,7 @@ button.btn.btn-link.plus-options{
 	padding: 2px 2px;
 	font-size: 10px;
 	line-height: 1.5;
-	width: 25px;
+	width: 35px;
 }
 
 .btn-group.color label.btn.select{
@@ -529,6 +529,17 @@ button.btn.btn-link.plus-options{
 .carousel.crsl-homelist > .carousel-inner >.item > a > .carousel-caption.ccsm{
 	padding-bottom: 8px;
 	padding-top: 8px;
+}
+
+.carousel.crsl-homelist > .carousel-inner > .item > .carousel-caption.top,
+.carousel.crsl-homelist > .carousel-inner >.item > a > .carousel-caption.top{
+	text-shadow: 0 1px 0 rgba(0,0,0,0.8);	
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	background: rgba(0,0,0,0);	
+	padding: 8px 10px;
+	text-align: right;
 }
 
 /* END caption big ---------------------------------------------------------*/
@@ -706,7 +717,6 @@ span.label-usetype-list {
 }
 
 table.table-homelist .loc-color{
-	color: #25A7F5;
 	font-weight: bold;
 	font-size: 14px;
 }
@@ -718,9 +728,9 @@ table div.service-tags{
 }
 
 table div.service-tags a:hover .label.label-servicetable.published {
-	background-color: #25A7F5;
-	color: #ededed;
-	border: 1px solid #25A7F5;		
+	background-color: #ededed;
+	color: #25A7F5;
+	border: 1px solid #ddd;		
 }
 
 .label.label-servicetable {
@@ -736,9 +746,13 @@ table div.service-tags a:hover .label.label-servicetable.published {
 }
 
 .label.label-servicetable.published {
-	background-color: #ededed;
+	background-color: #25A7F5;
+	color: #ededed;	
 	font-weight: bold;
 	display: inline-block;
+	padding: 2px 5px 0px 5px;
+	border: 1px solid #25A7F5;
+	margin: 2px 2px 2px 0px;		
 }
 
 .btn-list-go{
@@ -748,6 +762,10 @@ table div.service-tags a:hover .label.label-servicetable.published {
 a.btn-list-go:hover{
 	background-color: #ededed;
 	color: #428bca;
+}
+
+.btn-list-go-hover{
+	background-color: #F9009D;
 }
 
 /* alertbox */

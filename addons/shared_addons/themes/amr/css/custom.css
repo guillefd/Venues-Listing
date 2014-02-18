@@ -42,7 +42,10 @@
 /* TO TOP - btn*/
 
 .totop {
-	background: #53B6E6;
+	background: #ea1b0a;
+}
+.totop a{
+	
 }
 
 
@@ -103,13 +106,13 @@ header{
 }
 
 .breadcrumb-amr i.fa{
-	font-size: 20px;
+	font-size: 25px;
 }
 
 .breadcrumb-amr .amrlogo-sm{
 	width: 36px;
 	height: 34px;
-	margin: 0px 3px 2px -13px;	
+	margin: -7px 3px 0px -13px;	
 }
 
 .lightbox-item .amrlogo-sm{

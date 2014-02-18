@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-1">
 				<div class="breadcrumb-amr">
-					<h2>{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm" }}Alquiler de <?php echo $item->space_denomination ?> <i class="fa fa-caret-right"></i><span class="blue"><?php echo $item->space_usetype; ?></span></h2>
+					<h2><a class="returnlink" href=""><i class="fa fa-chevron-left"></i></a>{{ theme:image file="amr-isologo-sm.png" class="amrlogo-sm" }}Alquiler de <?php echo $item->space_denomination ?> <i class="fa fa-caret-right"></i><span class="blue"><?php echo $item->space_usetype; ?></span></h2>
 				</div>
 				<h2 class="sub"><strong><?php echo $item->space_denomination.' '.$item->space_name; ?></strong> <span class="loctit">en <?php echo $item->loc_name ?></span></h2>
 				<ul class="list-inline sub">
@@ -28,10 +28,15 @@
 								<div class="photoslider">								
 									<div id="crsl-itemview-<?php echo $item->id ?>" class="carousel slide crsl-itemview" data-ride="carousel">					
 									<div class="carousel-inner">
+										<?php $n = 0; ?>
 										<?php foreach($item->cloud_md_images as $index=>$img): ?>
+											<?php $n++; ?>
 											<div class="item <?php if($index==0) echo 'active'; ?>">
 												<a>
 													<img class="photosliderimg" src="<?php echo $data->media->cdnUri.$img; ?>" width="640px" height="430px" alt="<?php echo $item->space_denomination.' '.$item->space_name ?>" />
+													<div class="carousel-caption top">
+														<p><?php echo $n; ?> <i class="fa fa-caret-right"></i> <?php echo count($item->cloud_md_images); ?></p>
+													</div>													
 													<div class="carousel-caption">
 														<p><?php echo '<strong>'.$item->space_denomination.' '.$item->space_usetype.'</strong> | '.$item->space_denomination.' '.$item->space_name ?></p>
 													</div>
@@ -67,7 +72,12 @@
 					<p><?php echo $item->body ?></p>
 					<table class="table table-bordered table-condensed">
 						<tr class="lbyellow">
-							<th>Detalles del Servicio</th><th>Descripción</th><th></th>
+							<th>Detalles del Servicio</th>
+							<th>Descripción</th>
+							<th>
+								<span class="glyphicon glyphicon-ok service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span>
+								/ <span class="glyphicon glyphicon-info-sign service-icon-included" data-toggle="tooltip" title="Disponible en el servicio, consultar al contratar."></span>
+							</th>
 						<tr>	
 						<?php foreach($item->data_features as $ftr): ?>
 						<tr>
@@ -75,9 +85,9 @@
 							<td><?php echo $ftr->description ; ?></td>
 							<td width="10%" class="centered">
 								<?php if( $ftr->is_optional == '0'): ?>
-								<span class="glyphicon glyphicon-ok"></span>
+								<span class="glyphicon glyphicon-ok service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span>
 								<?php else: ?>
-								<span class="glyphicon glyphicon-info-sign"></span>										
+								<span class="glyphicon glyphicon-info-sign service-icon-included" data-toggle="tooltip" title="Disponible en el servicio, consultar al contratar."></span>										
 								<?php endif; ?>
 							</td>
 						</tr>
@@ -134,7 +144,7 @@
 							<?php if(array_key_exists($id, $item->data_layouts)): ?>
 							<?php $class = 'panel-success';  $cap = '<span class="badge">'.$item->data_layouts[$id]->capacity.'</span>'; ?>
 							<?php else: ?>
-							<?php $class = 'panel-default'; $cap = '&nbsp;'; ?>
+							<?php $class = 'panel-default'; $cap = '<i class="fa fa-times"></i>'; ?>
 							<?php endif; ?>
 							<div class="panel <?php echo $class; ?> layouts">
 								<div class="panel-heading">
@@ -203,7 +213,8 @@
 								</table>	
 							</div>
 					</div>
-				</div>															
+				</div>	
+				<a class="returnlink bottom" href=""><i class="fa fa-chevron-circle-left"></i> Volver</a>																		
 			</div>
 			<!-- Side Bar Start -->
 			<div class="col-xs-12 col-sm-12 col-md-3">

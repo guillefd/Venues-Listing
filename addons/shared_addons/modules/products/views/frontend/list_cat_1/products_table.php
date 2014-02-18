@@ -11,10 +11,15 @@
 			<td rowspan="4" width="300px">
 				<div id="crsl-homelist-<?php echo $item->id ?>" class="carousel slide crsl-homelist" data-ride="carousel">
 				<div class="carousel-inner">
+					<?php $n = 0; ?>					
 					<?php foreach($item->cloud_sm_images as $index=>$img): ?>
+						<?php $n++; ?>					
 						<div class="item <?php if($index==0) echo 'active'; ?>">
 							<a href="<?php echo $item->itemUri; ?>">
 								<img src="<?php echo $media->cdnUri.$img; ?>" alt="<?php echo $item->space_denomination.' '.$item->space_name ?>" />
+								<div class="carousel-caption top">
+									<p><?php echo $n; ?> <i class="fa fa-caret-right"></i> <?php echo count($item->cloud_sm_images); ?></p>
+								</div>
 								<div class="carousel-caption">
 									<p><?php echo $item->space_denomination.' '.$item->space_name ?></p>
 								</div>

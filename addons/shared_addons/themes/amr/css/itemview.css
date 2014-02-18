@@ -51,7 +51,7 @@ ul.list-group.spacedetails > li{
 ul.list-group.spacedetails > li.active{
 	background-color: #ededed;
 	font-weight: bold;
-	font-size: 18px;
+	font-size: 23px;
 }
 
 ul.list-group.spacedetails > li > span.badge.white{
@@ -358,6 +358,7 @@ div#layoutsdetailpanel.panel-body p{
 	font-weight: bold;
 	padding: 0px 2px 5px 2px;
 	font-size: 14px;
+	color: #ccc;
 }
 
 #layoutsdetailpanel > table > tbody > tr > td > .panel.layouts > div.panel-heading > h3.panel-title{
@@ -402,8 +403,22 @@ div#layoutsdetailpanel.panel-body p{
 	right: 0px;
 	left: 0px;
 	background: rgba(0,0,0,0.5);
+	font-size: 16px;
 }
 
+.carousel.crsl-itemview > .carousel-inner > .item > .carousel-caption.top,
+.carousel.crsl-itemview > .carousel-inner >.item > a > .carousel-caption.top{
+	text-shadow: 0 1px 0 rgba(0,0,0,0.8);	
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	background: rgba(0,0,0,0);	
+	padding: 8px 10px;
+	text-align: right;
+	font-size: 16px;
+	z-index: 1;
+	height: 40px;
+}
 
 /*.carousel.crsl-itemview > .carousel-inner >.item > a > .carousel-caption{
 	bottom: 2px;
@@ -444,6 +459,10 @@ div#layoutsdetailpanel.panel-body p{
 .lightbox-item {
 	margin: 20px 0px;
 	padding: 25px;
+}
+
+.lightbox-item table td.centered{
+	text-align: center;
 }
 
 .lightbox-item.lbgreen{
@@ -658,6 +677,27 @@ button.btn{
 	background-color: #4ab6f6;
 	color: #fff;
 }
+
+a.returnlink{
+	padding: 0px 7px 0px 0px;
+	margin: 0px 0px 0px -34px;
+	color: #bbb;
+	display: inline-block;
+}
+
+a.returnlink:hover{
+	color: #25A7F5;
+}
+
+a.returnlink.bottom{
+	margin: 10px 0px 0px -25px;
+	font-size: 25px;
+}
+
+a.returnlink.bottom:hover{
+	color: #25A7F5;
+}
+
 
 /* header */
 
