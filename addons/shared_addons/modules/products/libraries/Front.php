@@ -748,21 +748,12 @@ class Front
 
 	function explode_items_string($item)
 	{
-		if($this->page->view['id'] == 100 || $this->page->view['id'] == 300)
-		{		
-			$item->space_usetypes_all = explode(",", $item->space_usetypes_all);
-			$item->space_usetypes_published = explode(",", $item->space_usetypes_published);
-			$item->front_version_published = explode(",", $item->front_version_published);
-			$item->space_usetypes_published_uri = $this->generate_usetypes_published_uris($item);
-		}
-		if($this->page->view['id'] == 200 || $this->page->view['id'] == 300)
-		{	
-			$item->space_facilities_list = explode(",", $item->space_facilities_list);
-		}
-		if($this->page->view['id'] == 200)
-		{	
-			$item->space_features_list = explode(",", $item->space_features_list);
-		}				
+		$item->space_usetypes_all = isset($item->space_usetypes_all) ? explode(",", $item->space_usetypes_all) : array();
+		$item->space_usetypes_published = isset($item->space_usetypes_published) ? explode(",", $item->space_usetypes_published) : array();
+		$item->front_version_published = isset($item->front_version_published) ? explode(",", $item->front_version_published) : array();
+		$item->space_usetypes_published_uri = isset($item->space_usetypes_published) ? $this->generate_usetypes_published_uris($item) : array();		
+		$item->space_facilities_list = isset($item->space_facilities_list) ? explode(",", $item->space_facilities_list) : array();
+		$item->space_features_list = isset($item->space_features_list) ? explode(",", $item->space_features_list) : array();			
 		return $item;		
 	}
 

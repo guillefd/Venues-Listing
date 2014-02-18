@@ -1,6 +1,7 @@
 <script>
 	var amrMapData = '<?php echo json_encode($this->front->page->map); ?>';
 </script>
+<?php $usetypesArr = $this->front->page->get_categoryauxiliars('usetypessync'); ?>
 <?php $lastURL = $this->front->page->sessiondata['lasturl']; ?>
 <div class="inner-page space-view">
 	<div class="container">	
@@ -97,7 +98,23 @@
 				</div>
 
 				<div class="lightbox-item lbgreen">
-					<h3><i class="fa fa-sign-in"></i> <?php echo $item->space_denomination; ?> <?php echo $item->space_name; ?></h3>
+					<h2><i class="fa fa-home"></i></h2>
+					<h3><?php echo $item->loc_name; ?></h3>
+					<p><strong><?php echo $item->loc_type ?></strong></p>
+					<p><?php echo $item->loc_description; ?></p>					
+					<ul class="list-group spacedetails">															
+						<li class="list-group-item">
+							<span class="pull-right"><?php echo $item->loc_type; ?></span>
+							<i class="fa fa-home"></i> Tipo de locación
+							<li class="list-group-item">
+								<span class="pull-right"><?php echo $item->loc_geo_street_name.' al '.round_number($item->loc_geo_street_number); ?><br>
+									(<?php echo $item->loc_area; ?>)</span>
+								<i class="fa fa-location-arrow"></i> Ubicación
+							</li>												
+						</li>
+					</ul>					
+					<h2><i class="fa fa-sign-in"></i></h2>
+					<h3><?php echo $item->space_denomination; ?> <?php echo $item->space_name; ?></h3>
 					<p><?php echo $item->space_description; ?></p>
 					<ul class="list-group spacedetails">															
 						<li class="list-group-item">
@@ -116,20 +133,6 @@
 							<span class="pull-right"><?php echo $item->space_level; ?></span>
 							<i class="fa fa-bars"></i> Nivel
 						</li>					
-					</ul>
-					<h3><i class="fa fa-home"></i> <?php echo $item->loc_name; ?></h3>
-					<p><strong><?php echo $item->loc_type ?></strong></p>
-					<p><?php echo $item->loc_description; ?></p>					
-					<ul class="list-group spacedetails">															
-						<li class="list-group-item">
-							<span class="pull-right"><?php echo $item->loc_type; ?></span>
-							<i class="fa fa-home"></i> Tipo de locación
-							<li class="list-group-item">
-								<span class="pull-right"><?php echo $item->loc_geo_street_name.' al '.round_number($item->loc_geo_street_number); ?><br>
-									(<?php echo $item->loc_area; ?>)</span>
-								<i class="fa fa-location-arrow"></i> Ubicación
-							</li>												
-						</li>
 					</ul>										
 				</div>				
 				<!-- SPACE LAYOUTS -->
@@ -171,13 +174,20 @@
 					</div>
 					<div id="usetypesdetailpanel" class="panel-body">
 						<div>
-						<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
-							<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
-								<span class="label label-success usetype" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
+						<?php foreach($usetypesArr as $obj): ?>									
+							<?php if(in_array($obj->id, $item->space_usetypes_all)): ?>
+								<?php if(in_array($obj->id, $item->space_usetypes_published)): ?>
+									<a href="<?php echo $item->space_usetypes_published_uri[$obj->id]; ?>">
+										<span class="label usetype published" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><img src="<?php echo BASE_URL.SHARED_ADDONPATH.'themes/amr/img/'; ?>amr-isologo-sm.png" class="amrlogo-sm space-view-list" /> 
+											<?php echo $obj->name; ?>
+										</span>
+									</a>
+								<?php else: ?>
+									<span class="label label-success usetype" data-toggle="tooltip" title="<?php echo $obj->description; ?>"><span class="glyphicon glyphicon-ok"></span> <?php echo $obj->name; ?></span>
+								<?php endif; ?>
 							<?php else: ?>
-								<span class="label label-default usetype"><span class="glyphicon glyphicon-remove"></span>&nbsp;
+								<span class="label label-default usetype"><span class="glyphicon glyphicon-remove"></span> <?php echo $obj->name; ?></span>
 							<?php endif; ?>
-							<?php echo $obj->name; ?></span>
 						<?php endforeach; ?>
 						</div>
 					</div>
@@ -199,7 +209,7 @@
 												<?php $i=0; ?>
 												<?php foreach($listcatArr as $id=>$name): ?>
 												<?php $i++; ?>
-													<?php if(in_array($id, $item->data_facilities)): ?>
+													<?php if(in_array($id, $item->space_facilities_list)): ?>
 														<span class="label label-success facility" data-toggle="tooltip" title="<?php echo $facilitiesArr[$id]->description; ?>"><span class="glyphicon glyphicon-ok"></span>&nbsp;
 													<?php else: ?>
 														<span class="label label-default facility" data-toggle="tooltip" title="No disponible"><span class="glyphicon glyphicon-remove"></span>&nbsp;
@@ -232,19 +242,24 @@
 							</ul>
 							<div class="space-panel">
 								<h3><?php echo $item->space_denomination; ?> <?php echo $item->space_name; ?><br>
-									<?php echo $item->space_usetype; ?></h3>
+									<img src="<?php echo BASE_URL.SHARED_ADDONPATH.'themes/amr/img/'; ?>amr-isologo-sm.png" class="amrlogo-tiny product-view-sidepanel" />
+									 <?php echo $item->space_usetype; ?>
+								</h3>
 								<ul class="fa-ul">
-									<li><i class="fa-li fa fa-gears"></i> Servicios:<br>
-										<?php foreach($this->front->page->get_categoryauxiliars('usetypes') as $obj): ?>									
-											<?php if(array_key_exists($obj->id, $item->data_usetypes)): ?>
-												<i class="fa fa-check"></i> <?php echo $obj->name; ?><br>
+									<li><i class="fa-li fa fa-gears"></i> <strong><?php echo $item->space_denomination; ?> <?php echo $item->space_usetype; ?>: </strong><br>
+										<?php foreach($item->data_features as $ftr): ?>									
+											<?php if( $ftr->is_optional == '0'): ?>
+											<span class="glyphicon glyphicon-ok service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span> <?php echo $ftr->name ; ?><br>
+											<?php else: ?>
+											<span class="glyphicon glyphicon-info-sign service-icon-included" data-toggle="tooltip" title="Disponible en el servicio, consultar al contratar."></span> <?php echo $ftr->name ; ?><br>										
 											<?php endif; ?>
 										<?php endforeach; ?> 
 									</li>
 									<li><i class="fa-li fa fa-users"></i> <?php echo $item->space_max_capacity ?> pax.</li>
 								</ul>
 							</div>
-							<button class="btn btn-lg amrblue btn-block" data-toggle="modal" data-target="#amrformmessage">Envianos una consulta</button>						
+							<button class="btn btn-lg amrblue btn-block" data-toggle="modal" data-target="#amrformmessage300query">Enviar una Consulta</button>					
+							<button class="btn btn-lg amrpink btn-block" data-toggle="modal" data-target="#amrformmessage400quote">Pedir Presupuesto</button>								
 						</div>					
 					</div>
 				</div>
@@ -255,4 +270,5 @@
 </div>
 
 <!-- Modal -->
-<?php echo $modalform; ?>
+<?php echo $modalform['query']; ?>
+<?php echo $modalform['quote']; ?>

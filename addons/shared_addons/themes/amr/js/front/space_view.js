@@ -27,16 +27,20 @@ $(document).ready(function(){
 
 	// MESSAGES
 	/* BTN SEND MESSAGE */
-		$("#amrbtnsendspacemessage").on("click", function(e) { 
+		$("#amrbtnsendspacequery").on("click", function(e) { 
 			var link = BASE_URL + 'alquiler-de-salas/messaging';
-			doAjaxQuery(link);
+			doAjaxQuery(link, 'query');
 		});	
+		$("#amrbtnsendspacequote").on("click", function(e) { 
+			var link = BASE_URL + 'alquiler-de-salas/messaging';
+			doAjaxQuery(link, 'quote');
+		});			
 
 
-	function doAjaxQuery(link)
+	function doAjaxQuery(link, form)
 	{
-		disable_sumbit_button();
-	    clean_msgbox_class_and_html();  		
+		disable_sumbit_button(form);
+	    clean_msgbox_class_and_html(form);  		
 	    var form_data = $(":input,:hidden").serialize();
 	    $.ajax({
 	        type: "POST",
@@ -45,56 +49,60 @@ $(document).ready(function(){
 	        dataType: 'json',
 	        success: function(result)
 	        {
-	        	enable_submit_button();
+	        	enable_submit_button(form);
 	        	if(result.response === true)
 	        	{
 	        		if(result.Error === true)
 	        		{
-	        			$('#msgbox').addClass('alert alert-danger');
-	        			$('#msgbox').html(result.message);
+	        			$('#msgbox' + form).addClass('alert alert-danger');
+	        			$('#msgbox' + form).html(result.message);
 	        		}
 	        		if(result.Error === false)
 	        		{       			
-	        			$('#msgbox').addClass('alert alert-success');	        	        
-	        			$('#msgbox').html(result.message);
+	        			$('#msgbox' + form).addClass('alert alert-success');	        	        
+	        			$('#msgbox' + form).html(result.message);
 	        			$('textarea[name="message"]').val('');
 
 	        		}
 	        	}
 	        	else
 		        	{	        		
-	        			$('#msgbox').addClass('alert alert-danger');
-	        			$('#msgbox').html('<p>Hubo un error al enviar el mensaje, vuelva a intentarlo.</p>');
+	        			$('#msgbox' + form).addClass('alert alert-danger');
+	        			$('#msgbox' + form).html('<p>Hubo un error al enviar el mensaje, vuelva a intentarlo.</p>');
 		        	}
 	        },
 	        error: function()
 	        {
-            	enable_submit_button();          	
-	        	$('#msgbox').addClass('alert alert-warning');            	
-	        	$('#msgbox').html('<p>Error de comunicación, vuelva a intentarlo.</p>');            	
+            	enable_submit_button(form);          	
+	        	$('#msgbox' + form).addClass('alert alert-warning');            	
+	        	$('#msgbox' + form).html('<p>Error de comunicación, vuelva a intentarlo.</p>');            	
 	        }
 	    });         
 	}
 
 
-	function disable_sumbit_button()
+	function disable_sumbit_button(form)
 	{
-		$("#amrbtnsendspacemessage").attr('disabled', 'disabled');
+		$("#amrbtnsendspace" + form).attr('disabled', 'disabled');
 	}
 
-	function enable_submit_button()
+	function enable_submit_button(form)
 	{
-		$("#amrbtnsendspacemessage").removeAttr('disabled');
+		$("#amrbtnsendspace" + form).removeAttr('disabled');
 	}
 
-	function clean_msgbox_class_and_html()
+	function clean_msgbox_class_and_html(form)
 	{
-		$('#msgbox').removeClass('alert alert-danger alert-warning');
-		$('#msgbox').html('');
+		$('#msgbox' + form).removeClass('alert alert-danger alert-warning');
+		$('#msgbox' + form).html('');
 	}
 
-	$('#amrformmessage').on('hidden.bs.modal', function (e) {
-	    clean_msgbox_class_and_html();  
+	$('#amrformmessage300query').on('hidden.bs.modal', function (e) {
+	    clean_msgbox_class_and_html('query');  
+	})
+
+	$('#amrformmessage400quote').on('hidden.bs.modal', function (e) {
+	    clean_msgbox_class_and_html('quote');  
 	})
 
 });			

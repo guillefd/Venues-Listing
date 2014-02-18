@@ -243,15 +243,32 @@ class Products_frontend_1_m extends MY_Model
 	function get_item_product($page, $CFG)
 	{
 		$product = null;
-		$data = array(
-						'prod_cat_slug' => $page->validurisegments[1]->prod_cat_slug,			
-						'space_usetype_slug'=> $page->validurisegments[1]->space_usetype_slug,			
-						'loc_city_slug' => $page->validurisegments[2]->loc_city_slug,
-						'loc_slug' => $page->validurisegments[3]->loc_slug,
-						'space_slug' => $page->validurisegments[4]->space_slug,	
-						'front_version' => $page->validurisegments[4]->front_version,	
-					 );
-		$q = $this->db->get_where($this->t_front, $data);
+		$query = 'SELECT dpf.*, 
+				 GROUP_CONCAT( DISTINCT ut.usetype_id) space_usetypes_all, 
+				 GROUP_CONCAT( DISTINCT dpf.space_usetype_id ) space_usetypes_published,
+				 GROUP_CONCAT( DISTINCT dpf.front_version ) front_version_published, 
+				 GROUP_CONCAT( DISTINCT fac.facility_id ) space_facilities_list '
+				.'FROM `default_'.$this->t_front.'` dpf '
+				.'JOIN `default_products_front__1_usetypes` as ut ON ut.front_space_id=dpf.id  '
+				.'JOIN `default_products_front__1_facilities` as fac ON fac.front_space_id=dpf.id  ';
+		/* SEGMENTS --------------------------------------------------------------------*/					 
+		$query.= 'WHERE `prod_cat_slug` = "'.$page->validurisegments[1]->prod_cat_slug.'" '
+				.'AND `space_usetype_slug` = "'.$page->validurisegments[1]->space_usetype_slug.'" '		
+				.'AND `loc_city_slug` = "'.$page->validurisegments[2]->loc_city_slug.'" '
+				.'AND `loc_slug` = "'.$page->validurisegments[3]->loc_slug.'" '
+				.'AND `space_slug` = "'.$page->validurisegments[4]->space_slug.'" '
+				.'AND `front_version` = "'.$page->validurisegments[4]->front_version.'" ';
+		$query.=' GROUP BY dpf.space_id';								
+ 		$q = $this->db->query($query);	
+// $data = array(
+// 				'prod_cat_slug' => $page->validurisegments[1]->prod_cat_slug,			
+// 				'space_usetype_slug'=> $page->validurisegments[1]->space_usetype_slug,			
+// 				'loc_city_slug' => $page->validurisegments[2]->loc_city_slug,
+// 				'loc_slug' => $page->validurisegments[3]->loc_slug,
+// 				'space_slug' => $page->validurisegments[4]->space_slug,	
+// 				'front_version' => $page->validurisegments[4]->front_version,	
+// 			 );
+//$q = $this->db->get_where($this->t_front, $data);
 		if($q->num_rows() > 0)
 		{			
 			$product = $q->row();

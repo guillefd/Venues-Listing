@@ -1,12 +1,12 @@
 <script>
     var BASE_URL = '{{ global:base_url }}';
 </script>
-<div class="modal fade" id="amrformmessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="amrformmessage300query" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Enviar una consulta a <?php echo $result->item->loc_name; ?></h4>
+        <h4 class="modal-title amrblue" id="myModalLabel">Enviar una consulta a <?php echo $result->item->loc_name; ?></h4>
     </div>
     <div class="modal-body">
         <div class="contact-form">
@@ -40,12 +40,12 @@
                     </div>
                 </div>
             </form>
-            <div id="msgbox"></div>
+            <div id="msgboxquery"></div>
         </div>         
     </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
-    <button type="button" id="amrbtnsendspacemessage" class="btn btn-primary">Enviar</button>
+    <button type="button" id="amrbtnsendspacequery" class="btn btn-primary">Enviar</button>
 </div>
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

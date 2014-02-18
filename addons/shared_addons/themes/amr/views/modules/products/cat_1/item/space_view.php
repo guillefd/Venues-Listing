@@ -209,7 +209,7 @@
 									<li><i class="fa-li fa fa-users"></i> <?php echo $item->space_max_capacity ?> pax.</li>
 								</ul>
 							</div>
-							<button class="btn btn-lg amrblue btn-block" data-toggle="modal" data-target="#amrformmessage">Envianos una consulta</button>						
+							<button class="btn btn-lg amrblue btn-block" data-toggle="modal" data-target="#amrformmessage300query">Envianos una consulta</button>						
 						</div>					
 					</div>
 				</div>
@@ -220,4 +220,4 @@
 </div>
 
 <!-- Modal -->
-<?php echo $modalform; ?>
+<?php echo $modalform['query']; ?>

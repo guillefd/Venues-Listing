@@ -138,17 +138,17 @@ $config['msg_template'] = array(
 																			),
 																		),
 														),
-											'form400query'=>array(
-														'msgreference'=>'space-usetype-new-query',
+											'form400quote'=>array(
+														'msgreference'=>'space-usetype-new-quote',
 														'templatename'=>'amrbasic',
 														'queue'=>array(
 																		array(
 																				'type'=>'conversation',
-																				'queuename'=>'space-usetype-new-query_to-location',
+																				'queuename'=>'space-usetype-new-quote_to-location',
 																				/* $this->data array key */
 																				'from'=>'{sender_name} <{sender_email}>',
 																				'to'=>'{account_agent_email}',
-																				'subject'=>'Nueva consulta para {space_slug}@{loc_slug} de #{sender_name}',
+																				'subject'=>'Pedido de presupuesto para {space_slug}@{loc_slug} de #{sender_name}',
 																				'html'=>array(
 																								'opentag'=>array(),
 																								'hiddenline'=>array('txt1'=>'Respondele rápido para aumentar tus ventas.'),
@@ -161,7 +161,7 @@ $config['msg_template'] = array(
 																												),
 																								'bodyintro'=>array(
 																													'txthello'=>'Hola, {loc_name}', 
-																												   	'txtintro'=>'Tienes una nueva consulta para <strong>{space_full_name}</strong>:',
+																												   	'txtintro'=>'Tienes un pedido de presupuesto para <strong>{space_full_name}</strong>:',
 																												   	),
 																								'bodymsg'=>array(
 																												'field1'=>'Consulta',
@@ -178,13 +178,13 @@ $config['msg_template'] = array(
 																			),
 																		array(
 																				'type'=>'notification',																			
-																				'queuename'=>'space-usetype-new-query_copy-to-sender',
+																				'queuename'=>'space-usetype-new-quote_copy-to-sender',
 																				'from'=>'{space_full_name} - {loc_name} <{amrnoticeemail}>',
 																				'to'=>'{sender_email}',
-																				'subject'=>'Tu consulta para {space_slug}@{loc_slug} de #{sender_name}',										
+																				'subject'=>'Tu pedido de presupuesto para {space_slug}@{loc_slug} de #{sender_name}',										
 																				'html'=>array(
 																								'opentag'=>array(),
-																								'hiddenline'=>array('txt1'=>'Te copiamos la consulta enviada.'),
+																								'hiddenline'=>array('txt1'=>'Te copiamos el pedido de presupuesto enviado.'),
 																								'header'=>array(
 																												'logolink'=>'http://www.americameetingrooms.com', 
 																												'logoalt'=>'America Meeting Rooms', 
@@ -194,7 +194,7 @@ $config['msg_template'] = array(
 																												),
 																								'bodyintro'=>array(
 																													'txthello'=>'Hola, {sender_name}', 
-																												   	'txtintro'=>'Enviaste una consulta para <strong>{space_full_name}, en {loc_name}</strong>:',
+																												   	'txtintro'=>'Enviaste un pedido de presupuesto para <strong>{space_full_name}, en {loc_name}</strong>:',
 																												   	),
 																								'bodymsg'=>array(
 																												'field1'=>'Consulta',

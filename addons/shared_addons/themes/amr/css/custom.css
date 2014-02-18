@@ -120,3 +120,21 @@ header{
 	height: 34px;
 	margin: 0px 3px -8px -12px;	
 }
+
+/* Modal */
+
+.modal-title.amrblue{
+	color: #0a8cdb;
+}
+
+.modal-title.amrpink{
+	color: #F9009d;
+}
+
+div#msgboxquote.alert{
+	padding: 3px 15px 3px 15px;
+}
+
+#msgboxquote p{
+	font-size: 10px;
+}

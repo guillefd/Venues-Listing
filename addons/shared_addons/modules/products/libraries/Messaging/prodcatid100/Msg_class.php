@@ -91,7 +91,7 @@ class Msg
 			                    	);	
 							break;
 
-			case 'form400query': 	
+			case 'form400quote': 	
 							return array(
 			                            array(
 			                                'field' => 'name',
@@ -140,7 +140,7 @@ class Msg
 															);
 							break;
 
-			case 'form400query':		
+			case 'form400quote':		
 							$this->frontitemparams = array(
 															'prod_cat_slug'=>$post['dataFprod_cat_slug'],
 															'loc_city_slug'=>$post['dataFloc_city_slug'],

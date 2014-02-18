@@ -484,6 +484,15 @@ div#layoutsdetailpanel.panel-body p{
 	font-size: 16px;	
 }
 
+.lightbox-item > h2 {
+	margin: 0px 0px 0px !important;
+}
+
+.lightbox-item > h2 > i{
+	color: #fff !important;
+	font-size: 45px;
+}
+
 .lightbox-item h3{
 	margin: 0px 0px 10px;
 }
@@ -538,7 +547,12 @@ div#layoutsdetailpanel.panel-body p{
 
 .inner-page.space-view .inner-sidebar .widget-content ul.fa-ul li{
 	margin-bottom: 5px;
-	line-height: 1.5;
+	line-height: 1.5 !important;
+}
+
+.inner-page.space-view .inner-sidebar .widget-content ul.fa-ul li span{
+	display: inline-block;
+	margin: 5px 0px 5px 0px;
 }
 
 .inner-page.space-view .inner-sidebar .widget-content ul.fa-ul.usetypes li a{
@@ -664,18 +678,37 @@ button.btn{
 	color: #fff;	
 }
 
-.btn.amrblue{
-	background-color: #25A7F5;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
-}
-
 .btn.large{
 	font-size: 16x;
 }
 
+.btn.amrblue{
+	background-color: #25A7F5;
+}
+
 .btn.amrblue:hover{
-	background-color: #4ab6f6;
+	background-color: #ededed;
+	color: #25A7F5;
+}
+
+.btn.amrgray{
+	background-color: #ddd;
+	color: #393c3d;
+}
+
+.btn.amrgray:hover{
+	background-color: #25A7F5;
 	color: #fff;
+}
+
+.btn.amrpink{
+	background-color: #F9009D;
+	color: #fff;
+}
+
+.btn.amrpink:hover{
+	background-color: #fff;
+	color: #F9009D;
 }
 
 a.returnlink{
