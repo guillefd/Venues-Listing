@@ -104,10 +104,15 @@ class Msg
 			                                'rules' => 'trim|valid_email|required'
 			                            ), 
 			                            array(
+			                                'field' => 'telefono',
+			                                'label' => 'lang:front:phone',
+			                                'rules' => 'trim'
+			                            ),                                                                 
+			                            array(
 			                                'field' => 'message',
 			                                'label' => 'lang:front:form-message',
 			                                'rules' => 'trim|required'
-			                            ),                                                                 
+			                            ),   
 			                    	);	
 							break;							
 
@@ -162,7 +167,7 @@ class Msg
 		{
 			/* consulta en vista espacio */
 			case 'form300query':			
-			case 'form400query':
+			case 'form400quote':
 						$dataTOserialize = array(
 												'prod_cat_slug'=>$this->frontitem->prod_cat_slug,
 												'loc_city_slug'=>$this->frontitem->loc_city_slug,

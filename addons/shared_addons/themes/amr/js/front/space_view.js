@@ -27,21 +27,22 @@ $(document).ready(function(){
 
 	// MESSAGES
 	/* BTN SEND MESSAGE */
-		$("#amrbtnsendspacequery").on("click", function(e) { 
+		$("#amrbtnsendspace300query").on("click", function(e) { 
 			var link = BASE_URL + 'alquiler-de-salas/messaging';
-			doAjaxQuery(link, 'query');
+	    	var form_data = $("#amrform300query :input, #amrform300query :hidden").serialize();			
+			doAjaxQuery(link, '300query', form_data);
 		});	
-		$("#amrbtnsendspacequote").on("click", function(e) { 
+		$("#amrbtnsendspace400quote").on("click", function(e) { 
 			var link = BASE_URL + 'alquiler-de-salas/messaging';
-			doAjaxQuery(link, 'quote');
+	    	var form_data = $("#amrform400quote :input, #amrform400quote :hidden").serialize();				
+			doAjaxQuery(link, '400quote', form_data);
 		});			
 
 
-	function doAjaxQuery(link, form)
+	function doAjaxQuery(link, form, form_data)
 	{
 		disable_sumbit_button(form);
 	    clean_msgbox_class_and_html(form);  		
-	    var form_data = $(":input,:hidden").serialize();
 	    $.ajax({
 	        type: "POST",
 	        url: link,
@@ -98,11 +99,11 @@ $(document).ready(function(){
 	}
 
 	$('#amrformmessage300query').on('hidden.bs.modal', function (e) {
-	    clean_msgbox_class_and_html('query');  
+	    clean_msgbox_class_and_html('300query');  
 	})
 
 	$('#amrformmessage400quote').on('hidden.bs.modal', function (e) {
-	    clean_msgbox_class_and_html('quote');  
+	    clean_msgbox_class_and_html('400quote');  
 	})
 
 });			

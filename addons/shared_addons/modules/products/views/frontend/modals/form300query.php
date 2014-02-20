@@ -10,17 +10,19 @@
     </div>
     <div class="modal-body">
         <div class="contact-form">
-            <form id="amrformmessage" class="form-horizontal" role="form">
+            <form id="amrform300query" class="form-horizontal" role="form">
                 <div class="form-group">
                     <label for="reference" class="col-lg-2 control-label">Referencia</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" name="reference" value="<?php echo $result->item->loc_name.' ('.$result->item->loc_city.')'.' - '.$result->item->space_denomination.' '.$result->item->space_name; ?>" readonly="readonly">
+                        <input type="text" class="form-control amrblue" name="reference" value="<?php echo $result->item->loc_name.' ('.$result->item->loc_city.')'.' - '.$result->item->space_denomination.' '.$result->item->space_name; ?>" readonly="readonly">
                         <?php foreach($view['urifields'] as $field): ?>
                         <input type="hidden" name="dataF<?php echo $field; ?>" value="<?php echo $result->item->$field; ?>"> 
                         <?php endforeach; ?>
                         <input type="hidden" name="dataFviewid" value="form300query">
                     </div>
                 </div>
+                <hr>
+                <h4 class="amrblue">Datos de contacto</h4>
                 <div class="form-group">
                     <label for="Name" class="col-lg-2 control-label">Nombre</label>
                     <div class="col-lg-10">
@@ -33,6 +35,8 @@
                         <input type="email" class="form-control" name="email">
                     </div>
                 </div>
+                <hr>
+                <h4 class="amrblue">Mensaje</h4>                
                 <div class="form-group">
                     <label class="control-label col-lg-2" for="message">Consulta</label>
                     <div class="col-lg-10">
@@ -40,12 +44,12 @@
                     </div>
                 </div>
             </form>
-            <div id="msgboxquery"></div>
+            <div id="msgbox300query"></div>
         </div>         
     </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-gray" data-dismiss="modal">Cancelar</button>
-    <button type="button" id="amrbtnsendspacequery" class="btn btn-primary">Enviar</button>
+    <button type="button" id="amrbtnsendspace300query" class="btn btn-primary">Enviar</button>
 </div>
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
