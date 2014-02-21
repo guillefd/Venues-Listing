@@ -68,8 +68,7 @@ class Google_Config
         ),
         // Set a default directory for the file cache.
         'Google_Cache_File' => array(
-          // 'directory' => sys_get_temp_dir() . '/Google_Client'
-          'directory' => '/home/amrooms/temp/Google_Client'
+          'directory' => sys_get_temp_dir() . '/Google_Client'
         )
       ),
 
