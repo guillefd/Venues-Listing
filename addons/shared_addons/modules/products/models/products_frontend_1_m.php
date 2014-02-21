@@ -260,15 +260,6 @@ class Products_frontend_1_m extends MY_Model
 				.'AND `front_version` = "'.$page->validurisegments[4]->front_version.'" ';
 		$query.=' GROUP BY dpf.space_id';								
  		$q = $this->db->query($query);	
-// $data = array(
-// 				'prod_cat_slug' => $page->validurisegments[1]->prod_cat_slug,			
-// 				'space_usetype_slug'=> $page->validurisegments[1]->space_usetype_slug,			
-// 				'loc_city_slug' => $page->validurisegments[2]->loc_city_slug,
-// 				'loc_slug' => $page->validurisegments[3]->loc_slug,
-// 				'space_slug' => $page->validurisegments[4]->space_slug,	
-// 				'front_version' => $page->validurisegments[4]->front_version,	
-// 			 );
-//$q = $this->db->get_where($this->t_front, $data);
 		if($q->num_rows() > 0)
 		{			
 			$product = $q->row();

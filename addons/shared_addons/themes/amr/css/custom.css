@@ -216,6 +216,18 @@ div.modal-body .opt2box table>tbody>tr>th {
 	color: #fe2db1;
 }
 
+div.modal-body .input-group-addon{
+	padding: 6px 4px;
+}
+
+div.modal-body i.glyphicon{
+	font-size: 18px;
+}
+
+div.modal-body .bootstrap-timepicker-widget.dropdown-menu {
+	padding: 2px 12px 2px 2px;
+}
+
 .msgbox-sm.alert{
 	padding: 3px 15px 3px 15px;
 }

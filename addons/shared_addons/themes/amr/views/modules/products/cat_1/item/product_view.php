@@ -259,7 +259,7 @@
 								</ul>
 							</div>
 							<button class="btn btn-lg amrblue btn-block" data-toggle="modal" data-target="#amrformmessage300query">Enviar una Consulta</button>					
-							<button class="btn btn-lg amrpink btn-block" data-toggle="modal" data-target="#amrformmessage400quote">Pedir Presupuesto</button>								
+							<!-- <button class="btn btn-lg amrpink btn-block" data-toggle="modal" data-target="#amrformmessage400quote">Pedir Presupuesto</button>								 -->
 						</div>					
 					</div>
 				</div>

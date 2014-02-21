@@ -235,7 +235,7 @@ class Products extends Public_Controller
 
 			case 400:
 						$modalform['query'] = $this->load->view('frontend/modals/form300query', $this->front->page, true);			
-						$modalform['quote'] = $this->load->view('frontend/modals/form400query', $this->front->page, true);
+						$modalform['quote'] = $this->load->view('frontend/modals/form400quote', $this->front->page, true);
 						$this->template
 							->title($this->module_details['name'])
 							->set_layout('L_item_cat_1')

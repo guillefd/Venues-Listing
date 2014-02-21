@@ -76,23 +76,31 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">                        
-                            <p>Seleccione <strong>1 fecha:</strong></p>
+                            <p>Seleccione <strong>1 fecha</strong> y horario:</p>
                         </div>
-                        <div class="col-xs-4">
-                            <div class="input-group date datepickermodalform400-single">
+                        <div class="col-xs-3">
+                            <div class="input-group date f400-optDate-single-date1">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>                                
                                 <input type="text" class="form-control input-sm" readonly>
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
-                            <span class="help-block">Clic para elegir fecha</span>
+                            <span class="help-block">Clic para elegir fecha</span>                            
                         </div>
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control" placeholder=".col-xs-3">
+                        <div class="col-xs-3">                          
+                            <div class='input-group bootstrap-timepicker'>
+                                <input type='text' class="form-control input-sm f400-optDate-single-time1" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                            <span class="help-block">hora inicio</span>                              
                         </div>
-                        <div class="col-xs-2">
-                            <input type="text" class="form-control" placeholder=".col-xs-4">
-                        </div>
-                        <div class="col-xs-2">
-                            <input type="text" class="form-control" placeholder=".col-xs-4">
+                        <div class="col-xs-3">                                             
+                            <div class='input-group bootstrap-timepicker'>
+                                <input type='text' class="form-control input-sm f400-optDate-single-time1" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                            <span class="help-block">hora finalización</span>                              
+                        </div>                        
+                        <div class="col-xs-3">
+                            <button class="btn btn-primary">Agregar</button>
                         </div>
                     </div>
                     <table class="table table-condensed">
