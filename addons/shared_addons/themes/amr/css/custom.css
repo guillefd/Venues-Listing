@@ -160,6 +160,7 @@ div.modal-body .fixmrgL{
 	display: inline-block;
 }
 
+/* BTN */
 div.modal-body .btn-pink{
 	background-color: #ededed;
 	color: #fe56c0;
@@ -183,6 +184,58 @@ div.modal-body .btn-pink:hover{
 	border: 1px solid #fe56c0;	
 }
 
+div.modal-body .btn-amrgray{
+	background-color: #ededed;
+	color: #000;
+	font-weight: bold;
+	min-width: 160px;	
+	border: 1px solid #ddd;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+div.modal-body .btn-amrgray.active{
+	background-color: #999;
+	font-weight: bold;
+	color: #fff;
+	border: 1px solid #999;	
+}
+
+div.modal-body .btn-amrgray:hover{
+	background-color: #999;
+	color: #000;
+	font-weight: bold;
+	border: 1px solid #999;	
+}
+
+div.modal-body .btn-default.dateadd{
+	margin-top: 0px;
+	background-color: #ddd;
+	color: #000;
+}
+
+div.modal-body .btn-default.dateadd:hover{
+	margin-top: 0px;
+	background-color: #999;
+	color: #fff;
+}
+
+div.modal-body .btn-amrgray.btn-xs.cbx {
+	min-width: 75px;
+	padding: 2px 5px;
+	font-size: 9px;
+	color: #999;
+}
+
+div.modal-body .btn-amrgray.btn-xs.cbx:hover {
+	color: #fff;
+}
+
+div.modal-body .btn-amrgray.btn-xs.cbx.active {
+	color: #fff;
+}
+
+/* BOX */
 div.modal-body .badge.badge-pink{
 	background-color: #F9009d;
 	vertical-align: top;	
@@ -217,7 +270,7 @@ div.modal-body .opt2box table>tbody>tr>th {
 }
 
 div.modal-body .input-group-addon{
-	padding: 6px 4px;
+	padding: 4px 4px;
 }
 
 div.modal-body i.glyphicon{
@@ -236,6 +289,8 @@ div.modal-body .bootstrap-timepicker-widget.dropdown-menu {
 	font-size: 10px;
 }
 
+
+/* FORM */
 input.amrblue[readonly]{
 	color: #0a8cdb;
 }
@@ -249,4 +304,18 @@ div.modal-body span.help-block {
 	margin-bottom: 10px;
 	color: #000;
 	font-size: 11px;
+}
+
+div.modal-body .input-sm.range{
+	padding: 5px 1px;
+	min-width: 70px;
+}
+
+/* GRID */
+div.modal-body .col-xs-1.inner,
+div.modal-body .col-xs-2.inner,
+div.modal-body .col-xs-3.inner,
+div.modal-body .col-xs-4.inner{
+	padding-left: 5px;
+	padding-right: 5px;
 }
