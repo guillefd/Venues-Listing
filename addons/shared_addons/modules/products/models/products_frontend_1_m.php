@@ -103,8 +103,8 @@ class Products_frontend_1_m extends MY_Model
 				  GROUP_CONCAT( DISTINCT fac.facility_id ) space_facilities_list, 
 				  GROUP_CONCAT( DISTINCT ftr.default_feature_id ) space_features_list '
 				.'FROM `default_'.$this->t_front.'` dpf '
-				.'JOIN `default_'.$this->t_facilities.'` as fac ON fac.front_space_id = dpf.id ' 
-				.'JOIN `default_'.$this->t_features.'` as ftr ON ftr.front_space_id = dpf.id ';
+				.'LEFT JOIN `default_'.$this->t_facilities.'` as fac ON fac.front_space_id = dpf.id ' 
+				.'LEFT JOIN `default_'.$this->t_features.'` as ftr ON ftr.front_space_id = dpf.id ';
 		/* SEGMENTS --------------------------------------------------------------------*/	
 		/* cat-slug */
 		$query.= 'WHERE '
