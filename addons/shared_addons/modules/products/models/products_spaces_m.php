@@ -75,7 +75,8 @@ class Products_spaces_m extends MY_Model
 	 */
 	function search($mode, $data = array())
 	{          
-	    $query = "SELECT * FROM (`default_".$this->_table."`)";
+	    $query = "SELECT ds.*, dpsd.name as denomination FROM default_".$this->_table." as ds";
+        $query.= " JOIN default_products_spaces_denominations as dpsd ON dpsd.id = ds.denomination_id";
         // Solo cuentas activas
         if (array_key_exists('deleted', $data))
         {

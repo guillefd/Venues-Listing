@@ -46,6 +46,10 @@ input.med{
     width: 20em;
 }
 
+input.medplus{
+    width: 40em;
+}
+
 input.large{
     width: 50em;
 }

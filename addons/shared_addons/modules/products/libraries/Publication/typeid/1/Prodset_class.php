@@ -185,7 +185,7 @@ class Prodset
 						'created_on'        => now(),								
 						'author_id'			=> ci()->current_user->id,
 						'updated_on'        => now(),								
-					);    
+					); 			   
 		$this->set_publication_type();							
     }
 
@@ -201,7 +201,7 @@ class Prodset
 				//imagenes
 				move_tempfiles_to_prod_folder($prod_folder_id, $imgIDs);	
 			}
-			$this->save_features();
+			$this->save_features($product_id);
 		}
 		ci()->db->trans_complete();
 		// END TRANSACTION :::::::::::::::::::::::::::::::::::::			
@@ -218,7 +218,7 @@ class Prodset
 		$this->redirect_index();	
     }
 
-    function save_features()
+    function save_features($product_id)
     {
 		$features_field_list = array('product_id','default_feature_id','description','value','is_optional');
 		$features_array = array();

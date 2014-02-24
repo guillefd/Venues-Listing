@@ -32,7 +32,6 @@
 		<div class="tabs">
 			<ul class="tab-menu">
 				<li><a href="#products-setup-tab"><span><?php echo lang('products_setup_label'); ?></span></a></li>
-				<li><a href="#products-spaceselect-tab"><span><?php echo lang('products_spaceselect_label'); ?></span></a></li>
 				<li><a href="#products-features-tab"><span><?php echo lang('products_features_label'); ?></span></a></li>                
 				<li><a href="#products-images-tab"><span><?php echo lang('products_images_label'); ?></span></a></li>        
 			</ul>
@@ -41,7 +40,13 @@
 			<!-- Info tab -->
 			<div class="form_inputs" id="products-setup-tab">		
 				<fieldset>	
-				<ul> 		                                                                                  
+				<ul> 	
+					<li class="even">
+						<label for="category_id"><?php echo lang('products_category_createform_label'); ?> <span> *</span></label>
+						<div class="input">
+		                 <?php echo form_dropdown('category_id', array(''=>'') + $dd_categories, $product->category_id,' data-placeholder="'.lang('products_no_category_select_label').'" id="category_id" ') ?>					
+						</div>
+					</li>					                                                                                  
 					<li class="even" style="height:120px">
 						<div class="one_half">
 							<label for="account_id"><?php echo lang('products_account_label').'<span> *</span><br><sub>'.lang('products_account_autoload_label').'</sub>' ?></label>
@@ -59,25 +64,7 @@
 			                    <?php echo  form_hidden('seller_account_id', $product->seller_account_id , 'id="seller_account_id" '); ?>  
 			                </div>	
 			            </div>
-					</li> 					                                                                                  
-					<li class="even">
-						<label for="name"><?php echo lang('products_name_label'); ?> <span>*</span></label>
-						<div class="input"><?php echo form_input('name', htmlspecialchars_decode($product->name), 'class="med" maxlength="200" id="name"'); ?></div>				
-					</li>					
-					<li class="even">
-						<label for="category_id"><?php echo lang('products_category_createform_label'); ?> <span> *</span></label>
-						<div class="input">
-		                 <?php echo form_dropdown('category_id', array(''=>'') + $dd_categories, $product->category_id,' data-placeholder="'.lang('products_no_category_select_label').'" id="category_id" ') ?>					
-						</div>
-					</li>															                    			                     
-				</ul>		
-				</fieldset>		
-			</div>
-
-			<!-- Infos tab -->
-			<div class="form_inputs" id="products-spaceselect-tab">
-		        <fieldset>	
-		            <ul> 
+					</li> 	
 						<li class="even">                			
 							<label for="location_id"><?php echo lang('products_location_label'); ?> <span> *</span></label>				
 							<div class="input">
@@ -89,11 +76,10 @@
 			                <div class="input">                                    
 								<?php echo form_dropdown('space_id', array(), '','class="med" data-placeholder="'.lang('products_no_spaces_select_label').'"') ?>					                
 			                </div>				                                
-						</li>
-					</ul>		
-				</fieldset>	                        
-		    </div>  
-
+						</li>									                                                                                  																				                    			                     
+				</ul>		
+				</fieldset>		
+			</div>
 
 			<!-- Infos tab -->
 			<div class="form_inputs" id="products-features-tab">
@@ -109,7 +95,11 @@
 		                <div class="input">                                    
 							<?php echo form_dropdown('space_usetype_id', array(), '',' id="space_usetype_id" class="med" data-placeholder="'.lang('products_no_space_selected_label').'"') ?>					                
 		                </div>			                		                                
-					</li>		            		            						
+					</li>
+					<li class="even">
+						<label for="name"><?php echo lang('products_name_label'); ?> <span>*</span></label>
+						<div class="input"><?php echo form_input('name', htmlspecialchars_decode($product->name), 'class="medplus" maxlength="250" id="name"'); ?></div>				
+					</li>							            		            						
 					<li>
 						<label for="intro"><?php echo lang('products_intro_label'); ?> <span></span></label>
 						<div class="input">

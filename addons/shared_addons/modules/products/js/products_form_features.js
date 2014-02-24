@@ -6,7 +6,7 @@
 var vecF = new Object(); //array de features default
 var vecFid; //id del array de features default
 var vec_prodF = new Array(); //array de features seleccionados
-var Nitem = 0; // numero de item
+var Nitem = -1; // numero de item
 
 // FUNCTIONS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -121,7 +121,7 @@ function insertBlock(data)
 {
     var htmlblock = '<tr name="fItem'+ data.n +'" id="f_itemBlock" class="trBlock">';
         htmlblock+= '<td>' + data.name + '</td><td>' + data.usageunit + '</td><td>' + data.value + '</td><td>' + data.description + '</td>' + '<td>' + isOptional_to_text(data.isOptional) + '</td>';
-        htmlblock+= '<td><span><a name="btn_del" id="'+ data.n +'" class="btn red" href="'+ data.n +'">' + LABEL_DELETE + '</a></span></div>';
+        htmlblock+= '<td><span><a name="btn_ftr_del" id="'+ data.n +'" class="btn red" href="'+ data.n +'">' + LABEL_DELETE + '</a></span></div>';
         htmlblock+= '</tr>';   
     $("#f_itemBox").append(htmlblock);
 }
@@ -236,7 +236,7 @@ $(document).ready(function(){
     }); 
 
     //watcher btn ELIMINAR item de lista de features
-    $(document).on('click', 'a[name="btn_del"]', function(){ //do stuff here })
+    $(document).on('click', 'a[name="btn_ftr_del"]', function(){ //do stuff here })
         $(this).removeAttr('href');
         var id = $(this).attr("id");
         deleteFitem(id);

@@ -4,8 +4,8 @@ var img_loader_2 = '<img src="' + IMG_PATH + 'indicator.gif" style="float:right;
 
 var input_seller_account = $('input[name="seller_account"]');
 
+var vecL = new Array();
 var vecS = new Array();
-
 var usetypeSelectOptions;
 
 $(document).ready(function(){
@@ -26,7 +26,49 @@ $(document).ready(function(){
 
     $('#chk_basic_publication').click(function() {
         toggle_basic_publication();
-    });     
+    });
+
+    //autocomplete publication name
+    $('select[name="space_usetype_id"]').change(function() {        
+        var usetype = SPACES_USETYPE_ARRAY[$('select[name="space_usetype_id"]').val()];
+        var location = get_vecL_location( $('select[name="location_id"]').val() );
+        var space = get_vecS_space( $('select[name="space_id"]').val() );
+        var spacedenom = typeof space.denomination != 'undefined' ? space.denomination : '';         
+        var locname = typeof location.slug != 'undefined' ? location.slug : '';         
+        var spacename = typeof space.name != 'undefined' ? space.name : '';    
+        var txt = 'Alquiler de ' + spacedenom + ' - '+ usetype + ' - ' + spacename + '@' + locname;
+        $('input[name="name"]').val(txt);
+    });         
+
+    function get_vecL_location(id)
+    {
+        for (var i = vecL.count - 1; i >= 0; i--) 
+        {
+            if(vecL.locations[i].id = id)
+            {
+                return vecL.locations[i];
+            }
+            else
+                {
+                    return '';
+                }
+        };
+    }
+
+    function get_vecS_space(id)
+    {
+        for (var i = vecS.count - 1; i >= 0; i--) 
+        {
+            if(vecS.spaces[i].space_id = id)
+            {
+                return vecS.spaces[i];
+            }
+            else
+                {
+                    return '';
+                }
+        };
+    }
 
     function init_seller_account_input()
     {

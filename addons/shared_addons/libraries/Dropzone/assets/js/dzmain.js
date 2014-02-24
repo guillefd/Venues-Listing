@@ -70,7 +70,7 @@ function dzGenerateRowImage(filedata)
         			'<td>' + filedata.name + '</td>' +
         			'<td>' + fsize.num + ' ' + fsize.magn + '</td>' +
         			'<td>' + filedata.width + ' x ' + filedata.height + ' px ' +  '</td>' + 
-        			'<td><span><a name="btn_del" id="'+ filedata.id +'" class="btn red" href="'+ filedata.id +'">' + LABEL_DELETE + '</a></span></td>' +
+        			'<td><span><a name="btn_DZdel" id="'+ filedata.id +'" class="btn red" href="'+ filedata.id +'">' + LABEL_DELETE + '</a></span></td>' +
         			'</tr>';    			  
 }	
 
@@ -231,7 +231,7 @@ $(document).ready(function() {
 
 
     //watcher btn DELETE - from images list
-    $(document).on('click', 'a[name="btn_del"]', function(){ //do stuff here })
+    $(document).on('click', 'a[name="btn_DZdel"]', function(){ //do stuff here })
         $(this).removeAttr('href');
         var id = $(this).attr("id");
         dzDeleteFitem(id);
