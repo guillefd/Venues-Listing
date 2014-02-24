@@ -44,14 +44,10 @@ $(document).ready(function(){
     {
         for (var i = vecL.count - 1; i >= 0; i--) 
         {
-            if(vecL.locations[i].id = id)
+            if(vecL.locations[i].id == id)
             {
                 return vecL.locations[i];
             }
-            else
-                {
-                    return '';
-                }
         };
     }
 
@@ -59,14 +55,10 @@ $(document).ready(function(){
     {
         for (var i = vecS.count - 1; i >= 0; i--) 
         {
-            if(vecS.spaces[i].space_id = id)
+            if(vecS.spaces[i].space_id == id)
             {
                 return vecS.spaces[i];
             }
-            else
-                {
-                    return '';
-                }
         };
     }
 
