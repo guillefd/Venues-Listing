@@ -123,6 +123,10 @@ header{
 
 /* Modal */
 
+div.modal-body{
+	color: #000;
+}
+
 .modal-title.amrblue{
 	color: #0a8cdb;
 }
@@ -186,7 +190,7 @@ div.modal-body .btn-pink:hover{
 
 div.modal-body .btn-amrgray{
 	background-color: #ededed;
-	color: #000;
+	color: #999;
 	font-weight: bold;
 	min-width: 160px;	
 	border: 1px solid #ddd;
@@ -195,23 +199,29 @@ div.modal-body .btn-amrgray{
 }
 
 div.modal-body .btn-amrgray.active{
-	background-color: #999;
+	background-color: #ededed;
 	font-weight: bold;
-	color: #fff;
-	border: 1px solid #999;	
+	color: #fe56c0;
+	border: 1px solid #ddd;	
 }
 
 div.modal-body .btn-amrgray:hover{
-	background-color: #999;
-	color: #000;
+	background-color: #ddd;
+	color: #393c3d;
 	font-weight: bold;
-	border: 1px solid #999;	
+	border: 1px solid #ddd;	
+}
+
+div.modal-body .btn-xs.btn-amrgray{
+	min-width: 20px;
+	padding: 4px 8px;
+	margin-bottom: 2px;	
 }
 
 div.modal-body .btn-default.dateadd{
 	margin-top: 0px;
 	background-color: #ddd;
-	color: #000;
+	color: #393c3d;
 }
 
 div.modal-body .btn-default.dateadd:hover{
@@ -227,12 +237,20 @@ div.modal-body .btn-amrgray.btn-xs.cbx {
 	color: #999;
 }
 
+div.modal-body .btn-amrgray.btn-xs.cbx i.fa {
+	color: #ededed;
+}
+
 div.modal-body .btn-amrgray.btn-xs.cbx:hover {
 	color: #fff;
 }
 
 div.modal-body .btn-amrgray.btn-xs.cbx.active {
-	color: #fff;
+	color: #222;
+}
+
+div.modal-body .btn-amrgray.btn-xs.cbx.active i.fa {
+	color: #222;
 }
 
 /* BOX */
@@ -302,7 +320,7 @@ input.pink[readonly]{
 div.modal-body span.help-block {
 	margin-top: 0px;
 	margin-bottom: 10px;
-	color: #000;
+	color: #393c3d;
 	font-size: 11px;
 }
 
@@ -310,6 +328,15 @@ div.modal-body .input-sm.range{
 	padding: 5px 1px;
 	min-width: 70px;
 }
+
+div.modal-body select.xs{
+	padding: 2px;
+	font-size: 10px;
+	height: 25px;
+	width: 75px;
+}
+
+
 
 /* GRID */
 div.modal-body .col-xs-1.inner,
