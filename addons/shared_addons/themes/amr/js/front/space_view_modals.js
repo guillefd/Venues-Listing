@@ -2,6 +2,8 @@
 var datetimeArr = new Array();
 var index = 0;
 
+var TIMERANGEDIFF = 2;
+
 //DateTime global object
 function dtF()
 {
@@ -9,8 +11,10 @@ function dtF()
 	this.datetype = ''; //calendar, week, qty
 	this.datestart = '';
 	this.dateend = '';
+	this.dateslist = new Array();
 	this.timestart = '';
 	this.timeend = '';
+	this.timerangehours = 0;
 	this.incsaturday = -1;
 	this.incsunday = -1;
 	this.repeats = 1;
@@ -29,12 +33,12 @@ $(document).ready(function(){
 // EVENTS ----------------------------------
 	
 	$('#btnaddDT1-1').click(function () {
-		add_datetime('DT1-1');
+		get_datetime_fields_values('DT1-1');
 	});
 
 
 //CONTROLLERS - EVENTS ----------------------------------
-	function add_datetime(option)
+	function get_datetime_fields_values(option)
 	{
 		datetime = new dtF();
 		switch(option)
@@ -44,30 +48,128 @@ $(document).ready(function(){
 							datetime.idx = index;
 							datetime.datetype = 'calendar';
 							datetime.datestart = $('#DT1-1-date1').val();
-							datetime.dateend = $('#DT1-1-date2').val();							
+							datetime.dateend = $('#DT1-1-date2').val();
+							datetime.dateslist = get_dates_list(datetime.datestart, datetime.dateend);							
 							datetime.timestart = $('#DT1-1-time1').val();	
 							datetime.timeend = $('#DT1-1-time2').val();
+							datetime.timerangehours = get_timeDiff(datetime.timestart, datetime.timeend);
 							datetime.incsaturday = $('#DT1-1-sat').hasClass('active') ? 1 : -1;
 							datetime.incsunday = $('#DT1-1-sun').hasClass('active') ? 1 : -1;
-							datetime.subtdays = get_daysDiff(datetime.datestart, datetime.dateend);
-							datetime.subthours = get_timeDiff(datetime.timestart, datetime.timeend);
-							//debug
-							alert( JSON.stringify(datetime) );
+							datetime.subtdays = get_subtotal_days(datetime);
+							datetime.subthours = get_subtotal_hours(datetime);
 							break;
 			
 			default: 		
 							alert('none');
-
 		}
+		//validate
+		if(datetime_fields_values_validation(option, datetime))
+		{
+			save_datetime_to_Arr(datetime);
+			insert_table_row(option, datetime);
+			reset_datetime_fields(option);
+		}
+// DEBUG ----------------------------------------------------------------------		
+//alert( JSON.stringify(datetime) );	
 	} 
 
+
 // CONTROLLERS - AUXILIARS
-	function get_timeDiff(t1,t2)
+
+	function save_datetime_to_Arr(datetime)
 	{
+		datetimeArr[index] = datetime;
+		index++;
+	}
+
+	function reset_datetime_fields(option)
+	{
+		switch(option)
+		{
+			/*calendar-range*/
+			case 'DT1-1': 		
+							$('.input-daterange.f400-optDate-range-date').datepicker('update', null );
+							$('#DT1-1-date1').val('');	
+							$('#DT1-1-date2').val('');
+							$('#DT1-1-time1').val('');
+							$('#DT1-1-time2').val('');
+							if( $('#DT1-1-sat').hasClass('active') == false) $('#DT1-1-sat').addClass('active'); 	
+							if( $('#DT1-1-sun').hasClass('active') == false) $('#DT1-1-sun').addClass('active');
+							break;
+		}					
+	}
+
+	function get_dates_list(d1, d2)
+	{
+		var list = new Array();
+		if(d1!='' && d2!='')
+		{
+		    var date1 = get_formated_date(d1);
+		    var date2 = get_formated_date(d2);
+		    var date = date1;
+		    while(date <= date2)
+		    {
+		    	list.push(date);
+		    	date = add_days_to_date(date, 1);
+		    }
+		}
+	    return list;
+	}
+
+	function add_days_to_date(d, daysToAdd)
+	{
+		var newdate = new Date(d.getFullYear(), d.getMonth(), d.getDate() + daysToAdd, 0,0,0,0);
+		return newdate; 
+	}
+
+	function get_subtotal_hours(datetime)
+	{
+		return datetime.timerangehours * datetime.subtdays;
+	}
+
+	function get_timeDiff(t1, t2)
+	{
+		var diff = 0;
 		var time1 = get_formated_time(t1);
 		var time2 = get_formated_time(t2);
-		return ((time2 - time1) / 1000)/3600; // return in hours
+		if( time1 > time2 )
+		{
+			time2 = new Date(time2.getFullYear(), time2.getMonth(), time2.getDate() + 1, time2.getHours(), time2.getMinutes(),0,0);	
+		}
+		diff = (time2 - time1) / 1000 / 3600; // get hours
+		return diff; 
+	}
+
+	function get_subtotal_days(datetime)
+	{
+		var diff = get_daysDiff(datetime.datestart, datetime.dateend);
+		var substract = 0;
+		if(datetime.incsaturday == -1)
+		{
+			//saturday = 6
+			substract+= count_daysOfweek(datetime.dateslist, 6);
+		}
+		if(datetime.incsunday == -1)
+		{
+			//sunday = 0
+			substract+= count_daysOfweek(datetime.dateslist, 0);
+		}
+		return diff - substract;
 	}	
+
+	//count dates which are equal to weekDayNum (0-6)
+	function count_daysOfweek(datesArr, weekDayNum)
+	{
+		var count = 0;
+		for (var i=0; i < datesArr.length; i++)
+		{ 
+			if(datesArr[i].getDay() == weekDayNum)
+			{
+				count++;
+			}
+		}
+		return count;
+	}
 
 	function get_daysDiff(d1, d2)
 	{
@@ -89,7 +191,7 @@ $(document).ready(function(){
 
 	function check_starttime_diff(t1, idt2)
 	{
-		if( get_timeDiff( t1, idt2.val() )<2 )
+		if( get_timeDiff( t1, idt2.val() ) < TIMERANGEDIFF )
 		{
 			adjust_input_endtime(t1, idt2);
 		}		
@@ -98,7 +200,7 @@ $(document).ready(function(){
 	function adjust_input_endtime(t1, idt2)
 	{
 		var time = get_formated_time(t1);
-		var hours =  time.getHours() + 2;
+		var hours =  time.getHours() + TIMERANGEDIFF;
 		hours = hours < 10 ?  '0' + hours : hours;			
 		hours = hours == 24 ? '00' : hours; 
 		hours = hours == 25 ? '01' : hours; 						
@@ -108,7 +210,7 @@ $(document).ready(function(){
 
 	function check_endtime_diff(t2, idt1)
 	{
-		if( get_timeDiff( idt1.val(), t2 )<2 )
+		if( get_timeDiff( idt1.val(), t2 ) < TIMERANGEDIFF )
 		{
 			adjust_input_starttime(t2, idt1);
 		}		
@@ -117,7 +219,7 @@ $(document).ready(function(){
 	function adjust_input_starttime(t2, idt1)
 	{
 		var time = get_formated_time(t2);
-		var hours =  time.getHours() - 2;
+		var hours =  time.getHours() - TIMERANGEDIFF;
 		hours = (hours < 10 && hours >= 0) ?  '0' + hours : hours;			
 		hours = hours == -1 ? '23' : hours; 
 		hours = hours == -2 ? '22' : hours; 						
@@ -125,16 +227,60 @@ $(document).ready(function(){
 		idt1.val( hours + ':' + minutes );
 	}	
 
+// CONTROLLERS - VALIDATIONS -----------------------------------
+	function datetime_fields_values_validation(option, datetime)
+	{
+		switch(option)
+		{
+			case 'DT1-1': 
+							if(	datetime.dateslist.length > 0 
+								&& datetime.timerangehours >= TIMERANGEDIFF 
+								&& datetime.subtdays > 0 )
+							{
+								return true;
+							}
+							else
+								{
+									alert('El rango esta incompleto o no es correcto, verifique por favor.');
+								}
+							break;	
+
+			default: 
+							return false;				
+		}
+	}
+
+// CONTROLLERS - DRAW TABLE ROW
+
+	function insert_table_row(option, datetime)
+	{
+		switch(option)
+		{
+			case 'DT1-1': 
+							//JSON.stringify(datetime)
+							var incSat = datetime.incsaturday == 1 ? 'incluye sábados,<br>' : 'no incluye sábados,<br>';
+							var incSun = datetime.incsunday == 1 ? 'incluye domingos' : 'no incluye domingos';
+							var tableRow = '<tr>'
+											+'<td>'+ datetime.datestart + '<br>a ' + datetime.dateend +'</td>'
+											+'<td>'+ datetime.timestart + '<br>a ' + datetime.timeend + '</td>'
+											+'<td>'+ datetime.subtdays +'</td>'
+											+'<td>'+ datetime.subthours +'</td>'
+											+'<td>'+ incSat + incSun +'</td>'
+											+'<td><button name="btn_deleteDTrow" id="" class="btn btn-xs">borrar</button></td>'
+											+'</tr>';
+							$('#datetimeTablebody').append(tableRow);
+							break;
+		}
+	}	
+
 
 //CONTROLLERS - INITS (calendar) -----------------------------------
 	function init_optDates()
 	{
 		$('#optDates').hide();
-		$('#optDates-range').hide();		
-		$('#optDates-multi').hide();
-		$('#btnDT1').removeClass('active');	
-		$('#btnDT1-1').removeClass('active');	
-		$('#btnDT1-2').removeClass('active');					
+		$('#btnDT1').removeClass('active');			
+		hideDT1_1();
+		hideDT1_2();					
 	}
 
 	function init_optDays()
@@ -158,18 +304,29 @@ $(document).ready(function(){
 		$('#optDates-multi').show();		
 	}
 
-// CONTROLLERS - VALIDATIONS -----------------------------------
-	function validate_DT1_range()
+	function hideDT1_1()
 	{
-		var rules = new Array();
-		rules[0] = '';
-	}			
+		$('#optDates-range').hide();
+		$('#btnDT1-1').removeClass('active');
+	}
+
+	function hideDT1_2()
+	{
+		$('#optDates-multi').hide();
+		$('#btnDT1-2').removeClass('active');
+	}
 
 //CONTROLLERS - INITS (week) -----------------------------------
 	function showDT2()
 	{
 		$('#optDays-multi').show();	
 		init_optDates();	
+	}
+
+	function hideDT2()
+	{
+		$('#optDays-multi').hide();	
+		$('#btnDT2').removeClass('active');					
 	}
 
 // UI EVENTS (form) ----------------------------
@@ -191,12 +348,22 @@ $(document).ready(function(){
 	$('#btnDT1-2').click(function () {
 		showDT1_2();
 	});	
+	//hide
+	$('#btnDT1-1-hide').click(function () {
+		hideDT1_1();
+	});
+	$('#btnDT1-2-hide').click(function () {
+		hideDT1_2();
+	});
 
 	/*-----  DAYS  -----*/
 	$('#btnDT2').click(function () {
 		showDT2();
 	});
-
+	//hide
+	$('#btnDT2-hide').click(function () {
+		hideDT2();
+	});
 
 
 
@@ -214,8 +381,9 @@ $(document).ready(function(){
 	    autoclose: true,
 	    todayHighlight: true,
 	    weekStart: 1,
-	    language: 'es'
-	})
+	    language: 'es',
+	    clearBtn: true
+	});
 
     $('.f400-optDate-range-time1').timepicker({
     	minuteStep: 30,

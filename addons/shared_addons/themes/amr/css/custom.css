@@ -253,6 +253,25 @@ div.modal-body .btn-amrgray.btn-xs.cbx.active i.fa {
 	color: #222;
 }
 
+div.modal-body .row.datetimebox{
+	display: block;
+	border: 1px solid rgb(254, 86, 192);
+	margin: 0px;
+	padding: 5px;
+	border-radius: 3px;
+}
+
+div.modal-body .row.datetimebox div.closer{
+	float: right;
+	margin: -8px -11px;
+}
+
+div.modal-body .row.datetimebox div.closer .btn{
+	margin: 0px -10px;
+	color: #F9009d;
+	border: 0px;
+}
+
 /* BOX */
 div.modal-body .badge.badge-pink{
 	background-color: #F9009d;
@@ -282,9 +301,23 @@ div.modal-body .opt2box table>tbody>tr>th{
     border-top: 0;	
 }
 
-div.modal-body .opt2box table>tbody>tr>th {
+div.modal-body table#datetimeTable>thead>tr>th {
 	font-weight: normal;
 	color: #fe2db1;
+	text-align: center;
+}
+
+div.modal-body table#datetimeTable>tbody>tr>td {
+	text-align: center;
+}
+
+div.modal-body table#datetimeTable>tbody>tr>td>.btn {
+	color: #999;
+}
+
+div.modal-body table#datetimeTable>tbody>tr>td>.btn:hover {
+	background-color: #999;
+	color: #fff;
 }
 
 div.modal-body .input-group-addon{

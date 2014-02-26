@@ -44,7 +44,7 @@
                 <hr>
 <!-- DIAS Y HORARIOS  -->                 
                 <h4 class="pink"><span class="badge badge-pink">2</span> Dias y horarios</h4>
-                <p><i class="fa fa-caret-right"></i> Ingrese su consulta, seleccionando:</p>
+                <p><i class="fa fa-caret-right"></i> Seleccione si ingresa por <strong>fecha</strong> (calendario) ó <strong>día semana</strong> (lunes/domingo):</p>
                 <div class="row">
                     <div class="col-xs-12">                    
                         <div class="btn-group btn-group-justified fixmrgB" data-toggle="buttons">
@@ -61,7 +61,7 @@
                 <div id="opt2-dates" class="opt2box">                 
                     <div class="row" id="optDates">
                         <div class="col-xs-12">
-                            <p><i class="fa fa-caret-right"></i> Ingrese fechas <strong>calendario</strong>, por:</p>
+                            <p><i class="fa fa-caret-right"></i> Seleccione si ingresa por <strong>rango</strong> de fechas (desde/hasta) ó <strong>lista</strong> de fechas séparadas:</p>
                             <div class="btn-group fixmrgB btn-group-justified" data-toggle="buttons">
                                 <label class="btn btn-xs btn-amrgray" id="btnDT1-1">
                                     <input type="radio" name="DT1suboption"> rango de fechas
@@ -73,26 +73,33 @@
                         </div>
                     </div>
 <!-- DATE: calendar-range  -->                    
-                    <div class="row" id="optDates-range">
-                        <div class="col-xs-12">                        
-                            <p><i class="fa fa-caret-right"></i> Seleccione <strong>rango de fecha</strong> y su horario:</p>
+                    <div class="row datetimebox" id="optDates-range">
+                        <div class="col-xs-12">
+                            <div class="closer"><button type="button" id="btnDT1-1-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                                
+                            <p>
+                                <i class="fa fa-caret-right"></i> seleccione <strong>rango de fechas</strong> (desde / hasta)<br>
+                                <i class="fa fa-caret-right"></i> desmarque <strong>sábados</strong>, si no los incluye<br>
+                                <i class="fa fa-caret-right"></i> desmarque <strong>domingos</strong>, si no los incluye<br>
+                                <i class="fa fa-caret-right"></i> seleccione <strong>rango horario </strong> (desde / hasta)<br>
+                                <i class="fa fa-caret-right"></i> presione <strong>Agregar </strong> para confirmar
+                            </p>
                         </div>
                         <div class="col-xs-4">
                             <div class="input-daterange input-group f400-optDate-range-date" id="datepicker">
-                                <input type="text" class="input-sm range form-control" name="start" id="DT1-1-date1" />
+                                <input type="text" class="input-sm range form-control" name="start" id="DT1-1-date1" placeholder="desde" />
                                 <span class="input-group-addon">a</span>
-                                <input type="text" class="input-sm range form-control" name="end" id="DT1-1-date2" />
+                                <input type="text" class="input-sm range form-control" name="end" id="DT1-1-date2" placeholder="hasta" />
                             </div>
                             <span class="help-block">rango fecha</span>                            
                         </div>
                         <div class="col-xs-2 inner">
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-amrgray btn-xs cbx" id="DT1-1-sat">
+                                <label class="btn btn-amrgray btn-xs active cbx" id="DT1-1-sat">
                                     <input type="checkbox"> Sabados <i class="fa fa-check"></i>
                                 </label>
                             </div>  
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-amrgray btn-xs cbx" id="DT1-1-sun">
+                                <label class="btn btn-amrgray btn-xs active cbx" id="DT1-1-sun">
                                     <input type="checkbox"> Domingos <i class="fa fa-check"></i>
                                 </label>
                             </div>
@@ -117,9 +124,14 @@
                     </div>
 <!-- END DATE: calendar-range  -->     
 <!-- DATE: calendar-multi  -->                    
-                    <div class="row" id="optDates-multi">
-                        <div class="col-xs-12">                        
-                            <p><i class="fa fa-caret-right"></i> Seleccione <strong>unas o más fechas</strong> y su horario:</p>
+                    <div class="row datetimebox" id="optDates-multi">
+                        <div class="col-xs-12">    
+                            <div class="closer"><button type="button" id="btnDT1-2-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                                                                            
+                            <p>
+                                <i class="fa fa-caret-right"></i> seleccione <strong>una o varias fechas</strong><br>
+                                <i class="fa fa-caret-right"></i> seleccione <strong>rango horario </strong> (desde / hasta)<br>
+                                <i class="fa fa-caret-right"></i> presione <strong>Agregar </strong> para confirmar
+                            </p>
                         </div>
                         <div class="col-xs-6">
                             <div class="input-group date f400-optDate-multi-date">
@@ -150,8 +162,9 @@
 
 <!-- #### DAYS -->
 <!-- DAYS: multi date  -->                    
-                    <div class="row" id="optDays-multi">
-                        <div class="col-xs-12">                        
+                    <div class="row datetimebox" id="optDays-multi">
+                        <div class="col-xs-12"> 
+                            <div class="closer"><button type="button" id="btnDT2-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                                                                                                                           
                             <p><i class="fa fa-caret-right"></i> Seleccione <strong>dias</strong> y su horario:</p>
                         </div>
                         <div class="col-xs-4">
@@ -212,18 +225,14 @@
                         </div>
                     </div>
 <!-- END DATE: x rango fecha  -->  
-                    <table class="table table-condensed">
-                        <tr>
-                            <th>dia</th><th>horario</th><th>cant dias</th><th>cant horas</th><th></th><th>borrar</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><button class="btn btn-xs"><i class="fa fa-times"></i></button></td>
-                        </tr>                    
+                    <table id="datetimeTable" class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>dia/s</th><th>horario</th><th>cant dias</th><th>cant horas</th><th>detalles</th><th><i class="fa fa-cog"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="datetimeTablebody">   
+                        <tbody>                  
                     </table>
                 </div>
                 <!-- END option dates -->                                        
