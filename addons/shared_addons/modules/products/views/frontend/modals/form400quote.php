@@ -59,9 +59,10 @@
                 </div>
 <!-- ##### OPTION DATES -->
                 <div id="opt2-dates" class="opt2box">                 
-                    <div class="row" id="optDates">
+                    <div class="row datetimebox" id="optDates">
                         <div class="col-xs-12">
-                            <p><i class="fa fa-caret-right"></i> Seleccione si ingresa por <strong>rango</strong> de fechas (desde/hasta) ó <strong>lista</strong> de fechas séparadas:</p>
+                            <div class="closer"><button type="button" id="btnDT1-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                             
+                            <p><i class="fa fa-caret-right"></i> Seleccione si ingresa por <strong>rango</strong> de fechas (desde/hasta) ó <strong>lista</strong> de fechas:</p>
                             <div class="btn-group fixmrgB btn-group-justified" data-toggle="buttons">
                                 <label class="btn btn-xs btn-amrgray" id="btnDT1-1">
                                     <input type="radio" name="DT1suboption"> rango de fechas
@@ -136,26 +137,26 @@
                         <div class="col-xs-6">
                             <div class="input-group date f400-optDate-multi-date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>                                
-                                <input type="text" class="form-control input-sm" readonly/>
+                                <input type="text" class="form-control input-sm" id="DT1-2-date" readonly/>
                             </div>
                             <span class="help-block">seleccione fechas</span>                            
                         </div>
                         <div class="col-xs-2 inner">                          
                             <div class='input-group bootstrap-timepicker'>
                                 <span class="input-group-addon dt12-time1"><span class="glyphicon glyphicon-time"></span></span>                                
-                                <input type='text' class="form-control input-sm f400-optDate-multi-time1" readonly />
+                                <input type='text' class="form-control input-sm f400-optDate-multi-time1" id="DT1-2-time1" readonly />
                             </div>
                             <span class="help-block">inicia</span>                              
                         </div>
                         <div class="col-xs-2 inner">                                             
                             <div class='input-group bootstrap-timepicker'>
                                 <span class="input-group-addon dt12-time2"><span class="glyphicon glyphicon-time"></span></span>                                
-                                <input type='text' class="form-control input-sm f400-optDate-multi-time2" readonly />
+                                <input type='text' class="form-control input-sm f400-optDate-multi-time2" id="DT1-2-time2" readonly />
                             </div>
                             <span class="help-block">finaliza</span>                              
                         </div>                        
                         <div class="col-xs-2">
-                            <button class="btn btn-sm btn-default dateadd">Agregar</button> 
+                            <button type="button" id="btnaddDT1-2" class="btn btn-sm btn-default dateadd">Agregar</button>
                         </div>
                     </div>
 <!-- END DATE: calendar-multi  -->
@@ -232,7 +233,16 @@
                             </tr>
                         </thead>
                         <tbody id="datetimeTablebody">   
-                        <tbody>                  
+                        <tbody>
+                        <tfoot id="datetimeTablefoot">
+                            <tr>
+                                <td colspan="2">Totales:</td>
+                                <td>0 días</td>
+                                <td>0 horas</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>                  
                     </table>
                 </div>
                 <!-- END option dates -->                                        

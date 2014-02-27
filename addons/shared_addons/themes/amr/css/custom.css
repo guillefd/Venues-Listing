@@ -255,8 +255,8 @@ div.modal-body .btn-amrgray.btn-xs.cbx.active i.fa {
 
 div.modal-body .row.datetimebox{
 	display: block;
-	border: 1px solid rgb(254, 86, 192);
-	margin: 0px;
+	border: 1px solid #ccc;
+	margin: 0px 0px 5px 0px;
 	padding: 5px;
 	border-radius: 3px;
 }
@@ -301,14 +301,20 @@ div.modal-body .opt2box table>tbody>tr>th{
     border-top: 0;	
 }
 
-div.modal-body table#datetimeTable>thead>tr>th {
+div.modal-body table#datetimeTable>thead>tr>th,
+div.modal-body table#datetimeTable>tfoot>tr>td {
 	font-weight: normal;
 	color: #fe2db1;
 	text-align: center;
 }
 
+div.modal-body table#datetimeTable>tfoot>tr>td{
+	border-top: 2px solid #ddd;
+}
+
 div.modal-body table#datetimeTable>tbody>tr>td {
 	text-align: center;
+	vertical-align: middle;
 }
 
 div.modal-body table#datetimeTable>tbody>tr>td>.btn {
@@ -318,6 +324,17 @@ div.modal-body table#datetimeTable>tbody>tr>td>.btn {
 div.modal-body table#datetimeTable>tbody>tr>td>.btn:hover {
 	background-color: #999;
 	color: #fff;
+}
+
+div.modal-body .btn.DTtooltip{
+	font-weight: normal;
+	color: #000 !important;
+	font-size: 12px;
+	background-color: #fff;
+}
+
+div.modal-body .btn.DTtooltip:hover{
+	background-color: #ccc;
 }
 
 div.modal-body .input-group-addon{

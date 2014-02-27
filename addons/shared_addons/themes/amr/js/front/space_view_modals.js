@@ -2,7 +2,13 @@
 var datetimeArr = new Array();
 var index = 0;
 
-var TIMERANGEDIFF = 2;
+//CONST
+var TIMERANGEDIFF = 2; // in hours
+var DT_TABLETBODY_ID = 'datetimeTablebody';
+var DT_TABLEROW_ID = 'datetimeTablebodyRow_';
+var DT_TABLEROWDELBTN_NAME = 'btn_deleteDTrow';
+var DT_TABLEFOOTROW_ID = 'datetimeTablefoot';
+
 
 //DateTime global object
 function dtF()
@@ -15,11 +21,14 @@ function dtF()
 	this.timestart = '';
 	this.timeend = '';
 	this.timerangehours = 0;
+	this.saturdaycount = -1;
+	this.sundaycount = -1;
 	this.incsaturday = -1;
 	this.incsunday = -1;
 	this.repeats = 1;
 	this.subtdays = 0;
-	this.subthours = 0;	
+	this.subthours = 0;
+	this.deleted = -1;	
 }
 
 
@@ -32,12 +41,63 @@ $(document).ready(function(){
 
 // EVENTS ----------------------------------
 	
+	/* datetime range selected */
 	$('#btnaddDT1-1').click(function () {
-		get_datetime_fields_values('DT1-1');
+		process_DT_fields('DT1-1');
+	});
+
+	/* datetime range selected */
+	$('#btnaddDT1-2').click(function () {
+		process_DT_fields('DT1-2');
+	});
+
+
+	/* TABLE */
+	//btn BORRAR (x) item de lista de dias/horarios
+    $(document).on('click', 'button[name="' + DT_TABLEROWDELBTN_NAME + '"]', function(){
+		var id = $(this).attr("id");
+		process_remove_DT_item(id);
 	});
 
 
 //CONTROLLERS - EVENTS ----------------------------------
+
+	function process_DT_fields(option)
+	{
+		var datetime = get_datetime_fields_values(option);		
+		//validate
+		if(datetime_fields_values_validation(option, datetime))
+		{
+			save_datetime_to_Arr(datetime);
+			insert_table_row(option, datetime);
+			update_table_totals();
+			clear_inputs(option);
+		}
+	}
+
+	function process_remove_DT_item(id)
+	{
+		delete_DT_table_row(id);
+		delete_datetime_element_DT_Arr(id);
+		update_table_totals();		
+	}
+
+
+// CONTROLLERS - AUXILIARS
+
+	function delete_DT_table_row(id)
+	{
+	    var name = "socialItem" + id;
+    	$('#' + DT_TABLEROW_ID + id).fadeOut(300,function(){ 
+        	$('#' + DT_TABLEROW_ID + id).remove();		
+    	});
+	}
+
+	function delete_datetime_element_DT_Arr(id)
+	{
+		datetimeArr[id].deleted = 1;
+	}
+
 	function get_datetime_fields_values(option)
 	{
 		datetime = new dtF();
@@ -49,32 +109,37 @@ $(document).ready(function(){
 							datetime.datetype = 'calendar';
 							datetime.datestart = $('#DT1-1-date1').val();
 							datetime.dateend = $('#DT1-1-date2').val();
-							datetime.dateslist = get_dates_list(datetime.datestart, datetime.dateend);							
+							datetime.dateslist = get_range_dates_list(datetime.datestart, datetime.dateend);							
 							datetime.timestart = $('#DT1-1-time1').val();	
 							datetime.timeend = $('#DT1-1-time2').val();
 							datetime.timerangehours = get_timeDiff(datetime.timestart, datetime.timeend);
+							datetime.saturdaycount = count_daysOfweek(datetime.dateslist, 6);
+							datetime.sundaycount = count_daysOfweek(datetime.dateslist, 0);
 							datetime.incsaturday = $('#DT1-1-sat').hasClass('active') ? 1 : -1;
 							datetime.incsunday = $('#DT1-1-sun').hasClass('active') ? 1 : -1;
-							datetime.subtdays = get_subtotal_days(datetime);
+							datetime.subtdays = get_range_subtotal_days(datetime);
 							datetime.subthours = get_subtotal_hours(datetime);
 							break;
-			
+
+			/*calendar-multi*/
+			case 'DT1-2':
+							datetime.idx = index;
+							datetime.datetype = 'calendar';
+							datetime.dateslist = get_multi_dates_list($('#DT1-2-date').val());							
+							datetime.timestart = $('#DT1-2-time1').val();	
+							datetime.timeend = $('#DT1-2-time2').val();
+							datetime.timerangehours = get_timeDiff(datetime.timestart, datetime.timeend);
+							datetime.subtdays = datetime.dateslist.length;
+							datetime.subthours = get_subtotal_hours(datetime);
+							break;
+
 			default: 		
 							alert('none');
 		}
-		//validate
-		if(datetime_fields_values_validation(option, datetime))
-		{
-			save_datetime_to_Arr(datetime);
-			insert_table_row(option, datetime);
-			reset_datetime_fields(option);
-		}
-// DEBUG ----------------------------------------------------------------------		
-//alert( JSON.stringify(datetime) );	
+		// DEBUG ----------------------------------------------------------------------		
+		//alert( JSON.stringify(datetime) );	
+		return datetime;
 	} 
-
-
-// CONTROLLERS - AUXILIARS
 
 	function save_datetime_to_Arr(datetime)
 	{
@@ -82,24 +147,7 @@ $(document).ready(function(){
 		index++;
 	}
 
-	function reset_datetime_fields(option)
-	{
-		switch(option)
-		{
-			/*calendar-range*/
-			case 'DT1-1': 		
-							$('.input-daterange.f400-optDate-range-date').datepicker('update', null );
-							$('#DT1-1-date1').val('');	
-							$('#DT1-1-date2').val('');
-							$('#DT1-1-time1').val('');
-							$('#DT1-1-time2').val('');
-							if( $('#DT1-1-sat').hasClass('active') == false) $('#DT1-1-sat').addClass('active'); 	
-							if( $('#DT1-1-sun').hasClass('active') == false) $('#DT1-1-sun').addClass('active');
-							break;
-		}					
-	}
-
-	function get_dates_list(d1, d2)
+	function get_range_dates_list(d1, d2)
 	{
 		var list = new Array();
 		if(d1!='' && d2!='')
@@ -114,6 +162,20 @@ $(document).ready(function(){
 		    }
 		}
 	    return list;
+	}
+
+	function get_multi_dates_list(string)
+	{			
+		var aux = string.split(",");
+		var list = new Array();
+		for (var i = aux.length - 1; i >= 0; i--) 
+		{
+			if(aux[i]!='')
+			{
+				list.push(aux[i]);
+			}
+		}
+		return list; 
 	}
 
 	function add_days_to_date(d, daysToAdd)
@@ -140,19 +202,19 @@ $(document).ready(function(){
 		return diff; 
 	}
 
-	function get_subtotal_days(datetime)
+	function get_range_subtotal_days(datetime)
 	{
 		var diff = get_daysDiff(datetime.datestart, datetime.dateend);
 		var substract = 0;
 		if(datetime.incsaturday == -1)
 		{
 			//saturday = 6
-			substract+= count_daysOfweek(datetime.dateslist, 6);
+			substract+= datetime.saturdaycount;
 		}
 		if(datetime.incsunday == -1)
 		{
 			//sunday = 0
-			substract+= count_daysOfweek(datetime.dateslist, 0);
+			substract+= datetime.sundaycount;
 		}
 		return diff - substract;
 	}	
@@ -241,10 +303,26 @@ $(document).ready(function(){
 							}
 							else
 								{
-									alert('El rango esta incompleto o no es correcto, verifique por favor.');
+									alert('El rango esta incompleto o no es correcto.\n\n'
+										  +'Verifica por favor:\n'
+										  +'  - fecha desde y fecha hasta\n'
+										  +'  - hora inicio y hora finaliza\n'
+										  +'  - si seleccionó una fecha en un sábado y/o domingo, marque los botones sábados y/o domingos.');
 								}
 							break;	
 
+			case 'DT1-2': 
+							if(	datetime.dateslist.length > 0 
+								&& datetime.timerangehours >= TIMERANGEDIFF 
+								&& datetime.subtdays > 0 )
+							{
+								return true;
+							}
+							else
+								{
+									alert('Debe seleccionar al menos 1 fecha.');
+								}							
+							break;
 			default: 
 							return false;				
 		}
@@ -254,24 +332,102 @@ $(document).ready(function(){
 
 	function insert_table_row(option, datetime)
 	{
+		var f1 = '';
+		var f2 = '';
+		var f3 = '';
+		var f4 = '';
+		var f5 = '';							
 		switch(option)
 		{
 			case 'DT1-1': 
-							//JSON.stringify(datetime)
-							var incSat = datetime.incsaturday == 1 ? 'incluye sábados,<br>' : 'no incluye sábados,<br>';
-							var incSun = datetime.incsunday == 1 ? 'incluye domingos' : 'no incluye domingos';
-							var tableRow = '<tr>'
-											+'<td>'+ datetime.datestart + '<br>a ' + datetime.dateend +'</td>'
-											+'<td>'+ datetime.timestart + '<br>a ' + datetime.timeend + '</td>'
-											+'<td>'+ datetime.subtdays +'</td>'
-											+'<td>'+ datetime.subthours +'</td>'
-											+'<td>'+ incSat + incSun +'</td>'
-											+'<td><button name="btn_deleteDTrow" id="" class="btn btn-xs">borrar</button></td>'
-											+'</tr>';
-							$('#datetimeTablebody').append(tableRow);
+							var incSat = '';
+							var incSun = '';
+							if(datetime.saturdaycount>0)
+							{
+								incSat = (datetime.incsaturday == 1) ? 'sábados (sí),<br>' : 'sábados (no),<br>';
+							}
+							if(datetime.sundaycount>0)
+							{
+								incSun = (datetime.incsunday == 1) ? 'domingos (sí)' : 'domingos (no)';
+							}
+							f1 = 'del '+ datetime.datestart + '<br>al &nbsp;' + datetime.dateend;
+							f2 = 'de '+ datetime.timestart + '<br>a &nbsp;' + datetime.timeend;
+							f3 = datetime.subtdays + ' d';
+							f4 = datetime.subthours + ' hs';
+							f5 = incSat + incSun;
+							break;
+
+			case 'DT1-2': 
+							var list_txt = '';
+							for (var i = datetime.dateslist.length - 1; i >= 0; i--) 
+							{
+								list_txt+= datetime.dateslist[i];
+								if(i>0)
+								{
+									list_txt+=', ';
+								}
+							}
+							var listcount_txt = datetime.dateslist.length>1 ? 'fechas' : 'fecha';
+							var datesbtn = '<button type="button" class="btn DTtooltip" data-toggle="tooltip" data-placement="top" title="' + list_txt + '">Ver ' + listcount_txt + '</button>';
+							f1 = datesbtn;
+							f2 = 'de '+ datetime.timestart + '<br>a &nbsp;' + datetime.timeend;
+							f3 = datetime.subtdays + ' d';
+							f4 = datetime.subthours + ' hs';
 							break;
 		}
+		// append Row
+		var tableRow = '<tr id="' + DT_TABLEROW_ID + datetime.idx + '">'
+						+'<td>' + f1 + '</td>'
+						+'<td>' + f2 + '</td>'
+						+'<td>' + f3 + '</td>'
+						+'<td>' + f4 + '</td>'
+						+'<td>' + f5 + '</td>'
+						+'<td><button type="button" name="' + DT_TABLEROWDELBTN_NAME + '" id="' + datetime.idx + '" class="btn btn-xs">borrar</button></td>'
+						+'</tr>';
+		$('#' + DT_TABLETBODY_ID).append(tableRow);
+		// tooltip
+		$('.DTtooltip').tooltip();		
 	}	
+
+
+	function update_table_totals()
+	{
+		var tableFootRow = '<tr>'
+						+'<td colspan="2">Totales:</td>'
+						+'<td>'+ get_datetimeArr_total_days() +' días</td>'
+						+'<td>'+ get_datetimeArr_total_hours() +' horas</td>'
+						+'<td></td>'
+						+'<td></td>'
+						+'</tr>';
+
+		$('#' + DT_TABLEFOOTROW_ID).html(tableFootRow);		
+	}
+
+	function get_datetimeArr_total_days()
+	{
+		var total = 0;
+		for (var i = datetimeArr.length - 1; i >= 0; i--) 
+		{
+			if(datetimeArr[i].deleted != 1)
+			{	
+				total+= datetimeArr[i].subtdays;
+			}
+		}
+		return total;
+	}
+
+	function get_datetimeArr_total_hours()
+	{
+		var total = 0;
+		for (var i = datetimeArr.length - 1; i >= 0; i--) 
+		{
+			if(datetimeArr[i].deleted != 1)			
+			{
+				total+= datetimeArr[i].subthours;
+			}	
+		}
+		return total;
+	}
 
 
 //CONTROLLERS - INITS (calendar) -----------------------------------
@@ -304,6 +460,14 @@ $(document).ready(function(){
 		$('#optDates-multi').show();		
 	}
 
+	function hideDT1()
+	{
+		$('#optDates').hide();		
+		$('#btnDT1').removeClass('active');
+		hideDT1_1();
+		hideDT1_2();	
+	}
+
 	function hideDT1_1()
 	{
 		$('#optDates-range').hide();
@@ -313,7 +477,7 @@ $(document).ready(function(){
 	function hideDT1_2()
 	{
 		$('#optDates-multi').hide();
-		$('#btnDT1-2').removeClass('active');
+		$('#btnDT1-2').removeClass('active');	
 	}
 
 //CONTROLLERS - INITS (week) -----------------------------------
@@ -349,7 +513,13 @@ $(document).ready(function(){
 		showDT1_2();
 	});	
 	//hide
+	$('#btnDT1-hide').click(function () {
+		hideDT1();
+		clear_inputs('DT1-1');
+		hideDT1_1();
+	});
 	$('#btnDT1-1-hide').click(function () {
+		clear_inputs('DT1-1');
 		hideDT1_1();
 	});
 	$('#btnDT1-2-hide').click(function () {
@@ -364,6 +534,64 @@ $(document).ready(function(){
 	$('#btnDT2-hide').click(function () {
 		hideDT2();
 	});
+
+    //CLEAR - INPUTS ----------------------------
+    
+    function clear_inputs(option)
+    {
+		switch(option)
+		{
+			/*calendar-range*/
+			case 'DT1-1': 
+							clear_datepicker(option);
+							clear_timepicker(option);
+							if( $('#DT1-1-sat').hasClass('active') == false) $('#DT1-1-sat').addClass('active'); 	
+							if( $('#DT1-1-sun').hasClass('active') == false) $('#DT1-1-sun').addClass('active');
+							break;
+
+			/*calendar-multi*/
+			case 'DT1-2': 
+							clear_datepicker(option);
+							clear_timepicker(option);
+							break;
+    	}
+    }
+
+    function clear_datepicker(option)
+    {
+		switch(option)
+		{
+			/*calendar-range*/
+			case 'DT1-1': 
+							$('.input-daterange input').datepicker('update', null);
+  							$('.input-daterange').datepicker('updateDates');
+							break;
+
+			/*calendar-multi*/
+			case 'DT1-2': 
+							$('.f400-optDate-multi-date').datepicker('update', null);
+							break;
+		}					
+
+    }
+
+    function clear_timepicker(option)
+    {
+		switch(option)
+		{
+			/*calendar-range*/
+			case 'DT1-1': 
+							$('.f400-optDate-range-time1').timepicker('setTime', '09:00');		
+							$('.f400-optDate-range-time2').timepicker('setTime', '11:00');	
+							break;
+
+			/*calendar-multi*/
+			case 'DT1-2': 
+							$('.f400-optDate-multi-time1').timepicker('setTime', '09:00');		
+							$('.f400-optDate-multi-time2').timepicker('setTime', '11:00');	
+							break;
+    	}
+    }
 
 
 
@@ -416,8 +644,9 @@ $(document).ready(function(){
 		check_endtime_diff(e.time.value, $('#DT1-1-time1'));
 	});
 
+// DATEPICKER - INPUTS -------------------------------------------
 
-    //Option: DATE - multidate ----------------------------
+    //INIT - Option: DATE - multidate ----------------------------
 
 	$('.f400-optDate-multi-date').datepicker({
 		startDate: "+0d",
@@ -429,7 +658,8 @@ $(document).ready(function(){
 	    weekStart: 1,
 	    language: 'es',
 	    multidate: true,
-	    multidateSeparator: ","	    
+	    multidateSeparator: ",",
+	    clearBtn: true	    
 	})
 
     $('.f400-optDate-multi-time1').timepicker({
@@ -453,6 +683,16 @@ $(document).ready(function(){
     $('.dt12-time2').click(function () { 
     	$('.f400-optDate-multi-time2').timepicker('showWidget');
 	});      
+
+	//auto adjust endtime
+	$('.f400-optDate-multi-time1').timepicker().on('changeTime.timepicker', function(e) {
+		check_starttime_diff(e.time.value, $('#DT1-2-time2'));
+	});
+	//auto adjust starttime
+	$('.f400-optDate-multi-time2').timepicker().on('changeTime.timepicker', function(e) {
+		check_endtime_diff(e.time.value, $('#DT1-2-time1'));
+	});
+
 
 	// Option: DAYS - multi -------------------------------
     $('.f400-optDays-multi-time1').timepicker({
