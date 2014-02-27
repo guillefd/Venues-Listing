@@ -269,7 +269,8 @@ div.modal-body .row.datetimebox div.closer{
 div.modal-body .row.datetimebox div.closer .btn{
 	margin: 0px -10px;
 	color: #F9009d;
-	border: 0px;
+	border: 1px solid #ccc;
+	background: #ededed;	
 }
 
 /* BOX */

@@ -8,6 +8,8 @@ var DT_TABLETBODY_ID = 'datetimeTablebody';
 var DT_TABLEROW_ID = 'datetimeTablebodyRow_';
 var DT_TABLEROWDELBTN_NAME = 'btn_deleteDTrow';
 var DT_TABLEFOOTROW_ID = 'datetimeTablefoot';
+//DT2
+var DT2DAY_BTNPREFIX_ID = 'btn-DT2-1-day-';
 
 
 //DateTime global object
@@ -25,7 +27,7 @@ function dtF()
 	this.sundaycount = -1;
 	this.incsaturday = -1;
 	this.incsunday = -1;
-	this.repeats = 1;
+	this.repeats = 0;
 	this.subtdays = 0;
 	this.subthours = 0;
 	this.deleted = -1;	
@@ -41,15 +43,20 @@ $(document).ready(function(){
 
 // EVENTS ----------------------------------
 	
-	/* datetime range selected */
+	/* datetime calendar range selected */
 	$('#btnaddDT1-1').click(function () {
 		process_DT_fields('DT1-1');
 	});
 
-	/* datetime range selected */
+	/* datetime calendar multi selected */
 	$('#btnaddDT1-2').click(function () {
 		process_DT_fields('DT1-2');
 	});
+
+	/* datetime week multi selected */
+	$('#btnaddDT2-1').click(function () {
+		process_DT_fields('DT2-1');
+	});	
 
 
 	/* TABLE */
@@ -133,11 +140,24 @@ $(document).ready(function(){
 							datetime.subthours = get_subtotal_hours(datetime);
 							break;
 
+			/*week*/
+			case 'DT2-1':
+							datetime.idx = index;
+							datetime.datetype = 'week';
+							datetime.dateslist = get_week_days_list(DT2DAY_BTNPREFIX_ID);							
+							datetime.timestart = $('#DT2-1-time1').val();	
+							datetime.timeend = $('#DT2-1-time2').val();
+							datetime.timerangehours = get_timeDiff(datetime.timestart, datetime.timeend);
+							datetime.repeats = get_week_selection_repeat_value($('#DT2-1-repeat').hasClass('active'), $('#DT2-1-repeattimes').val());
+							datetime.subtdays = datetime.dateslist.length;
+							datetime.subthours = get_subtotal_hours(datetime);
+							break;
+
 			default: 		
 							alert('none');
 		}
 		// DEBUG ----------------------------------------------------------------------		
-		//alert( JSON.stringify(datetime) );	
+		alert( JSON.stringify(datetime) );	
 		return datetime;
 	} 
 
@@ -176,6 +196,34 @@ $(document).ready(function(){
 			}
 		}
 		return list; 
+	}
+
+	/* btn prefix of form week days */
+	function get_week_days_list(prefix)
+	{
+		var list = new Array();
+		for (var i = 6; i >= 0; i--) 
+		{
+			if( $('#' + prefix + i).hasClass('active') )
+			{
+				list.push(i);
+			}				
+		}
+		return list;
+	}
+
+	/*
+	check: checkbox input value
+	times: select input value
+	 */
+	function get_week_selection_repeat_value(check, times)
+	{
+		var repeat = 1;
+		if(check)
+		{
+			repeat+= parseInt(times);
+		}
+		return repeat;
 	}
 
 	function add_days_to_date(d, daysToAdd)
@@ -481,16 +529,16 @@ $(document).ready(function(){
 	}
 
 //CONTROLLERS - INITS (week) -----------------------------------
-	function showDT2()
+	function showDT2_1()
 	{
 		$('#optDays-multi').show();	
 		init_optDates();	
 	}
 
-	function hideDT2()
+	function hideDT2_1()
 	{
 		$('#optDays-multi').hide();	
-		$('#btnDT2').removeClass('active');					
+		$('#btnDT2-1').removeClass('active');					
 	}
 
 // UI EVENTS (form) ----------------------------
@@ -527,12 +575,12 @@ $(document).ready(function(){
 	});
 
 	/*-----  DAYS  -----*/
-	$('#btnDT2').click(function () {
-		showDT2();
+	$('#btnDT2-1').click(function () {
+		showDT2_1();
 	});
 	//hide
-	$('#btnDT2-hide').click(function () {
-		hideDT2();
+	$('#btnDT2-1-hide').click(function () {
+		hideDT2_1();
 	});
 
     //CLEAR - INPUTS ----------------------------

@@ -51,7 +51,7 @@
                             <label class="btn btn-amrgray btn-sm" id="btnDT1">
                                 <input type="radio" name="DToption"> fechas calendario
                             </label>
-                            <label class="btn btn-sm btn-amrgray" id="btnDT2">
+                            <label class="btn btn-sm btn-amrgray" id="btnDT2-1">
                                 <input type="radio" name="DToption"> dias de la semana
                             </label>
                         </div>
@@ -161,59 +161,64 @@
                     </div>
 <!-- END DATE: calendar-multi  -->
 
-<!-- #### DAYS -->
-<!-- DAYS: multi date  -->                    
+<!-- #### WEEK -->
+<!-- WEEK: multi day  -->                    
                     <div class="row datetimebox" id="optDays-multi">
                         <div class="col-xs-12"> 
-                            <div class="closer"><button type="button" id="btnDT2-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                                                                                                                           
-                            <p><i class="fa fa-caret-right"></i> Seleccione <strong>dias</strong> y su horario:</p>
+                            <div class="closer"><button type="button" id="btnDT2-1-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                                                                                                                           
+                            <p>
+                                <i class="fa fa-caret-right"></i> seleccione <strong>uno o varios días</strong><br>
+                                <i class="fa fa-caret-right"></i> seleccione <strong>rango horario </strong> (desde / hasta)<br>
+                                <i class="fa fa-caret-right"></i> si los días de la semana elegidos se repiten de igual forma por una o varias semanas seleccione <strong>Repite</strong> y luego seleccione la cantidad de <strong>veces</strong><br>                                                    
+                                <i class="fa fa-caret-right"></i> presione <strong>Agregar </strong> para confirmar
+                            </p>
                         </div>
                         <div class="col-xs-4">
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Lu
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-1">
+                                    <input type="checkbox"> Lu
                                 </label>
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Ma
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-2">
+                                    <input type="checkbox"> Ma
                                 </label>
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Mi
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-3">
+                                    <input type="checkbox"> Mi
                                 </label>
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Ju
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-4">
+                                    <input type="checkbox"> Ju
                                 </label>
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Vi
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-5">
+                                    <input type="checkbox"> Vi
                                 </label>
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Sa
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-6">
+                                    <input type="checkbox"> Sa
                                 </label>
-                                <label class="btn btn-default btn-xs btn-amrgray">
-                                <input type="checkbox"> Do
+                                <label class="btn btn-default btn-xs btn-amrgray" id="btn-DT2-1-day-0">
+                                    <input type="checkbox"> Do
                               </label>      
                             </div>                           
                         </div>
                         <div class="col-xs-2 inner">                          
                             <div class='input-group bootstrap-timepicker'>
                                 <span class="input-group-addon dt21-time1"><span class="glyphicon glyphicon-time"></span></span>                                
-                                <input type='text' class="form-control input-sm f400-optDays-multi-time1" readonly />
+                                <input type='text' class="form-control input-sm f400-optDays-multi-time1" id="DT2-1-time1" readonly />
                             </div>
                             <span class="help-block">inicia</span>                              
                         </div>
                         <div class="col-xs-2 inner">                                             
                             <div class='input-group bootstrap-timepicker'>
                                 <span class="input-group-addon dt21-time2"><span class="glyphicon glyphicon-time"></span></span>                                
-                                <input type='text' class="form-control input-sm f400-optDays-multi-time2" readonly />
+                                <input type='text' class="form-control input-sm f400-optDays-multi-time2" id="DT2-1-time2" readonly />
                             </div>
                             <span class="help-block">finaliza</span>                              
                         </div>      
                         <div class="col-xs-2 inner">
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-amrgray btn-xs cbx">
+                                <label class="btn btn-amrgray btn-xs cbx" id="DT2-1-repeat">
                                     <input type="checkbox"> Repite <i class="fa fa-check"></i>
                                 </label>
                             </div> 
-                            <select class="form-control input-sm xs">
+                            <select class="form-control input-sm xs" id="DT2-1-repeattimes">
                                 <option value="">0 veces</option>
                                 <option value="1">1 vez</option>
                             <?php for($i=2;$i<=20;$i++): ?>
@@ -222,7 +227,7 @@
                             </select>
                         </div>                                          
                         <div class="col-xs-2">
-                            <button class="btn btn-sm btn-default dateadd">Agregar</button> 
+                            <button type="button" id="btnaddDT2-1" class="btn btn-sm btn-default dateadd">Agregar</button> 
                         </div>
                     </div>
 <!-- END DATE: x rango fecha  -->  
