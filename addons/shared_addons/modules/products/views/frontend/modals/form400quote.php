@@ -218,8 +218,7 @@
                                     <input type="checkbox"> Repite <i class="fa fa-check"></i>
                                 </label>
                             </div> 
-                            <select class="form-control input-sm xs" id="DT2-1-repeattimes">
-                                <option value="">0 veces</option>
+                            <select class="form-control input-sm xs" id="DT2-1-repeattimes" disabled="disabled">
                                 <option value="1">1 vez</option>
                             <?php for($i=2;$i<=20;$i++): ?>
                                 <option value="<?php echo $i; ?>"><?php echo $i; ?> veces</option>

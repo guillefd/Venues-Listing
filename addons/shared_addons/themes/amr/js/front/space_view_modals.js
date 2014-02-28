@@ -8,6 +8,7 @@ var DT_TABLETBODY_ID = 'datetimeTablebody';
 var DT_TABLEROW_ID = 'datetimeTablebodyRow_';
 var DT_TABLEROWDELBTN_NAME = 'btn_deleteDTrow';
 var DT_TABLEFOOTROW_ID = 'datetimeTablefoot';
+var WEEKDAY = new Array('dom','lun','mar','mie','jue','vie','sab');
 //DT2
 var DT2DAY_BTNPREFIX_ID = 'btn-DT2-1-day-';
 
@@ -42,7 +43,8 @@ $(document).ready(function(){
 	init_optDays();
 
 // EVENTS ----------------------------------
-	
+
+/* calendar */	
 	/* datetime calendar range selected */
 	$('#btnaddDT1-1').click(function () {
 		process_DT_fields('DT1-1');
@@ -53,13 +55,14 @@ $(document).ready(function(){
 		process_DT_fields('DT1-2');
 	});
 
+/* week days */
 	/* datetime week multi selected */
 	$('#btnaddDT2-1').click(function () {
 		process_DT_fields('DT2-1');
-	});	
+	});		
 
 
-	/* TABLE */
+/* TABLE */
 	//btn BORRAR (x) item de lista de dias/horarios
     $(document).on('click', 'button[name="' + DT_TABLEROWDELBTN_NAME + '"]', function(){
 		var id = $(this).attr("id");
@@ -92,17 +95,14 @@ $(document).ready(function(){
 
 // CONTROLLERS - AUXILIARS
 
-	function delete_DT_table_row(id)
-	{
-	    var name = "socialItem" + id;
-    	$('#' + DT_TABLEROW_ID + id).fadeOut(300,function(){ 
-        	$('#' + DT_TABLEROW_ID + id).remove();		
-    	});
-	}
-
 	function delete_datetime_element_DT_Arr(id)
 	{
 		datetimeArr[id].deleted = 1;
+	}
+
+	function reset_datetime_Arr()
+	{
+		datetimeArr = new Array();
 	}
 
 	function get_datetime_fields_values(option)
@@ -149,7 +149,7 @@ $(document).ready(function(){
 							datetime.timeend = $('#DT2-1-time2').val();
 							datetime.timerangehours = get_timeDiff(datetime.timestart, datetime.timeend);
 							datetime.repeats = get_week_selection_repeat_value($('#DT2-1-repeat').hasClass('active'), $('#DT2-1-repeattimes').val());
-							datetime.subtdays = datetime.dateslist.length;
+							datetime.subtdays = datetime.dateslist.length * (datetime.repeats + 1);
 							datetime.subthours = get_subtotal_hours(datetime);
 							break;
 
@@ -157,7 +157,7 @@ $(document).ready(function(){
 							alert('none');
 		}
 		// DEBUG ----------------------------------------------------------------------		
-		alert( JSON.stringify(datetime) );	
+		//alert( JSON.stringify(datetime) );	
 		return datetime;
 	} 
 
@@ -218,7 +218,7 @@ $(document).ready(function(){
 	 */
 	function get_week_selection_repeat_value(check, times)
 	{
-		var repeat = 1;
+		var repeat = 0;
 		if(check)
 		{
 			repeat+= parseInt(times);
@@ -371,6 +371,20 @@ $(document).ready(function(){
 									alert('Debe seleccionar al menos 1 fecha.');
 								}							
 							break;
+
+			case 'DT2-1': 
+							if(	datetime.dateslist.length > 0 
+								&& datetime.timerangehours >= TIMERANGEDIFF 
+								&& datetime.subtdays > 0 )
+							{
+								return true;
+							}
+							else
+								{
+									alert('Debe seleccionar al menos 1 día de la semana.');
+								}							
+							break;
+
 			default: 
 							return false;				
 		}
@@ -422,8 +436,31 @@ $(document).ready(function(){
 							f3 = datetime.subtdays + ' d';
 							f4 = datetime.subthours + ' hs';
 							break;
+
+			case 'DT2-1': 
+							var list_txt = '';
+							var count = 1;
+							for (var i = datetime.dateslist.length - 1; i >= 0; i--) 
+							{
+								list_txt+= WEEKDAY[datetime.dateslist[i]];
+								if(i>0)
+								{
+									list_txt+=', ';
+									if(count==3) list_txt+='<br>';
+									count++;	
+								}
+							}
+							f1 = list_txt;
+							f2 = 'de '+ datetime.timestart + '<br>a &nbsp;' + datetime.timeend;
+							f3 = datetime.subtdays + ' d';
+							f4 = datetime.subthours + ' hs';
+							if(datetime.repeats > 0)
+							{
+								f5 = datetime.repeats == 1 ? 'extiende ' + datetime.repeats + ' semana' : 'extiende ' + datetime.repeats + ' semanas';
+							}
+							break;
 		}
-		// append Row
+		// append Rw
 		var tableRow = '<tr id="' + DT_TABLEROW_ID + datetime.idx + '">'
 						+'<td>' + f1 + '</td>'
 						+'<td>' + f2 + '</td>'
@@ -449,6 +486,27 @@ $(document).ready(function(){
 						+'</tr>';
 
 		$('#' + DT_TABLEFOOTROW_ID).html(tableFootRow);		
+	}
+
+	function delete_DT_table_row(id)
+	{
+	    var name = "socialItem" + id;
+    	$('#' + DT_TABLEROW_ID + id).fadeOut(300,function(){ 
+        	$('#' + DT_TABLEROW_ID + id).remove();		
+    	});
+	}	
+
+	function reset_DT_table()
+	{
+		for (var i = datetimeArr.length - 1; i >= 0; i--) 
+		{
+			if(datetimeArr[i].deleted < 1)
+			{
+				delete_DT_table_row(i);
+			}
+		}
+		reset_datetime_Arr();
+		update_table_totals();
 	}
 
 	function get_datetimeArr_total_days()
@@ -481,20 +539,17 @@ $(document).ready(function(){
 //CONTROLLERS - INITS (calendar) -----------------------------------
 	function init_optDates()
 	{
-		$('#optDates').hide();
-		$('#btnDT1').removeClass('active');			
-		hideDT1_1();
-		hideDT1_2();					
+		hideDT1();				
 	}
 
 	function init_optDays()
 	{
-		$('#optDays-multi').hide();	
+		hideDT2_1();	
 	}
 
 	function showDT1()
 	{
-		$('#optDays-multi').hide();	
+		hideDT2_1();
 		$('#optDates').show();	
 	}
 	function showDT1_1()
@@ -538,7 +593,7 @@ $(document).ready(function(){
 	function hideDT2_1()
 	{
 		$('#optDays-multi').hide();	
-		$('#btnDT2-1').removeClass('active');					
+		$('#btnDT2-1').removeClass('active');				
 	}
 
 // UI EVENTS (form) ----------------------------
@@ -583,6 +638,25 @@ $(document).ready(function(){
 		hideDT2_1();
 	});
 
+	/* datetime week repeat btn */
+	$('#DT2-1-repeat').click(function () {
+		toggle_DT2_select_repeattimes( $(this).hasClass('active') );
+	});	
+
+	function toggle_DT2_select_repeattimes(disableselect)
+	{
+		if( disableselect )
+		{
+			$('#DT2-1-repeattimes').val('1');
+			$('#DT2-1-repeattimes').attr('disabled','disabled');	
+		}
+		else
+			{
+				$('#DT2-1-repeattimes').removeAttr('disabled');			
+			}
+	}
+
+
     //CLEAR - INPUTS ----------------------------
     
     function clear_inputs(option)
@@ -602,6 +676,14 @@ $(document).ready(function(){
 							clear_datepicker(option);
 							clear_timepicker(option);
 							break;
+
+			/*calendar-multi*/
+			case 'DT2-1': 
+							clear_datepicker(option);
+							clear_timepicker(option);
+							$('#DT2-1-repeat').removeClass('active');
+							toggle_DT2_select_repeattimes(true);
+							break;
     	}
     }
 
@@ -618,6 +700,14 @@ $(document).ready(function(){
 			/*calendar-multi*/
 			case 'DT1-2': 
 							$('.f400-optDate-multi-date').datepicker('update', null);
+							break;
+
+			/*calendar-multi*/
+			case 'DT2-1': 
+							for (var i = 6; i >= 0; i--) 
+							{
+								$('#' + DT2DAY_BTNPREFIX_ID + i).removeClass('active');	
+							}
 							break;
 		}					
 
@@ -637,6 +727,12 @@ $(document).ready(function(){
 			case 'DT1-2': 
 							$('.f400-optDate-multi-time1').timepicker('setTime', '09:00');		
 							$('.f400-optDate-multi-time2').timepicker('setTime', '11:00');	
+							break;
+
+			/*calendar-multi*/
+			case 'DT2-1': 
+							$('.f400-optDays-multi-time1').timepicker('setTime', '09:00');		
+							$('.f400-optDays-multi-time2').timepicker('setTime', '11:00');	
 							break;
     	}
     }
@@ -765,6 +861,15 @@ $(document).ready(function(){
     	$('.f400-optDays-multi-time2').timepicker('showWidget');
 	});  
 
+	//auto adjust endtime
+	$('.f400-optDays-multi-time1').timepicker().on('changeTime.timepicker', function(e) {
+		check_starttime_diff(e.time.value, $('#DT2-1-time2'));
+	});
+	//auto adjust starttime
+	$('.f400-optDays-multi-time2').timepicker().on('changeTime.timepicker', function(e) {
+		check_endtime_diff(e.time.value, $('#DT2-1-time1'));
+	});	
+
 
 // -------------------------------------------------------------------------------------
 
@@ -849,6 +954,7 @@ $(document).ready(function(){
 
 	$('#amrformmessage400quote').on('hidden.bs.modal', function (e) {
 	    clean_msgbox_class_and_html('400quote');
+	    reset_DT_table();
 	    init_optDates();
 	    init_optDays();
 	})
