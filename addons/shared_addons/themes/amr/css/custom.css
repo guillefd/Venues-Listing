@@ -125,6 +125,7 @@ header{
 
 div.modal-body{
 	color: #000;
+	font-size: 13px;
 }
 
 .modal-title.amrblue{
@@ -305,26 +306,40 @@ div.modal-body .opt2box table>tbody>tr>th{
 div.modal-body table#datetimeTable>thead>tr>th,
 div.modal-body table#datetimeTable>tfoot>tr>td {
 	font-weight: normal;
-	color: #fe2db1;
+	color: #000;
 	text-align: center;
 }
 
+div.modal-body table#datetimeTable>thead>tr>th{
+	border-bottom: 2px solid #ff9edb;
+}
+
+div.modal-body table#datetimeTable>tbody>tr>td{
+	border-top: 1px solid #ff9edb;
+}
+
 div.modal-body table#datetimeTable>tfoot>tr>td{
-	border-top: 2px solid #ddd;
+	border-top: 2px solid #ff9edb;
 }
 
 div.modal-body table#datetimeTable>tbody>tr>td {
 	text-align: center;
 	vertical-align: middle;
+	color: #f9009d;
 }
 
 div.modal-body table#datetimeTable>tbody>tr>td>.btn {
-	color: #999;
+	color: #fff;
+	background-color: #ff9edb;
 }
 
 div.modal-body table#datetimeTable>tbody>tr>td>.btn:hover {
-	background-color: #999;
-	color: #fff;
+	color: #ff9edb;
+	background-color: #fff;
+}
+
+div.modal-body table#datetimeTable>tbody>tr{
+	background-color: #ffe5f5;
 }
 
 div.modal-body .btn.DTtooltip{
@@ -390,6 +405,10 @@ div.modal-body select.xs{
 
 div.modal-body select.xs[disabled=disabled]{
 	color: #ededed;
+}
+
+div.modal-body .row.formfield{
+	margin-bottom: 15px;	
 }
 
 

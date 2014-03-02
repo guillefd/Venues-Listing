@@ -266,9 +266,9 @@ class Products_frontend_1_m extends MY_Model
 			//start transaction
 			$this->db->trans_start();
 				$product->data_layouts = $this->get_front_layouts_syncindex($product->id);
-				$product->data_facilities = $this->get_front_facilities($product->id, true);
-				$product->data_usetypes = $this->get_front_usetypes_syncindex($product->id);									
-				$product->data_features = $this->get_front_features($product->id);
+				//$product->data_facilities = $this->get_front_facilities($product->id, true);
+				//$product->data_usetypes = $this->get_front_usetypes_syncindex($product->id);									
+				$product->data_features = $this->get_front_features_syncindex($product->id);
 			$this->db->trans_complete();	
 			if($this->db->trans_status() === true)
 			{
@@ -316,6 +316,18 @@ class Products_frontend_1_m extends MY_Model
 		$q = $this->db->get_where($this->t_features, array('front_space_id'=>$front_id));
 		return $q->result();
 	}
+
+	function get_front_features_syncindex($front_id = 0)
+	{
+		$this->db->select('*');
+		$q = $this->db->get_where($this->t_features, array('front_space_id'=>$front_id));
+        $vec = array();
+        foreach ($q->result() as $key => $obj) 
+        {
+            $vec[$obj->default_feature_id] = $obj;
+        }
+        return $vec;		
+	}	
 
 	function get_front_facilities($front_id = 0, $listformat = false)
 	{

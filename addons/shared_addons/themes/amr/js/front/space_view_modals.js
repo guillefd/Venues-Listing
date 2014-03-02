@@ -41,6 +41,8 @@ $(document).ready(function(){
 // INITS ----------------------------------
 	init_optDates();
 	init_optDays();
+	//static
+    init_feature_btn_tooltip();
 
 // EVENTS ----------------------------------
 
@@ -456,7 +458,7 @@ $(document).ready(function(){
 							f4 = datetime.subthours + ' hs';
 							if(datetime.repeats > 0)
 							{
-								f5 = datetime.repeats == 1 ? 'extiende ' + datetime.repeats + ' semana' : 'extiende ' + datetime.repeats + ' semanas';
+								f5 = datetime.repeats == 1 ? 'replica ' + datetime.repeats + ' semana' : 'replica ' + datetime.repeats + ' semanas';
 							}
 							break;
 		}
@@ -478,9 +480,9 @@ $(document).ready(function(){
 	function update_table_totals()
 	{
 		var tableFootRow = '<tr>'
-						+'<td colspan="2">Totales:</td>'
-						+'<td>'+ get_datetimeArr_total_days() +' días</td>'
-						+'<td>'+ get_datetimeArr_total_hours() +' horas</td>'
+						+'<td colspan="2"><strong>Dias y horas totalizadas:</strong></td>'
+						+'<td><strong>'+ get_datetimeArr_total_days() +' días</strong></td>'
+						+'<td><strong>'+ get_datetimeArr_total_hours() +' horas</strong></td>'
 						+'<td></td>'
 						+'<td></td>'
 						+'</tr>';
@@ -871,6 +873,13 @@ $(document).ready(function(){
 	});	
 
 
+	//FORM STATIC TEXT
+	function init_feature_btn_tooltip()
+	{
+		$('.form400ftrtooltip').tooltip({
+		});
+	}
+
 // -------------------------------------------------------------------------------------
 
 	//PROCESS - SEND
@@ -954,7 +963,7 @@ $(document).ready(function(){
 
 	$('#amrformmessage400quote').on('hidden.bs.modal', function (e) {
 	    clean_msgbox_class_and_html('400quote');
-	    reset_DT_table();
+	    // reset_DT_table();
 	    init_optDates();
 	    init_optDays();
 	})
