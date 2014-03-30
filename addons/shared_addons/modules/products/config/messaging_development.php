@@ -36,25 +36,63 @@ $config['msg_db_form_messages'] = array(
 
 $config['msg_db_fields'] = array(
 									100 =>array(
-												'prod_id',
-												'prod_cat_id',
-												'prod_account_id',
-												'front_version',
-												'form_view_id',
-												'subject',
-												'account_agent_email',
-												'sender_email',
-												'sender_name',
-												'sender_phone',
-												'sender_ip',
-												'sender_user_agent',																								
-												'sender_userid',
-												'parent_msg_id',
-												'timestamp',										
+												'form300query' => array(
+																	'prod_id',
+																	'prod_cat_id',
+																	'prod_account_id',
+																	'front_version',
+																	'form_view_id',
+																	'subject',
+																	'account_agent_email',
+																	'sender_email',
+																	'sender_name',
+																	'sender_ip',
+																	'sender_user_agent',																								
+																	'sender_userid',
+																	'parent_msg_id',
+																	'timestamp',										
+																	),
+												'form400quote' => array(																	'prod_id',
+																	'prod_cat_id',
+																	'prod_account_id',
+																	'front_version',
+																	'form_view_id',
+																	'subject',
+																	'account_agent_email',
+																	'sender_email',
+																	'sender_name',
+																	'sender_phone',
+																	'sender_ip',
+																	'sender_user_agent',																								
+																	'sender_userid',
+																	'parent_msg_id',
+																	'timestamp',										
+																	),
 												),
 									101 =>array(),
 									102 =>array(),
 									);
+
+$config['msg_db_form_fields'] = array(
+									100 =>array(
+										'form300query' => array(
+															'query',
+															),
+										'form400quote' => array(
+															'pax',
+															'layouts_ids',
+															'features_ids',
+															'comments_features',
+															'comments_general',
+															'datetime_subtdays',
+															'datetime_subthours',
+															'activity_use'
+															),																
+										),
+									101 =>array(),
+									102 =>array()
+									);
+
 
 /* TEMPLATES asigned to forms in views */
 $config['msg_template'] = array(

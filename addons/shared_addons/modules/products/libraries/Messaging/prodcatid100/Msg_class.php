@@ -19,6 +19,7 @@ class Msg
 	public $prodcatid;
 	public $viewid; 
 	public $validationrules;
+	public $validationcustommessages = array();
 	public $frontitemparams;
 	public $frontitem;
 	public $data;
@@ -43,6 +44,7 @@ class Msg
 		$this->cfg = array();
 		$this->cfg['msgformdb'] = $settings['msg_db_form_messages'][$this->prodcatid];
 		$this->cfg['dbfields'] = $settings['msg_db_fields'][$this->prodcatid];  
+		$this->cfg['dbformfields'] = $settings['msg_db_form_fields'][$this->prodcatid];  
 		$this->cfg['template'] = $settings['msg_template'][$this->prodcatid][$this->viewid];
 		$this->cfg['systemparams'] = $settings['msg_system_params'];
 		$this->cfg['mailgun_api'] = $settings['msg_mailgun_api'];
@@ -104,21 +106,70 @@ class Msg
 			                                'rules' => 'trim|valid_email|required'
 			                            ), 
 			                            array(
-			                                'field' => 'telefono',
+			                                'field' => 'phone',
 			                                'label' => 'lang:front:phone',
 			                                'rules' => 'trim'
-			                            ),                                                                 
+			                            ),   
 			                            array(
-			                                'field' => 'message',
-			                                'label' => 'lang:front:form-message',
+			                                'field' => 'pax',
+			                                'label' => 'lang:front:pax',
+			                                'rules' => 'numeric|trim|required'
+			                            ),   			                                                                                          
+			                            array(
+			                                'field' => 'activity',
+			                                'label' => 'lang:front:activity',
 			                                'rules' => 'trim|required'
 			                            ),   
+			                            array(
+			                                'field' => 'comments_ftr',
+			                                'label' => 'lang:front:comments_ftr',
+			                                'rules' => 'trim'
+			                            ),   
+			                            array(
+			                                'field' => 'comments_gral',
+			                                'label' => 'lang:front:comments_gral',
+			                                'rules' => 'trim'
+			                            ), 
+			                            array(
+			                                'field' => 'layoutsids',
+			                                'label' => 'lang:front:layoutsids',
+			                                'rules' => 'trim|check_integer_values'
+			                            ), 
+			                            array(
+			                                'field' => 'featureids',
+			                                'label' => 'lang:front:featureids',
+			                                'rules' => 'trim'
+			                            ), 		
+			                            array(
+			                                'field' => 'datetimeObj',
+			                                'label' => 'lang:front:datetimeObj',
+			                                'rules' => 'trim|required'
+			                            ), 			                            	                            			                              			                            
 			                    	);	
 							break;							
 
 			default: 
 							return array();
 		}	
+	}
+
+	public function run_custom_validation()
+	{
+		switch($this->viewid)
+		{
+			/* consulta en vista espacio */
+			case 'form300query':			
+									return true;
+									break;			
+			case 'form400quote':		
+									return $this->custom_check_integer(ci()->input->post('layoutsids'), 'Armado') 
+										   && $this->custom_check_integer(ci()->input->post('featureids'), 'Equipamiento y servicios') 	
+									       && $this->custom_check_datetime(ci()->input->post('datetimeObj'));
+									break;       
+			default:
+									return true;
+		}
+
 	}
 
 	public function set_frontitem()
@@ -152,9 +203,16 @@ class Msg
 															'loc_slug'=>$post['dataFloc_slug'],
 															'space_slug'=>$post['dataFspace_slug'],
 															'reference'=>$post['reference'],
-															'message'=>$post['message'],
 															'email'=>$post['email'],
-															'name'=>$post['name'],																																	
+															'name'=>$post['name'],	
+															'phone'=>$post['phone'],
+															'pax'=>$post['pax'],
+															'activity_use'=>$post['activity'],
+															'comments_general'=>$post['comments_gral'],	
+															'comments_features'=>$post['comments_ftr'],	
+															'layouts_ids'=>$post['layoutsids'],
+															'features_ids'=>$post['featureids'],
+															'datetimeObj'=>json_decode($post['datetimeObj'])																																																																																														
 															);
 							break;
 		}
@@ -167,30 +225,17 @@ class Msg
 		{
 			/* consulta en vista espacio */
 			case 'form300query':			
-			case 'form400quote':
-						$dataTOserialize = array(
-												'prod_cat_slug'=>$this->frontitem->prod_cat_slug,
-												'loc_city_slug'=>$this->frontitem->loc_city_slug,
-												'loc_slug'=>$this->frontitem->loc_slug,
-												'space_slug'=>$this->frontitem->space_slug,
-												'loc_name'=>$this->frontitem->loc_name,
-												'loc_id'=>$this->frontitem->loc_id,
-												'space_id'=>$this->frontitem->space_id,
-												'space_name'=>$this->frontitem->space_name,	
-												'reference'=>$this->frontitemparams['reference'],						
-											);		
 						$this->data = array(
+										'prod_id'=>$this->frontitem->prod_id,							
 										'prod_cat_id'=>$this->frontitem->prod_cat_id,
 										'prod_account_id'=>$this->frontitem->account_id,
-										'prod_id'=>$this->frontitem->prod_id,
 										'front_version'=>$this->frontitem->front_version,
 										'space_slug'=>$this->frontitem->space_slug,
 										'loc_slug'=>$this->frontitem->loc_slug,
 										'loc_name'=>$this->frontitem->loc_name,
 										'space_full_name'=>$this->frontitem->space_denomination.' '.$this->frontitem->space_name,
 										'block_bodymsg'=>'form fields info',
-										'view_id'=>$this->viewid,
-										'data'=>serialize($dataTOserialize),
+										'form_view_id'=>$this->viewid,
 										'comments'=>$this->frontitemparams['message'],
 										'account_agent_email'=>$this->get_product_agent_email($this->frontitem),
 										'sender_email'=>$this->frontitemparams['email'],
@@ -203,7 +248,32 @@ class Msg
 										'amrnoticeemail'=>$this->cfg['systemparams']['amrnoticeemail'],
 										'amrname'=>$this->cfg['systemparams']['amrname'],																				
 									);	
-						break;															
+						break;
+			case 'form400quote':		
+						$this->data = array(
+										'prod_cat_id'=>$this->frontitem->prod_cat_id,
+										'prod_account_id'=>$this->frontitem->account_id,
+										'prod_id'=>$this->frontitem->prod_id,
+										'front_version'=>$this->frontitem->front_version,
+										'space_slug'=>$this->frontitem->space_slug,
+										'loc_slug'=>$this->frontitem->loc_slug,
+										'loc_name'=>$this->frontitem->loc_name,
+										'space_full_name'=>$this->frontitem->space_denomination.' '.$this->frontitem->space_name,
+										'block_bodymsg'=>'form fields info',
+										'form_view_id'=>$this->viewid,
+										'comments'=>$this->frontitemparams['message'],
+										'account_agent_email'=>$this->get_product_agent_email($this->frontitem),
+										'sender_email'=>$this->frontitemparams['email'],
+										'sender_name'=>$this->frontitemparams['name'],
+										'sender_name+email'=>$this->frontitemparams['name'].' <'.$this->frontitemparams['email'].'>',
+										'subject'=>$this->cfg['template']['msgreference'].' '.$this->frontitemparams['reference'],
+										'amrfromaddress'=>$this->cfg['systemparams']['amrfromaddress'],
+										'amremail'=>$this->cfg['systemparams']['amremail'],										
+										'amrnoticeaddress'=>$this->cfg['systemparams']['amrnoticeaddress'],
+										'amrnoticeemail'=>$this->cfg['systemparams']['amrnoticeemail'],
+										'amrname'=>$this->cfg['systemparams']['amrname'],																				
+									);	
+						break;																					
 		}		
 	}	
 
@@ -339,8 +409,41 @@ class Msg
 	}
 
 
+	public function custom_check_integer($string = '', $field)
+	{	
+		$vec = array();
+		if($string=='')
+		{
+			return true;
+		}
+		else
+			{
+				$vec = explode(',', $string);
+				foreach ($vec as $value) 
+				{
+					if(ctype_digit($value)==false)
+					{
+						$this->validationcustommessages['chk_numeric_'.$field] = '"'.$field.'" contiene valores inválidos.';						
+						return false;
+					}
+				}
+				return true;
+			}
+	}
 
 
-
+	public function custom_check_datetime($srlzObj)
+	{
+		$srlzObj = json_decode($srlzObj);
+		if(is_array($srlzObj) && count($srlzObj)>0)
+		{
+			return true;
+		}
+		else
+			{
+				$this->validationcustommessages['chk_datetime'] = 'El formato de fechas/horarios es inválido.';	
+				return false;	
+			}	
+	}
 
 }	

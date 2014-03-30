@@ -33,6 +33,9 @@ $lang['front:mobile']				= 'Movil';
 $lang['front:email']				= 'Email';
 $lang['front:message']				= 'Consulta';
 $lang['front:name']					= 'Nombre';
+$lang['front:pax']					= 'participantes';
+$lang['front:activity']				= 'Actividad';
+$lang['front:datetimeObj']			= 'Dias y horarios';
 
 $lang['front:location']				= 'Locación';
 $lang['front:loc_type']				= 'Tipo de locación';

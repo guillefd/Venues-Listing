@@ -63,7 +63,7 @@ class Messaging
 	{	       
         ci()->form_validation->set_rules($this->msg->validationrules);           
         // Validate the data
-        if(ci()->form_validation->run())
+        if(ci()->form_validation->run() && $this->msg->run_custom_validation() )
         {
         	$this->msg->set_frontitem();
         	if($this->msg->frontitem)
@@ -79,16 +79,23 @@ class Messaging
 		}
 		else
 			{
+				$custommsg = '';
+				foreach ($this->msg->validationcustommessages as $rule => $msg) 
+				{
+					$custommsg.= '<p>'.$msg.'</p>';
+				}				
 	            $this->result->response = true;
 	            $this->result->Error = true;
-	            $this->result->message = validation_errors(); 
+	            $this->result->message = validation_errors().$custommsg; 
 			}		
 	}
 
 
 	private function process_message()
 	{
-		$this->msg->process_message();		
+		$this->msg->process_message();	
+print_r($this->msg); 
+die;			
 		$this->msg->set_message_queuelist();
 		$this->msg->save_message_to_db();							
 		if( $this->msg->queuelist>0 )

@@ -1,9 +1,15 @@
 
+//layouts inputs
+var layoutsArr = new Array();
+//features inputs
+var featuresArr = new Array();
+
+//datetime
 var datetimeArr = new Array();
 var index = 0;
 
 //CONST
-var TIMERANGEDIFF = 2; // in hours
+var TIMERANGEDIFF = 1; // in hours
 var DT_TABLETBODY_ID = 'datetimeTablebody';
 var DT_TABLEROW_ID = 'datetimeTablebodyRow_';
 var DT_TABLEROWDELBTN_NAME = 'btn_deleteDTrow';
@@ -882,21 +888,68 @@ $(document).ready(function(){
 
 // -------------------------------------------------------------------------------------
 
+	// LAYOUTS selection	
+	//btn layouts - selected
+    $(document).on('click', 'label[name="layout"]', function(){
+		var id = $(this).attr("id");
+    	if($(this).hasClass("active") == false)
+    	{
+    		layoutsArr.push(id);
+    	}
+    	else
+	    	{
+	    		var index = $.inArray(id, layoutsArr);
+				if(index !==-1)
+				{
+					layoutsArr.splice(index,1);
+				}	    		
+	    	}
+	});
+
+
+	// FEATURES selection	
+	//btn feature - selected
+    $(document).on('click', 'label[name="feature"]', function(){
+		var id = $(this).attr("id");
+    	if($(this).hasClass("active") == false)
+    	{
+    		featuresArr.push(id);
+    	}
+    	else
+	    	{
+	    		var index = $.inArray(id, featuresArr);
+				if(index !==-1)
+				{
+					featuresArr.splice(index,1);
+				}	    		
+	    	}
+	});
+
+// -------------------------------------------------------------------------------------
+
 	//PROCESS - SEND
 
 	// MESSAGES
 	/* BTN SEND MESSAGE */
-		$("#amrbtnsendspace300query").on("click", function(e) { 
-			var link = BASE_URL + 'alquiler-de-salas/messaging';
-	    	var form_data = $("#amrform300query :input, #amrform300query :hidden").serialize();			
-			doAjaxQuery(link, '300query', form_data);
-		});	
-		$("#amrbtnsendspace400quote").on("click", function(e) { 
-			var link = BASE_URL + 'alquiler-de-salas/messaging';
-	    	var form_data = $("#amrform400quote :input, #amrform400quote :hidden").serialize();				
-			doAjaxQuery(link, '400quote', form_data);
-		});			
+	$("#amrbtnsendspace300query").on("click", function(e) { 
+		var link = BASE_URL + 'alquiler-de-salas/messaging';
+    	var form_data = $("#amrform300query :input, #amrform300query :hidden").serialize();			
+		doAjaxQuery(link, '300query', form_data);
+	});	
 
+
+	$("#amrbtnsendspace400quote").on("click", function(e) { 
+		var link = BASE_URL + 'alquiler-de-salas/messaging';
+    	var form_data = $("#amrform400quote :input.srlz, #amrform400quote :hidden.srlz").serializeArray();
+    	form_data.push(
+    		{ name: "layoutsids", value: layoutsArr },
+    		{ name: "featureids", value: featuresArr },    		    		    		    		    		    		    		
+    		{ name: "datetimeObj", value: JSON.stringify(datetimeArr) }
+    	);   	
+    	form_data = jQuery.param(form_data);				 
+		doAjaxQuery(link, '400quote', form_data);
+	});	
+		
 
 	function doAjaxQuery(link, form, form_data)
 	{

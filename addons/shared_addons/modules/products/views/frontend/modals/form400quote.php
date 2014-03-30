@@ -4,7 +4,6 @@
 <?php
     $_item = $result->item;
     $layoutsArr = $categoryparams->auxiliars['layouts'];
-
     $featuresCatArr = $categoryparams->auxiliars['features_defaults'];    
 ?>
 <div class="modal fade" id="amrformmessage400quote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -15,16 +14,23 @@
         <h4 class="modal-title amrpink" id="myModalLabel">Pedido de presupuesto a <?php echo $_item->loc_name; ?></h4>
     </div>
     <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="topmargin">Tiempo estimado: 1 minuto.</h4>
+                <span class="help-block"><i class="fa fa-question-circle"></i> Para completar el formulario.</span>
+            </div>
+        </div>
+        <hr>
         <div class="contact-form">           
             <form id="amrform400quote" class="form-horizontal" role="form">
-                <div class="form-group">
+                <div class="form-group fixmrgT">
                     <label for="reference" class="col-lg-2 control-label">Referencia</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control pink" name="reference" value="<?php echo $_item->loc_name.' ('.$_item->loc_city.')'.' - '.$_item->space_denomination.' '.$_item->space_name; ?>" readonly="readonly">
+                        <input type="text" class="form-control pink srlz" name="reference" value="<?php echo $_item->loc_name.' ('.$_item->loc_city.')'.' - '.$_item->space_denomination.' '.$_item->space_name; ?>" readonly="readonly">
                         <?php foreach($view['urifields'] as $field): ?>
-                            <input type="hidden" name="dataF<?php echo $field; ?>" value="<?php echo $_item->$field; ?>"> 
+                            <input type="hidden" class="srlz" name="dataF<?php echo $field; ?>" value="<?php echo $_item->$field; ?>"> 
                         <?php endforeach; ?>
-                        <input type="hidden" name="dataFviewid" value="form400quote">
+                        <input type="hidden" class="srlz" name="dataFviewid" value="form400quote">
                     </div>
                 </div>
                 <hr>
@@ -32,27 +38,29 @@
                 <div class="form-group">
                     <label for="name" class="col-lg-3 control-label">Nombre</label>
                     <div class="col-lg-9">
-                        <input type="text" class="form-control input-sm" name="name">
+                        <input type="text" class="form-control input-sm srlz" name="name">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="email" class="col-lg-3 control-label">Email</label>
                     <div class="col-lg-9">
-                        <input type="email" class="form-control input-sm" name="email">
+                        <input type="email" class="form-control input-sm srlz" name="email">
                     </div>
                 </div> 
                 <div class="form-group">
                     <label for="phone" class="col-lg-3 control-label">Telefono</label>
                     <div class="col-lg-9">
-                        <input type="telefono" class="form-control input-sm" name="phone">
+                        <input type="telefono" class="form-control input-sm srlz" name="phone">
                     </div>
                 </div>
                 <hr>
 <!-- DIAS Y HORARIOS  -->                 
                 <h4 class="pink"><span class="badge badge-pink">2</span> Dias y horarios</h4>
-                <p><i class="fa fa-caret-right"></i> Seleccione si ingresa por <strong>fecha</strong> (calendario) ó <strong>día semana</strong> (lunes/domingo):</p>
                 <div class="row">
-                    <div class="col-xs-10 col-xs-offset-1">                    
+                    <div class="col-xs-3">
+                        <p class="pull-right"><i class="fa fa-caret-right"></i> Ingrese</p>
+                    </div>
+                    <div class="col-xs-9">                    
                         <div class="btn-group btn-group-justified fixmrgB" data-toggle="buttons">
                             <label class="btn btn-amrgray btn-sm" id="btnDT1">
                                 <input type="radio" name="DToption"> fechas calendario
@@ -61,14 +69,20 @@
                                 <input type="radio" name="DToption"> dias de la semana
                             </label>
                         </div>
+                        <span class="help-block"><i class="fa fa-question-circle"></i> Seleccione si ingresa por <strong>fecha</strong> (calendario) ó <strong>día de la semana</strong></span>
                     </div>
                 </div>
 <!-- ##### OPTION DATES -->
                 <div id="opt2-dates" class="opt2box">                 
                     <div class="row datetimebox" id="optDates">
                         <div class="col-xs-12">
-                            <div class="closer"><button type="button" id="btnDT1-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                             
-                            <p><i class="fa fa-caret-right"></i> Seleccione si ingresa por <strong>rango</strong> de fechas (desde/hasta) ó <strong>lista</strong> de fechas:</p>
+                            <div class="closer"><button type="button" id="btnDT1-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                
+                        </div>
+                        <div class="col-xs-3 rowbtn">
+                            <p class="pull-right"><i class="fa fa-caret-right"></i> Ingrese</p>                            
+                        </div>
+                        <div class="col-xs-9 rowbtn">
+                                                         
                             <div class="btn-group fixmrgB btn-group-justified" data-toggle="buttons">
                                 <label class="btn btn-xs btn-amrgray" id="btnDT1-1">
                                     <input type="radio" name="DT1suboption"> rango de fechas
@@ -77,6 +91,7 @@
                                     <input type="radio" name="DT1suboption"> fechas individuales
                                 </label>
                             </div>
+                            <span class="help-block"><i class="fa fa-question-circle"></i> Seleccione si ingresa por <strong>rango</strong> de fechas ó <strong>lista</strong> de fechas</p>                            
                         </div>
                     </div>
 <!-- DATE: calendar-range  -->                    
@@ -85,10 +100,9 @@
                             <div class="closer"><button type="button" id="btnDT1-1-hide" class="btn btn-xs btn-default"><i class="fa fa-times"></i></button></div>                                                
                             <p>
                                 <i class="fa fa-caret-right"></i> seleccione <strong>rango de fechas</strong> (desde / hasta)<br>
-                                <i class="fa fa-caret-right"></i> desmarque <strong>sábados</strong>, si no los incluye<br>
-                                <i class="fa fa-caret-right"></i> desmarque <strong>domingos</strong>, si no los incluye<br>
+                                <i class="fa fa-caret-right"></i> desmarque <strong>sábados</strong> y/o <strong>domingos</strong>, si no los incluye<br>
                                 <i class="fa fa-caret-right"></i> seleccione <strong>rango horario </strong> (desde / hasta)<br>
-                                (<i class="fa fa-question-circle"></i> si tienes rangos de fechas con distintos horarios, ingrésalos por separado)<br>                                
+                                <i class="fa fa-exclamation-circle"></i> si tiene rangos de fechas con distintos horarios, ingréselos por separado<br>                                
                                 <i class="fa fa-caret-right"></i> presione <strong>Agregar </strong> para confirmar<br>                                
                             </p>
                         </div>
@@ -262,10 +276,17 @@
 <!-- END option dates -->     
 <!-- Detalles actividad -->                     
                 <h4 class="pink"><span class="badge badge-pink">3</span> Detalles actividad </h4>
+                <div class="form-group">                                       
+                    <label for="activity" class="col-lg-3 control-label">Actividad</label>
+                    <div class="col-lg-9">
+                        <textarea class="form-control input-sm srlz" name="activity" rows="2"></textarea>
+                        <span class="help-block"><i class="fa fa-question-circle"></i> Brevemente, describa el uso que le dará al espacio.</span>
+                    </div>
+                </div>  
                 <div class="form-group">
                     <label for="pax" class="col-lg-3 control-label">Participantes</label>
                     <div class="col-lg-3">
-                        <select class="form-control input-sm" name="pax" placeholder="seleccione">
+                        <select class="form-control input-sm srlz" name="pax" placeholder="seleccione">
                             <option value=""></option>
                         <?php for($i=1; $i<=$_item->space_max_capacity; $i++): ?>
                             <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
@@ -277,28 +298,23 @@
                 <div class="form-group">
                     <label for="layout" class="col-lg-3 control-label">Armado</label>
                     <div class="col-lg-9">
+                        <?php $activelyt = count($_item->data_layouts)==1 ? 'active' : ''; ?>
                         <?php foreach ($_item->data_layouts as $layout): ?>
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-xs btn-amrgray">
-                                    <input type="checkbox" name="layout" id="<?php echo $layout->layout_id; ?>"><?php echo $layoutsArr[$layout->layout_id]->name; ?>
+                                <label class="btn btn-xs btn-amrgray <?php echo $activelyt;?>"  name="layout" id="<?php echo $layout->layout_id; ?>">
+                                    <input type="checkbox"><?php echo $layoutsArr[$layout->layout_id]->name; ?>
                                 </label>
                             </div>                                                        
                         <?php endforeach; ?>
                         <span class="help-block"><i class="fa fa-question-circle"></i> Seleccione el armado del espacio para su actividad.</span>                        
                     </div>
-                </div> 
-                <div class="form-group">                                       
-                    <label for="activity" class="col-lg-3 control-label">Actividad</label>
-                    <div class="col-lg-9">
-                        <textarea class="form-control input-sm" name="activity" rows="2"></textarea>
-                        <span class="help-block"><i class="fa fa-question-circle"></i> Brevemente, describa el uso que le dará al espacio.</span>
-                    </div>
-                </div>                  
+                </div>                 
                 <hr> 
 <!-- Equipamiento y servicios -->                                   
                 <h4 class="pink"><span class="badge badge-pink">4</span> Equipamiento, catering y servicios </h4>
                 <?php if(count($_item->data_features)>0): ?>
-                    <p><i class="fa fa-question-circle"></i> Seleccione las características que desea incluir en su requerimiento:</p>  
+                    <p><i class="fa fa-question-circle"></i> Seleccione las características que desea incluir en su requerimiento:<br> 
+                    (<i class="fa fa-check-circle"></i> incluido)</p>
                 <?php endif; ?>    
                 <!-- row features per category -->
                 <?php foreach ($featuresCatArr as $ftrcatid => $ftrArr): ?>
@@ -314,11 +330,11 @@
                             <?php $catnameprinted = true; ?>                                                       
                             <?php endif; ?>
                             <?php $activeclass = ($_item->data_features[$ftrid]->is_optional == 0) ? 'active' : ''; ?> 
-                            <?php $checkicon = ($_item->data_features[$ftrid]->is_optional == 0) ? '<i class="fa fa-check"></i>' : ''; ?>
+                            <?php $checkicon = ($_item->data_features[$ftrid]->is_optional == 0) ? '<i class="fa fa-check-circle"></i>' : ''; ?>
                             <?php $includedtxt = ($_item->data_features[$ftrid]->is_optional == 0) ? '(Incluido) - ' : ''; ?>
                             <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-xs btn-amrgray form400ftrtooltip <?php echo $activeclass; ?>" data-toggle="tooltip" data-placement="top" title="<?php echo $includedtxt; ?><?php echo $ftr->ftrDesc; ?>">
-                                    <input type="checkbox" name="features" id="<?php echo $ftr->ftrID; ?>"><?php echo $checkicon; ?> <?php echo $ftr->ftrName; ?>
+                                <label class="btn btn-xs btn-amrgray form400ftrtooltip <?php echo $activeclass; ?>" name="feature" id="<?php echo $ftr->ftrID; ?>" data-toggle="tooltip" data-placement="top" title="<?php echo $includedtxt; ?><?php echo $ftr->ftrDesc; ?>">
+                                    <input type="checkbox"><?php echo $checkicon; ?> <?php echo $ftr->ftrName; ?>
                                 </label>
                             </div> 
                         <?php endif; ?>    
@@ -329,9 +345,9 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
                 <div class="form-group">                                       
-                    <label for="comments_ftr" class="col-lg-3 control-label">Aclaraciones</label>
+                    <label for="comments_ftr" class="col-lg-3 control-label">Detalles</label>
                     <div class="col-lg-9">
-                        <textarea class="form-control input-sm" name="comments_ftr" rows="2"></textarea>
+                        <textarea class="form-control input-sm srlz" name="comments_ftr" rows="2"></textarea>
                         <span class="help-block"><i class="fa fa-question-circle"></i> Agregue aclaraciones y/o detalles sobre su requerimiento.</span>
                     </div>
                 </div>                                                     
@@ -339,7 +355,7 @@
                 <h4 class="pink"><span class="badge badge-pink">5</span> Aclaraciones generales</h4>                             
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea class="form-control input-sm" name="comments_gral" rows="4"></textarea>
+                        <textarea class="form-control input-sm srlz" name="comments_gral" rows="4"></textarea>
                         <span class="help-block"><i class="fa fa-question-circle"></i> Agregue aquí comentarios y/o detalles para aclarar aspectos generales de su requerimiento.</span>                        
                     </div>
                 </div>

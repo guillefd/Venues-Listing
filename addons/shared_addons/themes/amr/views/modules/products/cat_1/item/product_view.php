@@ -70,14 +70,14 @@
 
 				<div class="lightbox-item lbblue">
 					<h3><i class="amrlogo-sm"></i> Alquiler de <?php echo $item->space_denomination ?> <i class="fa fa-caret-right"></i> <?php echo $item->space_usetype; ?></h3>
-					<p class="lbyellow"><i class="fa fa-check-circle"></i> Alquiler de <strong><?php echo $item->space_denomination ?> <?php echo $item->space_name; ?></strong> para <strong><?php echo $item->space_usetype; ?></strong></p>
+					<p class="lbyellow"><i class="fa fa-check"></i> Alquiler de <strong><?php echo $item->space_denomination ?> <?php echo $item->space_name; ?></strong> para <strong><?php echo $item->space_usetype; ?></strong></p>
 					<p><?php echo $item->body ?></p>
 					<table class="table table-bordered table-condensed">
 						<tr class="lbyellow">
 							<th>Detalles del Servicio</th>
 							<th>Descripción</th>
 							<th>
-								<span class="glyphicon glyphicon-ok service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span>
+								<span class="glyphicon glyphicon-ok-sign service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span>
 								/ <span class="glyphicon glyphicon-info-sign service-icon-included" data-toggle="tooltip" title="Disponible en el servicio, consultar al contratar."></span>
 							</th>
 						<tr>	
@@ -87,7 +87,7 @@
 							<td><?php echo $ftr->description ; ?></td>
 							<td width="10%" class="centered">
 								<?php if( $ftr->is_optional == '0'): ?>
-								<span class="glyphicon glyphicon-ok service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span>
+								<span class="glyphicon glyphicon-ok-sign service-icon-included" data-toggle="tooltip" title="Incluido en el servicio"></span>
 								<?php else: ?>
 								<span class="glyphicon glyphicon-info-sign service-icon-included" data-toggle="tooltip" title="Disponible en el servicio, consultar al contratar."></span>										
 								<?php endif; ?>

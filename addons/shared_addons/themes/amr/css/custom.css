@@ -155,6 +155,10 @@ div.modal-body p{
 	margin-bottom: 10px;	
 }
 
+div.modal-body .fixmrgT{
+	margin-top: 15px;
+}
+
 div.modal-body .fixmrgB{
 	margin-bottom: 15px;
 	display: inline-block;
@@ -208,7 +212,7 @@ div.modal-body .btn-amrgray.active{
 
 div.modal-body .btn-amrgray:hover{
 	background-color: #ddd;
-	color: #393c3d;
+	color: #fe56c0;
 	font-weight: bold;
 	border: 1px solid #ddd;	
 }
@@ -258,8 +262,13 @@ div.modal-body .row.datetimebox{
 	display: block;
 	border: 1px solid #ccc;
 	margin: 0px 0px 5px 0px;
-	padding: 5px;
+	padding: 5px 5px 5px 0px;
 	border-radius: 3px;
+}
+
+div.modal-body .row.datetimebox .rowbtn{
+	margin-top: 30px;
+	padding-left: 10px;
 }
 
 div.modal-body .row.datetimebox div.closer{
@@ -371,6 +380,10 @@ div.modal-body .bootstrap-timepicker-widget.dropdown-menu {
 
 .msgbox-sm p{
 	font-size: 10px;
+}
+
+div.modal-body h4.topmargin{
+    margin-top: -5px;	
 }
 
 
