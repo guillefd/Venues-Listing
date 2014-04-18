@@ -35,7 +35,7 @@ class Msgtpl
 						);			
 	}
 
-	public function process_custom_data($frontitem, $frontitemparams, $cfg)
+	public function set_message_custom_data($frontitem, $frontitemparams, $cfg)
 	{
 		return array(
 						'prod_id'=>$frontitem->prod_id,							
@@ -48,7 +48,7 @@ class Msgtpl
 						'space_full_name'=>$frontitem->space_denomination.' '.$frontitem->space_name,
 						'sender_email'=>$frontitemparams['email'],
 						'sender_name'=>$frontitemparams['name'],
-						'comments'=>$frontitemparams['message'],						
+						'message'=>$frontitemparams['message'],						
 						'sender_name+email'=>$frontitemparams['name'].' <'.$frontitemparams['email'].'>',	
 						'subject'=>$cfg['template']['msgreference'].' '.$frontitemparams['reference'],
 						'amrfromaddress'=>$cfg['systemparams']['amrfromaddress'],
@@ -59,12 +59,5 @@ class Msgtpl
 					);
 	}
 
-	public function save_msg_to_db($cfg, $dbdata)
-	{
-		ci()->db->insert($cfg['msgformdb'], $dbdata);
-		$insertID = ci()->db->insert_id();		
-
-		return $insertID;
-	}
 	
 }

@@ -76,10 +76,10 @@ class Messaging
 
 	private function load_mailgun_api()
 	{
-		require_once 'addons/shared_addons/libraries/Mailgun/Mailgun.php';
-		# Instantiate the client.
-		$this->messenger = new Mailgun($this->msg->cfg['mailgun_api']);
-		$this->messenger_domain = $this->msg->cfg['mailgun_domain'];
+
+		// # Instantiate the client.
+		// $this->messenger = new Mailgun($this->msg->cfg['mailgun_api']);
+		// $this->messenger_domain = $this->msg->cfg['mailgun_domain'];
 	}
 
     ////////////////////////////
@@ -120,11 +120,14 @@ class Messaging
 
 	private function process_message()
 	{
-		$this->msg->process_message();			
-		$this->msg->set_message_queuelist();		
-		$this->msg->save_message_to_db();	
-print_r($this->msg); 
-die;								
+		$this->msg->set_message_data();			
+		$this->msg->set_message_queuelist();			
+print_r($this->msg);die;	
+		if($this->msg->save_message_to_db() == false)
+		{
+			log_message('error', __METHOD__.' line:'.__LINE__.' error: save message to table failed');
+		}
+							
 		if( $this->msg->queuelist>0 )
 		{
 			$this->run_queues();

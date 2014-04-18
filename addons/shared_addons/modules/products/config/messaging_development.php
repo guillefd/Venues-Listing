@@ -28,8 +28,29 @@ $config['msg_system_params'] = array(
 									'amrname'=>'America Meeting Rooms',
 									);
 
-$config['msg_dbname_form_messages'] = array(
-												100 => 'products_formmessages__100',
-												101 => 'products_formmessages__101',
-												102 => 'products_formmessages__102',										
-											);
+$config['msg_tbl_name'] = array(
+									100 => 'products_formmessages__100',
+									101 => 'products_formmessages__101',
+									102 => 'products_formmessages__102',										
+								);
+
+$config['msg_tbl_fields'] = array(
+									100 =>array(
+												'prod_id',
+												'prod_cat_id',
+												'prod_account_id',
+												'front_version',
+												'form_view_id',
+												'subject',
+												'account_agent_email',
+												'sender_email',
+												'sender_name',
+												'sender_ip',
+												'sender_user_agent',																								
+												'sender_userid',
+												'parent_msg_id',
+												'timestamp',										
+												),
+									101 => array(),
+									102 => array(),		
+								);						

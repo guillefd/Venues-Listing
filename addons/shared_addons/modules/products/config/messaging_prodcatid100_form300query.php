@@ -10,32 +10,15 @@
 // 
 /////////////////////////////////
 
-$config['msgform_db_fields'] = array(
-										'prod_id',
-										'prod_cat_id',
-										'prod_account_id',
-										'front_version',
-										'form_view_id',
-										'subject',
-										'account_agent_email',
-										'sender_email',
-										'sender_name',
-										'sender_ip',
-										'sender_user_agent',																								
-										'sender_userid',
-										'parent_msg_id',
-										'timestamp',										
-										);
+$config['msg_tbl_name_customform'] = array(
+											'fields'=>'products_formmessages__100__form300query',
+											);
 
-$config['msg_dbname_form_fields_messages'] = array(
-													'fields'=>'products_formmessages__100__form300query',
-													);
-
-$config['msgform_db_form_fields'] = array(
-											'fields' => array(
-																'fm_id',
-																'query',
-													   		),
+$config['msg_tbl_name_customform_fields'] = array(
+												'fields' => array(
+																	'fm_id',
+																	'message',
+													   			),
 										);
 
 $config['msgform_validation_rules'] = array(
@@ -87,7 +70,7 @@ $config['msgform_template'] = array(
 																								'field1'=>'Consulta',
 																								'field2'=>'Nombre',
 																								'field3'=>'Email',
-																								'value1'=>'{comments}',
+																								'value1'=>'{message}',
 																								'value2'=>'{sender_name}',
 																								'value3'=>'{sender_email}',																																																																																																																
 																								),
@@ -120,7 +103,7 @@ $config['msgform_template'] = array(
 																								'field1'=>'Consulta',
 																								'field2'=>'Nombre',
 																								'field3'=>'Email',
-																								'value1'=>'{comments}',
+																								'value1'=>'{message}',
 																								'value2'=>'{sender_name}',
 																								'value3'=>'{sender_email}',																																																																																																																
 																								),

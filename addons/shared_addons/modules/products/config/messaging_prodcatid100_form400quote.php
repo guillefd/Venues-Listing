@@ -10,55 +10,38 @@
 // 
 /////////////////////////////////
 
-$config['msgform_db_fields'] = array(
-										'prod_cat_id',
-										'prod_account_id',
-										'front_version',
-										'form_view_id',
-										'subject',
-										'account_agent_email',
-										'sender_email',
-										'sender_name',
-										'sender_phone',
-										'sender_ip',
-										'sender_user_agent',																								
-										'sender_userid',
-										'parent_msg_id',
-										'timestamp',									
-										);
 
-
-$config['msg_dbname_form_fields_messages'] = array(
+$config['msg_tbl_name_customform'] = array(
 													'fields'=>'products_formmessages__100__form400quote',
 													'datetimes'=>'products_formmessages__100__form400quote__datetimes',
 													);
 
-$config['msgform_db_form_fields'] = array(
-											'fields'=>array(
-																'fm_id',
-																'pax',
-																'layouts_ids',
-																'features_ids',
-																'comments_features',
-																'comments_general',
-																'datetime_subtdays',
-																'datetime_subthours',
-																'activity_use'
-															),
-											'datetimes'=>array(
-																'fm_id',
-																'datetype',
-																'datestart',
-																'dateend',
-																'datelist',
-																'timestart',
-																'timeend',
-																'timerangehours',
-																'incsaturday',
-																'incsunday',
-																'repeats',
-															),											
-											);
+$config['msg_tbl_name_customform_fields'] = array(
+													'fields'=>array(
+																		'fm_id',
+																		'pax',
+																		'layouts_ids',
+																		'features_ids',
+																		'comments_features',
+																		'comments_general',
+																		'datetime_subtdays',
+																		'datetime_subthours',
+																		'activity_use'
+																	),
+													'datetimes'=>array(
+																		'fm_id',
+																		'datetype',
+																		'datestart',
+																		'dateend',
+																		'datelist',
+																		'timestart',
+																		'timeend',
+																		'timerangehours',
+																		'incsaturday',
+																		'incsunday',
+																		'repeats',
+																	),											
+													);
 
 $config['msgform_validation_rules'] = array(
 					                            array(
@@ -144,7 +127,7 @@ $config['msgform_template'] = array(
 																							'field1'=>'Consulta',
 																							'field2'=>'Nombre',
 																							'field3'=>'Email',
-																							'value1'=>'{comments}',
+																							'value1'=>'{comments_general}',
 																							'value2'=>'{sender_name}',
 																							'value3'=>'{sender_email}',																																																																																																																
 																							),
@@ -177,7 +160,7 @@ $config['msgform_template'] = array(
 																							'field1'=>'Consulta',
 																							'field2'=>'Nombre',
 																							'field3'=>'Email',
-																							'value1'=>'{comments}',
+																							'value1'=>'{comments_general}',
 																							'value2'=>'{sender_name}',
 																							'value3'=>'{sender_email}',																																																																																																																
 																							),

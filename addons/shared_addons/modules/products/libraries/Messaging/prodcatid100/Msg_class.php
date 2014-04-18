@@ -25,6 +25,7 @@ class Msg
 	public $frontitem;
 	public $data;
 	public $dbdata;
+	public $dbdatacustom = array();
 	public $dbinsertedID;
 	public $template;
 	public $queuelist;
@@ -45,12 +46,15 @@ class Msg
     private function set_config_settings($settings, $settings_msg)
     {  	
 		$this->cfg = array();
-		//gral settings
-		$this->cfg['msgformdb'] = $settings['msg_dbname_form_messages'][$this->prodcatid];
-		$this->cfg['systemparams'] = $settings['msg_system_params'];
-		//MSG settings
-		$this->cfg['dbfields'] = $settings_msg['msgform_db_fields'];  
-		$this->cfg['dbformfields'] = $settings_msg['msgform_db_form_fields'];  
+		/*gral settings*/
+		$this->cfg['systemparams'] = $settings['msg_system_params'];		
+		//table name - general form fields
+		$this->cfg['msgtbl'] = $settings['msg_tbl_name'][$this->prodcatid];
+		$this->cfg['msgtblfields'] = $settings['msg_tbl_fields'][$this->prodcatid];  
+		//table name - custom form fields
+		$this->cfg['msgtblcustom'] = $settings_msg['msg_tbl_name_customform'];
+		$this->cfg['msgtblcustomfields'] = $settings_msg['msg_tbl_name_customform_fields'];  				
+		//form settings
 		$this->cfg['validation_rules'] = $settings_msg['msgform_validation_rules'];
 		$this->cfg['template'] = $settings_msg['msgform_template'];		
 		//API service settings
@@ -66,6 +70,15 @@ class Msg
 		$this->data = array();
 		$this->dbdata = array();
 		$this->queuelist = array();	
+	}
+
+	private function init_custom_fields_obj()
+	{
+		$custom = new stdClass();
+		$custom->index = '';
+		$custom->tablename = '';
+		$custom->tablefields = array();
+		return $custom;
 	}
 
 	private function load_emailtemplate()
@@ -91,9 +104,9 @@ class Msg
 		$this->frontitem = $this->dbcatmodel->MSG_get_item_space($this->frontitemparams);
 	}
 
-	public function process_message()
+	public function set_message_data()
 	{
-		$customdata = $this->msgtpl->process_custom_data($this->frontitem, $this->frontitemparams, $this->cfg);
+		$customdata = $this->msgtpl->set_message_custom_data($this->frontitem, $this->frontitemparams, $this->cfg);
 		$this->data = array(
 						'block_bodymsg'=>'form fields info',
 						'form_view_id'=>$this->viewid,
@@ -118,9 +131,25 @@ class Msg
 
 	private function set_dbdata()
 	{
-		foreach($this->cfg['dbfields'] as $field)
+		foreach($this->cfg['msgtblfields'] as $field)
 		{
 			$this->dbdata[$field] = isset($this->data[$field]) ? $this->data[$field] : null;
+		}
+	}
+
+	private function set_dbdatacustom()
+	{
+		foreach($this->cfg['msgtblcustom'] as $tableindex=>$tablename)
+		{
+			$custom = $this->init_custom_fields_obj();
+			$custom->index = $tableindex;
+			$custom->tablename = $tablename;
+			//load data to dbdata
+			foreach($this->cfg['msgtblcustomfields'][$tableindex] as $field)
+			{
+				$custom->tablefields[$field] = isset($this->data[$field]) ? $this->data[$field] : null;
+			}
+			$this->dbdatacustom[] = $custom;
 		}
 	}
 
@@ -153,11 +182,22 @@ class Msg
 
 	public function save_message_to_db()
 	{
-		$this->set_dbdata();		
+		$this->set_dbdata();	
+print_r($this->dbdata); die;
 		if(!empty($this->dbdata))
 		{
-			$this->dbinsertedID = $this->msgtpl->save_msg_to_db($this->cfg, $this->dbdata);
+			$this->save_dbdata_and_get_insertid();	
+			if($this->dbinsertedID > 0)
+			{
+				$this->set_dbdatacustom();	
+				$this->save_dbdatacustom();
+				return true;
+			}
 		}
+		else
+			{
+				return false;
+			}
 	}
 
 
@@ -232,5 +272,24 @@ class Msg
 		return $varsArr;
 	}
 
+
+	private function save_dbdata_and_get_insertid()
+	{
+		ci()->db->insert($this->cfg['msgtbl'], $this->dbdata);
+		$this->dbinsertedID = ci()->db->insert_id();			
+	}
+
+
+	private function save_dbdatacustom()
+	{	
+		foreach($this->dbdatacustom as $dbobj)
+		{
+			if(array_key_exists('fm_id', $dbobj->tablefields))
+			{
+				$dbobj->tablefields['fm_id'] = $this->dbinsertedID;
+			}
+			ci()->db->insert($dbobj->tablename, $dbobj->tablefields);
+		}
+	}
 
 }	
