@@ -24,18 +24,45 @@ class Messaging
     function __construct($params)
     {	
     	$this->init_result();
+    	define('DIRPATH', 'Messaging/prodcatid'.$params['prodcatid'].'/'); 
 		switch($params['prodcatid'])
 		{
 			case ALQUILERDESALAS_CATID: 
-										require_once 'Messaging/prodcatid100/Msg_class.php';					    				
+										//Messaging/prodcatid100/Msg_class.php
+										require_once DIRPATH.'Msg_class.php';					    				
 									    break;
 
-			default:					return $this->result;						    
-		}				
-		ci()->config->load('messaging_'.ENVIRONMENT, TRUE);		
-		$params['cfgsettings'] = ci()->config->item('messaging_'.ENVIRONMENT);
+			default:					
+					            $this->result->message = 'Error (catid)'; 				
+								return;						    
+		}			
+		//get form view ID
 		$params['viewid'] = ci()->input->post('dataFviewid');
-		//new msg object
+		$msgtplclass = DIRPATH.'msgtemplate/Msg_'.$params['viewid'].'_class.php';
+		switch($params['viewid'])
+		{
+			case 'form300query':
+								require_once $msgtplclass;	
+								break;
+
+			case 'form400quote':
+								require_once $msgtplclass;
+								break;
+
+			default:
+					            $this->result->message = 'Error (class)'; 			
+								return;					
+
+		}		
+		// CONFIG SETTINGS	
+		ci()->config->load('messaging_'.ENVIRONMENT, TRUE);		
+		//load messaging setting
+		$params['cfgsettings'] = ci()->config->item('messaging_'.ENVIRONMENT);
+		//get config settings for form view
+		$cfgformfile = 'messaging_prodcatid'.$params['prodcatid'].'_'.$params['viewid'];
+		ci()->config->load($cfgformfile, TRUE);	
+		$params['cfgsettings_msg'] = ci()->config->item($cfgformfile);	
+		//new MSG object
 		$this->msg = new msg($params);		
 	}
 
@@ -60,7 +87,7 @@ class Messaging
     ////////////////////////////
 
 	public function process_request()
-	{	       
+	{		       
         ci()->form_validation->set_rules($this->msg->validationrules);           
         // Validate the data
         if(ci()->form_validation->run() && $this->msg->run_custom_validation() )
@@ -93,11 +120,11 @@ class Messaging
 
 	private function process_message()
 	{
-		$this->msg->process_message();	
+		$this->msg->process_message();			
+		$this->msg->set_message_queuelist();		
+		$this->msg->save_message_to_db();	
 print_r($this->msg); 
-die;			
-		$this->msg->set_message_queuelist();
-		$this->msg->save_message_to_db();							
+die;								
 		if( $this->msg->queuelist>0 )
 		{
 			$this->run_queues();

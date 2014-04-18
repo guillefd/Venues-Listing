@@ -15,6 +15,7 @@
 
 class Msg
 {
+	public $msgtpl;
 	public $cfg;
 	public $prodcatid;
 	public $viewid; 
@@ -31,22 +32,28 @@ class Msg
 
 	function __construct($params)
 	{
+		// new message template
+		$this->msgtpl = new msgtpl();
 		$this->prodcatid = $params['prodcatid'];
 		$this->viewid = $params['viewid'];
-		$this->set_config_settings($params['cfgsettings']);		
+		$this->set_config_settings($params['cfgsettings'], $params['cfgsettings_msg']);		
 		$this->init();
 		$this->dbcatmodel = ci()->load->model('products_frontend_1_m');	
 	   	$this->load_emailtemplate();	
 	}
 
-    private function set_config_settings($settings)
+    private function set_config_settings($settings, $settings_msg)
     {  	
 		$this->cfg = array();
-		$this->cfg['msgformdb'] = $settings['msg_db_form_messages'][$this->prodcatid];
-		$this->cfg['dbfields'] = $settings['msg_db_fields'][$this->prodcatid];  
-		$this->cfg['dbformfields'] = $settings['msg_db_form_fields'][$this->prodcatid];  
-		$this->cfg['template'] = $settings['msg_template'][$this->prodcatid][$this->viewid];
+		//gral settings
+		$this->cfg['msgformdb'] = $settings['msg_dbname_form_messages'][$this->prodcatid];
 		$this->cfg['systemparams'] = $settings['msg_system_params'];
+		//MSG settings
+		$this->cfg['dbfields'] = $settings_msg['msgform_db_fields'];  
+		$this->cfg['dbformfields'] = $settings_msg['msgform_db_form_fields'];  
+		$this->cfg['validation_rules'] = $settings_msg['msgform_validation_rules'];
+		$this->cfg['template'] = $settings_msg['msgform_template'];		
+		//API service settings
 		$this->cfg['mailgun_api'] = $settings['msg_mailgun_api'];
 		$this->cfg['mailgun_domain'] = $settings['msg_mailgun_domain'];
 		$this->cfg['msgqueuedb'] = $settings['msg_db_api_queue'];
@@ -68,213 +75,31 @@ class Msg
     	$this->template = ci()->emailtemplates->tpl;		
 	}
 
-
 	private function set_validation_rules()
 	{
-		switch ($this->viewid)
-		{
-			case 'form300query': 	
-							return array(
-			                            array(
-			                                'field' => 'name',
-			                                'label' => 'lang:front:form-name',
-			                                'rules' => 'trim|required'
-			                            ), 
-			                            array(
-			                                'field' => 'email',
-			                                'label' => 'lang:front:form-email',
-			                                'rules' => 'trim|valid_email|required'
-			                            ), 
-			                            array(
-			                                'field' => 'message',
-			                                'label' => 'lang:front:form-message',
-			                                'rules' => 'trim|required'
-			                            ),                                                                 
-			                    	);	
-							break;
-
-			case 'form400quote': 	
-							return array(
-			                            array(
-			                                'field' => 'name',
-			                                'label' => 'lang:front:form-name',
-			                                'rules' => 'trim|required'
-			                            ), 
-			                            array(
-			                                'field' => 'email',
-			                                'label' => 'lang:front:form-email',
-			                                'rules' => 'trim|valid_email|required'
-			                            ), 
-			                            array(
-			                                'field' => 'phone',
-			                                'label' => 'lang:front:phone',
-			                                'rules' => 'trim'
-			                            ),   
-			                            array(
-			                                'field' => 'pax',
-			                                'label' => 'lang:front:pax',
-			                                'rules' => 'numeric|trim|required'
-			                            ),   			                                                                                          
-			                            array(
-			                                'field' => 'activity',
-			                                'label' => 'lang:front:activity',
-			                                'rules' => 'trim|required'
-			                            ),   
-			                            array(
-			                                'field' => 'comments_ftr',
-			                                'label' => 'lang:front:comments_ftr',
-			                                'rules' => 'trim'
-			                            ),   
-			                            array(
-			                                'field' => 'comments_gral',
-			                                'label' => 'lang:front:comments_gral',
-			                                'rules' => 'trim'
-			                            ), 
-			                            array(
-			                                'field' => 'layoutsids',
-			                                'label' => 'lang:front:layoutsids',
-			                                'rules' => 'trim|check_integer_values'
-			                            ), 
-			                            array(
-			                                'field' => 'featureids',
-			                                'label' => 'lang:front:featureids',
-			                                'rules' => 'trim'
-			                            ), 		
-			                            array(
-			                                'field' => 'datetimeObj',
-			                                'label' => 'lang:front:datetimeObj',
-			                                'rules' => 'trim|required'
-			                            ), 			                            	                            			                              			                            
-			                    	);	
-							break;							
-
-			default: 
-							return array();
-		}	
+		return $this->cfg['validation_rules'];
 	}
 
 	public function run_custom_validation()
 	{
-		switch($this->viewid)
-		{
-			/* consulta en vista espacio */
-			case 'form300query':			
-									return true;
-									break;			
-			case 'form400quote':		
-									return $this->custom_check_integer(ci()->input->post('layoutsids'), 'Armado') 
-										   && $this->custom_check_integer(ci()->input->post('featureids'), 'Equipamiento y servicios') 	
-									       && $this->custom_check_datetime(ci()->input->post('datetimeObj'));
-									break;       
-			default:
-									return true;
-		}
-
+		return $this->msgtpl->run_custom_validation();
 	}
 
 	public function set_frontitem()
 	{		
-		$this->set_frontitem_params(ci()->input->post());
+		$this->frontitemparams = $this->msgtpl->set_frontitem_params(ci()->input->post());
 		$this->frontitem = $this->dbcatmodel->MSG_get_item_space($this->frontitemparams);
 	}
 
-	public function set_frontitem_params($post)
-	{			
-		$this->frontitemparams = array();	
-		switch($this->viewid)
-		{
-			case 'form300query':		
-							$this->frontitemparams = array(
-															'prod_cat_slug'=>$post['dataFprod_cat_slug'],
-															'loc_city_slug'=>$post['dataFloc_city_slug'],
-															'loc_slug'=>$post['dataFloc_slug'],
-															'space_slug'=>$post['dataFspace_slug'],
-															'reference'=>$post['reference'],
-															'message'=>$post['message'],
-															'email'=>$post['email'],
-															'name'=>$post['name'],																																	
-															);
-							break;
-
-			case 'form400quote':		
-							$this->frontitemparams = array(
-															'prod_cat_slug'=>$post['dataFprod_cat_slug'],
-															'loc_city_slug'=>$post['dataFloc_city_slug'],
-															'loc_slug'=>$post['dataFloc_slug'],
-															'space_slug'=>$post['dataFspace_slug'],
-															'reference'=>$post['reference'],
-															'email'=>$post['email'],
-															'name'=>$post['name'],	
-															'phone'=>$post['phone'],
-															'pax'=>$post['pax'],
-															'activity_use'=>$post['activity'],
-															'comments_general'=>$post['comments_gral'],	
-															'comments_features'=>$post['comments_ftr'],	
-															'layouts_ids'=>$post['layoutsids'],
-															'features_ids'=>$post['featureids'],
-															'datetimeObj'=>json_decode($post['datetimeObj'])																																																																																														
-															);
-							break;
-		}
-	}	
-
-
 	public function process_message()
 	{
-		switch($this->viewid)
-		{
-			/* consulta en vista espacio */
-			case 'form300query':			
-						$this->data = array(
-										'prod_id'=>$this->frontitem->prod_id,							
-										'prod_cat_id'=>$this->frontitem->prod_cat_id,
-										'prod_account_id'=>$this->frontitem->account_id,
-										'front_version'=>$this->frontitem->front_version,
-										'space_slug'=>$this->frontitem->space_slug,
-										'loc_slug'=>$this->frontitem->loc_slug,
-										'loc_name'=>$this->frontitem->loc_name,
-										'space_full_name'=>$this->frontitem->space_denomination.' '.$this->frontitem->space_name,
-										'block_bodymsg'=>'form fields info',
-										'form_view_id'=>$this->viewid,
-										'comments'=>$this->frontitemparams['message'],
-										'account_agent_email'=>$this->get_product_agent_email($this->frontitem),
-										'sender_email'=>$this->frontitemparams['email'],
-										'sender_name'=>$this->frontitemparams['name'],
-										'sender_name+email'=>$this->frontitemparams['name'].' <'.$this->frontitemparams['email'].'>',
-										'subject'=>$this->cfg['template']['msgreference'].' '.$this->frontitemparams['reference'],
-										'amrfromaddress'=>$this->cfg['systemparams']['amrfromaddress'],
-										'amremail'=>$this->cfg['systemparams']['amremail'],										
-										'amrnoticeaddress'=>$this->cfg['systemparams']['amrnoticeaddress'],
-										'amrnoticeemail'=>$this->cfg['systemparams']['amrnoticeemail'],
-										'amrname'=>$this->cfg['systemparams']['amrname'],																				
-									);	
-						break;
-			case 'form400quote':		
-						$this->data = array(
-										'prod_cat_id'=>$this->frontitem->prod_cat_id,
-										'prod_account_id'=>$this->frontitem->account_id,
-										'prod_id'=>$this->frontitem->prod_id,
-										'front_version'=>$this->frontitem->front_version,
-										'space_slug'=>$this->frontitem->space_slug,
-										'loc_slug'=>$this->frontitem->loc_slug,
-										'loc_name'=>$this->frontitem->loc_name,
-										'space_full_name'=>$this->frontitem->space_denomination.' '.$this->frontitem->space_name,
-										'block_bodymsg'=>'form fields info',
-										'form_view_id'=>$this->viewid,
-										'comments'=>$this->frontitemparams['message'],
-										'account_agent_email'=>$this->get_product_agent_email($this->frontitem),
-										'sender_email'=>$this->frontitemparams['email'],
-										'sender_name'=>$this->frontitemparams['name'],
-										'sender_name+email'=>$this->frontitemparams['name'].' <'.$this->frontitemparams['email'].'>',
-										'subject'=>$this->cfg['template']['msgreference'].' '.$this->frontitemparams['reference'],
-										'amrfromaddress'=>$this->cfg['systemparams']['amrfromaddress'],
-										'amremail'=>$this->cfg['systemparams']['amremail'],										
-										'amrnoticeaddress'=>$this->cfg['systemparams']['amrnoticeaddress'],
-										'amrnoticeemail'=>$this->cfg['systemparams']['amrnoticeemail'],
-										'amrname'=>$this->cfg['systemparams']['amrname'],																				
-									);	
-						break;																					
-		}		
+		$customdata = $this->msgtpl->process_custom_data($this->frontitem, $this->frontitemparams, $this->cfg);
+		$this->data = array(
+						'block_bodymsg'=>'form fields info',
+						'form_view_id'=>$this->viewid,
+						'account_agent_email'=>$this->get_product_agent_email($this->frontitem),																				
+					);	
+		$this->data = array_merge($customdata, $this->data);
 	}	
 
 	private function get_product_agent_email($item)
@@ -331,8 +156,7 @@ class Msg
 		$this->set_dbdata();		
 		if(!empty($this->dbdata))
 		{
-			ci()->db->insert($this->cfg['msgformdb'], $this->dbdata);
-			$this->dbinsertedID = ci()->db->insert_id();
+			$this->dbinsertedID = $this->msgtpl->save_msg_to_db($this->cfg, $this->dbdata);
 		}
 	}
 
@@ -408,42 +232,5 @@ class Msg
 		return $varsArr;
 	}
 
-
-	public function custom_check_integer($string = '', $field)
-	{	
-		$vec = array();
-		if($string=='')
-		{
-			return true;
-		}
-		else
-			{
-				$vec = explode(',', $string);
-				foreach ($vec as $value) 
-				{
-					if(ctype_digit($value)==false)
-					{
-						$this->validationcustommessages['chk_numeric_'.$field] = '"'.$field.'" contiene valores inválidos.';						
-						return false;
-					}
-				}
-				return true;
-			}
-	}
-
-
-	public function custom_check_datetime($srlzObj)
-	{
-		$srlzObj = json_decode($srlzObj);
-		if(is_array($srlzObj) && count($srlzObj)>0)
-		{
-			return true;
-		}
-		else
-			{
-				$this->validationcustommessages['chk_datetime'] = 'El formato de fechas/horarios es inválido.';	
-				return false;	
-			}	
-	}
 
 }	
