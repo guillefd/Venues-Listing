@@ -121,13 +121,12 @@ class Messaging
 	private function process_message()
 	{
 		$this->msg->set_message_data();			
-		$this->msg->set_message_queuelist();			
-print_r($this->msg);die;	
+		$this->msg->set_message_queuelist();				
 		if($this->msg->save_message_to_db() == false)
 		{
 			log_message('error', __METHOD__.' line:'.__LINE__.' error: save message to table failed');
 		}
-							
+print_r($this->msg);die;							
 		if( $this->msg->queuelist>0 )
 		{
 			$this->run_queues();

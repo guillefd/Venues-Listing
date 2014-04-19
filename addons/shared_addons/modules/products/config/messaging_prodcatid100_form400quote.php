@@ -12,35 +12,42 @@
 
 
 $config['msg_tbl_name_customform'] = array(
-													'fields'=>'products_formmessages__100__form400quote',
+													'base_fields'=>'products_formmessages__100__form400quote',
 													'datetimes'=>'products_formmessages__100__form400quote__datetimes',
 													);
 
 $config['msg_tbl_name_customform_fields'] = array(
-													'fields'=>array(
-																		'fm_id',
-																		'pax',
-																		'layouts_ids',
-																		'features_ids',
-																		'comments_features',
-																		'comments_general',
-																		'datetime_subtdays',
-																		'datetime_subthours',
-																		'activity_use'
-																	),
+													'base_fields'=>array(
+																		'is_array'=>0,
+																		'fields'=>array(														
+																						'fm_id',
+																						'pax',
+																						'layouts_ids',
+																						'features_ids',
+																						'comments_features',
+																						'comments_general',
+																						'datetime_subtdays',
+																						'datetime_subthours',
+																						'activity_use'
+																					),
+																		),
 													'datetimes'=>array(
-																		'fm_id',
-																		'datetype',
-																		'datestart',
-																		'dateend',
-																		'datelist',
-																		'timestart',
-																		'timeend',
-																		'timerangehours',
-																		'incsaturday',
-																		'incsunday',
-																		'repeats',
-																	),											
+																		'is_array'=>1,
+																		'data_element_name'=>'datetimeArr',
+																		'fields'=>array(
+																						'fm_id',
+																						'datetype',
+																						'datestart',
+																						'dateend',
+																						'datelist',
+																						'timestart',
+																						'timeend',
+																						'timerangehours',
+																						'incsaturday',
+																						'incsunday',
+																						'repeats',
+																					),	
+																		),										
 													);
 
 $config['msgform_validation_rules'] = array(

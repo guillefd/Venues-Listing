@@ -11,15 +11,18 @@
 /////////////////////////////////
 
 $config['msg_tbl_name_customform'] = array(
-											'fields'=>'products_formmessages__100__form300query',
+											'base_fields'=>'products_formmessages__100__form300query',
 											);
 
 $config['msg_tbl_name_customform_fields'] = array(
-												'fields' => array(
-																	'fm_id',
-																	'message',
-													   			),
-										);
+												'base_fields' => array(
+																		'is_array'=>0,
+																		'fields'=>array(													
+																						'fm_id',
+																						'message',
+																		   			),
+																		),
+												);
 
 $config['msgform_validation_rules'] = array(
 					                            array(

@@ -40,13 +40,14 @@ class Msgtpl
 						'comments_features'=>$post['comments_ftr'],	
 						'layouts_ids'=>$post['layoutsids'],
 						'features_ids'=>$post['featureids'],
-						'datetimeObj'=>json_decode($post['datetimeObj'])																																																																																														
+						'datetimeObj'=>json_decode($post['datetimeObj']),																																																																																														
 						);
 	}	
 
 	public function set_message_custom_data($frontitem, $frontitemparams, $cfg)
 	{
-		return array(
+		$datetime_result_Arr = $this->set_data_datetimeArr($frontitemparams['datetimeObj']);
+		$result = array(
 						'prod_id'=>$frontitem->prod_id,							
 						'prod_cat_id'=>$frontitem->prod_cat_id,
 						'prod_account_id'=>$frontitem->account_id,
@@ -64,8 +65,19 @@ class Msgtpl
 						'amremail'=>$cfg['systemparams']['amremail'],										
 						'amrnoticeaddress'=>$cfg['systemparams']['amrnoticeaddress'],
 						'amrnoticeemail'=>$cfg['systemparams']['amrnoticeemail'],
-						'amrname'=>$cfg['systemparams']['amrname'],					
+						'amrname'=>$cfg['systemparams']['amrname'],		
+						//fields
+						'pax'=>$frontitemparams['pax'],
+						'layouts_ids'=>$frontitemparams['layouts_ids'],
+						'features_ids'=>$frontitemparams['features_ids'],
+						'activity_use'=>$frontitemparams['activity_use'],
+						'comments_features'=>$frontitemparams['comments_features'],							
+						'comments_general'=>$frontitemparams['comments_general'],	
+						'datetime_subtdays'=>$datetime_result_Arr['subtdays'],
+						'datetime_subthours'=>$datetime_result_Arr['subthours'],
+						'datetimeArr'=>$datetime_result_Arr['datetimeArr'],													
 					);
+		return $result;
 	}
 	
 
@@ -108,6 +120,42 @@ class Msgtpl
 				$this->validationcustommessages['chk_datetime'] = 'El formato de fechas/horarios es inválido.';	
 				return false;	
 			}	
+	}
+
+
+	private function set_data_datetimeArr($Arr)
+	{
+		$result = array();
+		$result['subtdays'] = 0;
+		$result['subthours'] = 0;
+		$result['datetimeArr'] = array();
+		foreach ($Arr as $obj) 
+		{
+			$subtdayshours = $this->math_datetime_subtotal_days_hours($obj);
+			$result['subtdays']+= $subtdayshours['subtdays'];
+			$result['subthours']+= $subtdayshours['subthours'];
+			$datetime = array();
+			$datetime['datetype'] = $obj->datetype;
+			$datetime['datestart'] = $obj->datestart;	
+			$datetime['dateend'] = $obj->dateend;	
+			$datetime['dateslist'] = $obj->dateslist;
+			$datetime['timestart'] = $obj->timestart;				
+			$datetime['timeend'] = $obj->timeend;
+			$datetime['timerangehours'] = $obj->timerangehours;	
+			$datetime['incsaturday'] = $obj->incsaturday;
+			$datetime['incsunday'] = $obj->incsunday;		
+			$datetime['repeats'] = $obj->repeats;									
+			$result['datetimeArr'][] = $datetime;
+		}
+		return $result;
+	}
+
+	private function math_datetime_subtotal_days_hours($obj)
+	{
+		$dt = array();
+		$dt['subtdays'] = $obj->subtdays;
+		$dt['subthours'] = $obj->subtdays * $obj->subthours * $obj->repeats;
+		return $dt;
 	}
 	
 }

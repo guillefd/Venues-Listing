@@ -47,15 +47,16 @@ class Msgtpl
 						'loc_name'=>$frontitem->loc_name,
 						'space_full_name'=>$frontitem->space_denomination.' '.$frontitem->space_name,
 						'sender_email'=>$frontitemparams['email'],
-						'sender_name'=>$frontitemparams['name'],
-						'message'=>$frontitemparams['message'],						
+						'sender_name'=>$frontitemparams['name'],					
 						'sender_name+email'=>$frontitemparams['name'].' <'.$frontitemparams['email'].'>',	
 						'subject'=>$cfg['template']['msgreference'].' '.$frontitemparams['reference'],
 						'amrfromaddress'=>$cfg['systemparams']['amrfromaddress'],
 						'amremail'=>$cfg['systemparams']['amremail'],										
 						'amrnoticeaddress'=>$cfg['systemparams']['amrnoticeaddress'],
 						'amrnoticeemail'=>$cfg['systemparams']['amrnoticeemail'],
-						'amrname'=>$cfg['systemparams']['amrname'],							
+						'amrname'=>$cfg['systemparams']['amrname'],
+						// fields
+						'message'=>$frontitemparams['message'],														
 					);
 	}
 

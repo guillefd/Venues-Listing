@@ -64,6 +64,10 @@ class Msg
 		$this->cfg['msgqueuedb_fields'] = $settings['msg_db_api_queue_fields'];				 
     }
 
+///////////////////////////////////////////////////////////////////
+// INIT -------------------------------------------------------- //
+///////////////////////////////////////////////////////////////////
+
 	private function init()
 	{
 		$this->validationrules = $this->set_validation_rules();
@@ -93,6 +97,12 @@ class Msg
 		return $this->cfg['validation_rules'];
 	}
 
+
+///////////////////////////////////////////////////////////////////
+// public methods ---------------------------------------------- //
+///////////////////////////////////////////////////////////////////
+
+
 	public function run_custom_validation()
 	{
 		return $this->msgtpl->run_custom_validation();
@@ -112,47 +122,8 @@ class Msg
 						'form_view_id'=>$this->viewid,
 						'account_agent_email'=>$this->get_product_agent_email($this->frontitem),																				
 					);	
-		$this->data = array_merge($customdata, $this->data);
+		$this->data = array_merge($customdata, $this->data);	
 	}	
-
-	private function get_product_agent_email($item)
-	{
-		if($item->seller_account_id > 0)
-		{
-			ci()->load->library('accounts');	
-			$account = ci()->accounts->get_account($this->frontitem->seller_account_id);	
-			return $account->email;				
-		}
-		else
-			{
-				return $item->loc_email;
-			}
-	}
-
-	private function set_dbdata()
-	{
-		foreach($this->cfg['msgtblfields'] as $field)
-		{
-			$this->dbdata[$field] = isset($this->data[$field]) ? $this->data[$field] : null;
-		}
-	}
-
-	private function set_dbdatacustom()
-	{
-		foreach($this->cfg['msgtblcustom'] as $tableindex=>$tablename)
-		{
-			$custom = $this->init_custom_fields_obj();
-			$custom->index = $tableindex;
-			$custom->tablename = $tablename;
-			//load data to dbdata
-			foreach($this->cfg['msgtblcustomfields'][$tableindex] as $field)
-			{
-				$custom->tablefields[$field] = isset($this->data[$field]) ? $this->data[$field] : null;
-			}
-			$this->dbdatacustom[] = $custom;
-		}
-	}
-
 
 	public function set_message_queuelist()
 	{
@@ -161,6 +132,35 @@ class Msg
 			$this->set_queue_data($queuedata);
 		}   		 	
 	}
+
+	public function save_message_to_db()
+	{
+		$this->set_dbdata();
+		$this->set_dbdatacustom();
+print_r($this->data);
+print_r($this->dbdata);
+print_r($this->dbdatacustom);
+print_r($this->frontitemparams);
+die;					
+		if(!empty($this->dbdata))
+		{
+			$this->save_dbdata_and_get_insertid();	
+			if($this->dbinsertedID > 0)
+			{
+				$this->save_dbdatacustom();
+				return true;
+			}
+		}
+		else
+			{
+				return false;
+			}
+	}
+
+
+////////////////////////////////////////////////////////////////
+// private methods ------------------------------------------ //
+////////////////////////////////////////////////////////////////
 
 	private function set_queue_data($queuedata)
 	{
@@ -179,51 +179,58 @@ class Msg
 		array_push($this->queuelist, $queue);
 	}
 
-
-	public function save_message_to_db()
+	private function set_dbdata()
 	{
-		$this->set_dbdata();	
-print_r($this->dbdata); die;
-		if(!empty($this->dbdata))
+		foreach($this->cfg['msgtblfields'] as $field)
 		{
-			$this->save_dbdata_and_get_insertid();	
-			if($this->dbinsertedID > 0)
+			$this->dbdata[$field] = isset($this->data[$field]) ? $this->data[$field] : null;
+		}
+	}	
+
+	private function set_dbdatacustom()
+	{
+		foreach($this->cfg['msgtblcustom'] as $tableindex=>$tablename)
+		{
+			$custom = $this->init_custom_fields_obj();
+			$custom->index = $tableindex;
+			$custom->tablename = $tablename;
+			//load data to dbdata
+			$msgtblcustomfields = $this->cfg['msgtblcustomfields'][$tableindex];
+			if($msgtblcustomfields['is_array'] === 0) //unique record
 			{
-				$this->set_dbdatacustom();	
-				$this->save_dbdatacustom();
-				return true;
+				foreach($msgtblcustomfields['fields'] as $field)
+				{
+					$custom->tablefields[$field] = isset($this->data[$field]) ? $this->data[$field] : null;
+				}
+				$this->dbdatacustom[] = $custom;
 			}
+			else
+				{
+					//more than one record
+					
+
+				}
+		}
+	}	
+
+
+//////////////////////////////////////////////////////////////
+// Helpers ------------------------------------------------ //
+//////////////////////////////////////////////////////////////
+
+	private function get_product_agent_email($item)
+	{
+		if($item->seller_account_id > 0)
+		{
+			ci()->load->library('accounts');	
+			$account = ci()->accounts->get_account($this->frontitem->seller_account_id);	
+			return $account->email;				
 		}
 		else
 			{
-				return false;
+				return $item->loc_email;
 			}
 	}
-
-
-	private function set_email_html($queuehtmlArr)
-	{
-		$html = '';
-		foreach($queuehtmlArr as $section=>$reg)
-		{
-			$section = $this->template->html[$section];
-			foreach($reg as $htmlvarslug=>$string)
-			{		
-				//replace strings varslug with data values
-				$string = $this->replace_string_data_vars($string);
-				//replace html varslugs with string
-				$section = str_replace('{'.$htmlvarslug.'}', $string, $section);				
-			}			
-			$html.=$section;
-		}	
-		return $html;
-	}
-
-
-	////////////////////////////////////////
-	// AUX ---------------------------// //
-	////////////////////////////////////////
-
 
 	private function replace_string_data_vars($string)
 	{
@@ -291,5 +298,24 @@ print_r($this->dbdata); die;
 			ci()->db->insert($dbobj->tablename, $dbobj->tablefields);
 		}
 	}
+
+	private function set_email_html($queuehtmlArr)
+	{
+		$html = '';
+		foreach($queuehtmlArr as $section=>$reg)
+		{
+			$section = $this->template->html[$section];
+			foreach($reg as $htmlvarslug=>$string)
+			{		
+				//replace strings varslug with data values
+				$string = $this->replace_string_data_vars($string);
+				//replace html varslugs with string
+				$section = str_replace('{'.$htmlvarslug.'}', $string, $section);				
+			}			
+			$html.=$section;
+		}	
+		return $html;
+	}
+
 
 }	
